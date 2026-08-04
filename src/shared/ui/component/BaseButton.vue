@@ -32,7 +32,7 @@ const variantClass = {
 
 const buttonClasses = computed(() => {
   return [
-    'flex gap-2 items-center justify-center transition-transform duration-200 font-medium text-md rounded-xl hover:scale-95 active:scale-75 disabled:bg-gray-300',
+    'flex gap-2 items-center justify-center transition-transform duration-200 font-medium text-md rounded-xl hover:scale-95 active:scale-75 disabled:bg-gray-300 w-full',
     variantClass[props.variant],
     props.disabled && 'opacity-50 cursor-not-allowed',
   ]
