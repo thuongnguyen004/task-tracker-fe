@@ -31,8 +31,13 @@
     #ffffff 100%
   );
   --border-color-border: #efedea;
+  --font-sans: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }

@@ -9,6 +9,9 @@ export const path = {
       href: 'register',
       name: 'register',
     },
+  },
+  user: {
+    href: '/user',
     profile: {
       href: 'profile',
       name: 'profile',
