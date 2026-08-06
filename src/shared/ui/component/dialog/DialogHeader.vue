@@ -1,10 +1,12 @@
 <template>
-  <div class="flex items-center justify-between px-3 py-3 font-semibold border-b border-b-input">
+  <div class="flex items-center justify-between px-5 py-4 font-semibold border-b border-b-border">
     <slot />
-    <DialogClose />
+    <div class="w-fit">
+      <DialogClose />
+    </div>
   </div>
 </template>
 
-<script setup >
+<script setup>
 import { DialogClose } from '..'
 </script>
