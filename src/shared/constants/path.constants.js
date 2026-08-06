@@ -28,4 +28,12 @@ export const path = {
       name: 'details-ticket',
     },
   },
+
+  user: {
+    href: '/user',
+    profile: {
+      href: 'profile',
+      name: 'profile',
+    },
+  },
 }

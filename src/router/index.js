@@ -1,8 +1,8 @@
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import authRoute from '@/modules/auth/routes/auth.route'
-import taskRoute from '@/modules/tasks/routes/task.route'
-import userRoute from '@/modules/users/routes/user.route'
+import taskRoute from '@/modules/tasks/routes'
+import userRoute from '@/modules/users/routes/route'
 import { path } from '@/shared/constants/path.constants'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -21,14 +21,13 @@ const router = createRouter({
     {
       path: path.task.href,
       component: DefaultLayout,
-      children: taskRoute,
+      children: [{ path: '', redirect: { name: path.task.board.name } }, ...taskRoute],
     },
     {
       path: path.user.href,
       component: DefaultLayout,
-      children: userRoute,
+      children: [{ path: '', redirect: { name: path.user.profile.name } }, ...userRoute],
     },
-    
   ],
 })
 
