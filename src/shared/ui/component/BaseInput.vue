@@ -10,5 +10,4 @@ const model = defineModel({
   type: [String, Number],
   default: '',
 })
-
 </script>

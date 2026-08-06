@@ -4,6 +4,7 @@ import authRoute from '@/modules/auth/routes/auth.route'
 import taskRoute from '@/modules/tasks/routes/task.route'
 import userRoute from '@/modules/users/routes/user.route'
 import { path } from '@/shared/constants/path.constants'
+import { tokenStorage } from '@/services/tokenStorage'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -22,14 +23,29 @@ const router = createRouter({
       path: path.task.href,
       component: DefaultLayout,
       children: taskRoute,
+      meta: { requiresAuth: true },
     },
     {
       path: path.user.href,
       component: DefaultLayout,
       children: userRoute,
+      meta: { requiresAuth: true },
     },
-    
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!tokenStorage.get()
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      next({ name: path.auth.login.name })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
