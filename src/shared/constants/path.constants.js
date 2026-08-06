@@ -16,6 +16,9 @@ export const path = {
       href: 'profile',
       name: 'profile',
     },
+    api: {
+      assignees: `assignees`,
+    },
   },
   task: {
     href: '/ticket',
@@ -26,6 +29,11 @@ export const path = {
     details: {
       href: 'details-ticket',
       name: 'details-ticket',
+    },
+    api: {
+      update: (id) => `tickets/${id}`,
+      ticketStatuses: `ticket-statuses`,
+      ticketPriorities: `ticket-priorities`,
     },
   },
 }

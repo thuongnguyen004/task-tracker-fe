@@ -6,6 +6,7 @@
   --color-tertiary: #7f7a74;
   --color-quaternary: #bebab2;
   --color-quinary: #f5f0eb;
+  --color-danger: #fb2c36;
 
   --color-priority-primary: #16a34a;
   --color-priority-secondary: #2563eb;
@@ -31,7 +32,7 @@
     #ffffff 100%
   );
   --border-color-border: #efedea;
-  --font-sans: "Inter", sans-serif;
+  --font-sans: 'Inter', sans-serif;
 }
 
 body {

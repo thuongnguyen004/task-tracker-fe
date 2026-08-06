@@ -1,6 +1,7 @@
 <template>
   <input
     v-model="model"
+    @input="emit('input', $event)"
     class="py-2 px-3 rounded-xl border-2 border-border text-md bg-input w-full"
   />
 </template>
@@ -10,4 +11,5 @@ const model = defineModel({
   type: [String, Number],
   default: '',
 })
+const emit = defineEmits(['input'])
 </script>
