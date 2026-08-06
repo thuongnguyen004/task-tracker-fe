@@ -1,8 +1,10 @@
 import api from './api'
+import { tokenStorage } from './tokenStorage'
 
 export const authService = {
   login: async (credentials) => {
     const response = await api.post('/auth/login', credentials)
+    tokenStorage.set(response.data.data.accessToken)
     return response.data
   },
 
@@ -11,23 +13,22 @@ export const authService = {
     return response.data
   },
 
-  refresh: async (refreshToken) => {
-    const response = await api.post('/auth/refresh', { refreshToken })
+  refresh: async () => {
+    const response = await api.post('/auth/refresh')
+    tokenStorage.set(response.data.data.accessToken)
     return response.data
   },
 
-  logout: async (refreshToken) => {
-    if (refreshToken) {
-      try {
-        await api.post('/auth/logout', { refreshToken })
-      } catch (err) {
-        console.warn('Logout request error:', err)
-      }
+  logout: async () => {
+    try {
+      await api.post('/auth/logout')
+    } finally {
+      tokenStorage.clear()
     }
   },
 
-  getMe: async () => {
-    const response = await api.get('/auth/me')
+  getCurrentUser: async () => {
+    const response = await api.get('/auth/current-user')
     return response.data
   },
 }
