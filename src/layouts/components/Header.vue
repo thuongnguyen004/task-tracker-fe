@@ -13,8 +13,7 @@
     <div class="flex items-center gap-4">
       <div ref="userMenuRef" class="relative">
         <UserAvatar
-          name="John Doe"
-          size="md"
+          :name="user.username"
           @click="handleUserMenuToggle"
           class="border border-transparent transition-all duration-200 hover:cursor-pointer hover:border-gray-300 hover:shadow-sm"
         />
@@ -29,12 +28,17 @@
 import { UserAvatar, UserMenu } from '@/shared/ui/component'
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores'
+import { storeToRefs } from 'pinia'
 
 const isUserMenuOpen = ref(false)
 
 const userMenuRef = ref(null)
 
 const route = useRoute()
+
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
 
 const handleUserMenuToggle = () => {
   isUserMenuOpen.value = !isUserMenuOpen.value
@@ -48,7 +52,6 @@ const handleClickOutside = (event) => {
 
 watch(
   () => route.fullPath,
-
   () => {
     isUserMenuOpen.value = false
   },
@@ -56,6 +59,7 @@ watch(
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
+  authStore.fetchCurrentUser()
 })
 
 onUnmounted(() => {
