@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient-surface flex h-screen flex-col overflow-hidden p-4">
+  <div class="bg-gradient-surface flex h-screen flex-col overflow-auto p-4">
     <Header class="shrink-0" />
 
     <main class="px-6 py-4">

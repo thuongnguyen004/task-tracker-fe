@@ -10,6 +10,7 @@ export default [
   },
   {
     path: path.auth.register.href,
+    alias: '/register',
     name: path.auth.register.name,
     component: RegisterPage,
   },

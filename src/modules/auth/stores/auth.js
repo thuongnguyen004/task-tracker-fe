@@ -6,6 +6,7 @@ import { toast } from 'vue3-toastify'
 
 const EMPTY_USER = {
   id: '',
+  fullName: '',
   username: '',
   email: '',
   createdAt: null,

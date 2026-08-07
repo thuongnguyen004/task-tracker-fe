@@ -24,9 +24,25 @@
               :disabled="loading"
               class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
               :class="errors.username ? 'border-red-500' : 'border-border'"
-              @blur="validateField('username')"
+              @input="validateField('username')"
             />
             <span v-if="errors.username" class="text-xs text-red-500">{{ errors.username }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label class="text-primary text-sm font-medium">Full Name</label>
+            <input
+              v-model="form.fullName"
+              type="text"
+              placeholder="Enter full name"
+              :disabled="loading"
+              class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
+              :class="errors.fullName ? 'border-red-500' : 'border-border'"
+              @input="onFullNameInput"
+              @paste="onFullNamePaste"
+              @blur="validateField('fullName')"
+            />
+            <span v-if="errors.fullName" class="text-xs text-red-500">{{ errors.fullName }}</span>
           </div>
 
           <div class="flex flex-col gap-1.5">
@@ -100,7 +116,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { register } from '../services'
 import { toast } from 'vue3-toastify'
@@ -111,6 +127,7 @@ const loading = ref(false)
 
 const form = reactive({
   username: '',
+  fullName: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -118,13 +135,67 @@ const form = reactive({
 
 const errors = reactive({
   username: '',
+  fullName: '',
   email: '',
   password: '',
   confirmPassword: '',
 })
 
+function sanitizeFullName(value) {
+  if (!value) return ''
+
+  let cleaned = value.replace(/[^a-zA-Z0-9à-ỹÀ-Ỹ\s\-']/g, '')
+  cleaned = cleaned.trim().replace(/\s+/g, ' ')
+  cleaned = cleaned.replace(
+    /(^|\s)([a-zà-ỹ])/g,
+    (_, space, char) => space + char.toLocaleUpperCase('vi-VN')
+  )
+
+  return cleaned
+}
+
+function onFullNameInput(event) {
+  const input = event.target
+  const cursorPos = input.selectionStart
+  const original = form.fullName
+  const sanitized = sanitizeFullName(original)
+
+  if (sanitized !== original) {
+    form.fullName = sanitized
+
+    const diff = sanitized.length - original.length
+    const newPos = Math.max(0, Math.min(cursorPos + diff, sanitized.length))
+
+    nextTick(() => {
+      input.setSelectionRange(newPos, newPos)
+    })
+  }
+}
+
+function onFullNamePaste(event) {
+  event.preventDefault()
+  const pastedText = (event.clipboardData || window.clipboardData).getData("text")
+  const sanitized = sanitizeFullName(pastedText)
+
+  const input = event.target
+  const start = input.selectionStart
+  const end = input.selectionEnd
+  const before = form.fullName.slice(0, start)
+  const after = form.fullName.slice(end)
+
+  form.fullName = sanitizeFullName(before + sanitized + after)
+}
+
 const validateField = (field) => {
   errors[field] = ''
+
+  if (field === 'fullName') {
+    if (!form.fullName) {
+      errors.fullName = 'This field is required'
+    } else if (form.fullName.length < 2 || form.fullName.length > 100) {
+      errors.fullName = 'Full name must be between 2 and 100 characters'
+    }
+  }
 
   if (field === 'username') {
     if (!form.username) {
@@ -149,13 +220,6 @@ const validateField = (field) => {
       errors.password = 'This field is required'
     } else if (form.password.length < 8) {
       errors.password = 'Password must be at least 8 characters'
-    } else if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?]).+$/.test(
-        form.password,
-      )
-    ) {
-      errors.password =
-        'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
     }
   }
 
@@ -170,6 +234,7 @@ const validateField = (field) => {
 
 const validateAll = () => {
   validateField('username')
+  validateField('fullName')
   validateField('email')
   validateField('password')
   validateField('confirmPassword')
@@ -183,6 +248,7 @@ const handleRegister = async () => {
   try {
     await register({
       username: form.username,
+      fullName: form.fullName,
       email: form.email,
       password: form.password,
     })
@@ -199,6 +265,8 @@ const handleRegister = async () => {
       errors.email = message
     } else if (message.toLowerCase().includes('username')) {
       errors.username = message
+    } else if (message.toLowerCase().includes('full name') || message.toLowerCase().includes('fullname')) {
+      errors.fullName = message
     }
   } finally {
     loading.value = false
