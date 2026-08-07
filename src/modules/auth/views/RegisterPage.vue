@@ -102,9 +102,9 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { path } from '@/shared/constants/path.constants'
 import { register } from '../services'
 import { toast } from 'vue3-toastify'
+import { path } from '@/shared/constants/paths'
 
 const router = useRouter()
 const loading = ref(false)

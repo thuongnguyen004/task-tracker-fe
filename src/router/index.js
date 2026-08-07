@@ -3,7 +3,7 @@ import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import authRoute from '@/modules/auth/routes'
 import taskRoute from '@/modules/tasks/routes'
 import userRoute from '@/modules/users/routes'
-import { path } from '@/shared/constants/path.constant'
+import { path } from '@/shared/constants/paths'
 import { tokenStorage } from '@/shared/utils'
 import { createRouter, createWebHistory } from 'vue-router'
 

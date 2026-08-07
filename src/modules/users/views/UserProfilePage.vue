@@ -31,11 +31,11 @@ import { BaseButton, UserAvatar } from '@/shared/ui/component'
 import { ArrowLeft } from '@lucide/vue'
 import { UserProfile } from '../components'
 import { useRouter } from 'vue-router'
-import { path } from '@/shared/constants/path.constants'
 import { convertDate } from '@/shared/utils'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted } from 'vue'
 import { useAuthStore } from '@/stores'
+import { path } from '@/shared/constants/paths'
 
 const router = useRouter()
 const authStore = useAuthStore()

@@ -42,11 +42,11 @@
 
 <script setup>
 import { UserAvatar } from '@/shared/ui/component'
-import { path } from '@/shared/constants/path.constants'
 import { ExternalLink, LogOut } from '@lucide/vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores'
 import { storeToRefs } from 'pinia'
+import { path } from '@/shared/constants/paths'
 
 const router = useRouter()
 
