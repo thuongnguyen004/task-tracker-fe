@@ -6,7 +6,7 @@
       <div
         class="hover:bg-quinary mt-3 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
       >
-        <UserAvatar :name="user.username" />
+        <UserAvatar :name="user.fullName" />
 
         <div class="min-w-0">
           <p class="truncate text-sm font-semibold">{{ user.username }}</p>

@@ -26,6 +26,7 @@ const props = defineProps({
 })
 
 const profileFields = computed(() => [
+  { label: 'Full name', value: props.user?.fullName || '-' },
   { label: 'Username', value: props.user?.username || '-' },
   { label: 'Email', value: props.user?.email || '-' },
   { label: 'Account Created', value: convertDate(props.user?.createdAt) },

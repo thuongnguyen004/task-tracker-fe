@@ -13,7 +13,7 @@
     <div class="flex items-center gap-4">
       <div ref="userMenuRef" class="relative">
         <UserAvatar
-          :name="user.username"
+          :name="user.fullName"
           @click="handleUserMenuToggle"
           class="border border-transparent transition-all duration-200 hover:cursor-pointer hover:border-gray-300 hover:shadow-sm"
         />

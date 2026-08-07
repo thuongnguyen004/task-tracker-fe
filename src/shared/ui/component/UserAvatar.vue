@@ -28,19 +28,13 @@ const sizeClasses = {
 const abbreviationName = computed(() => {
   if (!props.name || !String(props.name).trim()) return 'U'
 
-  const trimmed = String(props.name).trim()
+  const words = String(props.name).trim().split(/\s+/).filter(Boolean)
 
-  const words = trimmed.split(/[\s._-]+/).filter(Boolean)
-
-  if (words.length >= 2) {
-    return (words[0][0] + words[words.length - 1][0]).toUpperCase()
+  if (words.length === 1) {
+    return words[0][0].toUpperCase()
   }
 
-  if (words.length === 1 && words[0].length > 0) {
-    return words[0].substring(0, Math.min(2, words[0].length)).toUpperCase()
-  }
-
-  return 'U'
+  return (words[0][0] + words[words.length - 1][0]).toUpperCase()
 })
 
 const avatarClasses = computed(() => {
