@@ -42,7 +42,7 @@
               <BaseLabel for="status">Status</BaseLabel>
 
               <BaseSelect id="status" v-model="forms.statusId" placeholder="Select Status" :options="statuses"
-                @change="emit('clear-error', 'statusId')" />
+                :disabled="props.disableStatus" @change="emit('clear-error', 'statusId')" />
 
               <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
                 props.errors.statusId
@@ -52,7 +52,7 @@
           <div class="flex flex-col gap-1">
             <BaseLabel for="assignee">Assignee</BaseLabel>
 
-            <BaseSelect id="assignee" v-model="forms.assigneeId" placeholder="Select Assignee" :options="assignees"
+            <BaseSelect id="assignee" v-model="forms.assigneeId" placeholder="Select assignee" :options="assignees"
               @change="emit('clear-error', 'assigneeId')" />
 
             <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
@@ -108,6 +108,10 @@ const props = defineProps({
   buttonTitle: {
     type: String,
     default: '',
+  },
+  disableStatus: {
+    type: Boolean,
+    default: false,
   },
 })
 

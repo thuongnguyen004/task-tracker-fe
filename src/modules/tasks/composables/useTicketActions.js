@@ -29,6 +29,7 @@ export const useTicketActions = (modal, fetch) => {
       console.log(payload)
       const response = await createTicket(payload)
       toast.success(response.message)
+      modal.resetForm()
     } catch (error) {
       console.error(error)
       toast.error(error.response?.data?.message)

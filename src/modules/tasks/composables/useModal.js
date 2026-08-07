@@ -20,12 +20,25 @@ export const useModal = () => {
     forms.statusId = ''
     forms.assigneeId = ''
     id.value = null
+
+    errors.value = {}
   }
 
   const toggleModalTicket = () => {
     resetForm()
     open.value = !open.value
   }
+
+  const openCreateTicketModal = (statuses, priorities) => {
+
+    toggleModalTicket()
+
+    forms.statusId =
+      statuses.find(item => item.label === 'To Do')?.value ?? ''
+
+    forms.priorityId =
+      priorities.find(item => item.label === 'Medium')?.value ?? ''
+}
 
   const openModalEditTicket = (ticket) => {
     open.value = true
@@ -47,5 +60,7 @@ export const useModal = () => {
     clearFieldError,
     forms,
     errors,
+    resetForm,
+    openCreateTicketModal,
   }
 }

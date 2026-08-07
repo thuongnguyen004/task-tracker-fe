@@ -1,9 +1,6 @@
 <template>
-  <select
-    v-model="model"
-    @change="emit('change', $event)"
-    class="py-2 px-3 rounded-xl border-2 border-border outline-none text-md bg-input cursor-pointer"
-  >
+  <select v-model="model" :disabled="disabled" @change="emit('change', $event)"
+    class="py-2 px-3 rounded-xl border-2 border-border outline-none text-md bg-input cursor-pointer">
     <option v-if="placeholder" value="" disabled>
       {{ props.placeholder }}
     </option>
@@ -28,6 +25,10 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: '',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 })
 </script>
