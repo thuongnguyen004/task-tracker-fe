@@ -31,7 +31,7 @@ export const path = {
     api: {
       assignees: `assignees`,
       profile: '/auth/current-user',
-    }
+    },
   },
 
   task: {
@@ -52,9 +52,8 @@ export const path = {
       ticketStatuses: `ticket-statuses`,
       ticketPriorities: `ticket-priorities`,
       list: '/tickets',
+      listById: (id) => `/tickets/${id}`,
       columns: '/columns',
+    },
   },
 }
-}
-
-

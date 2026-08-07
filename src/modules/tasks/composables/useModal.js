@@ -18,7 +18,7 @@ export const useModal = () => {
     forms.description = ''
     forms.priorityId = ''
     forms.statusId = ''
-    forms.assigneeId = null
+    forms.assigneeId = ''
     id.value = null
   }
 

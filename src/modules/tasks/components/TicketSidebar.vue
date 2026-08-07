@@ -66,7 +66,7 @@
         <div class="w-full border-t border-border"></div>
 
         <div class="space-y-3">
-            <BaseButton>
+            <BaseButton @click="emit('open-modal')">
                 Edit
             </BaseButton>
 
@@ -83,4 +83,6 @@ import PriorityBadge from '@/shared/ui/component/badges/PriorityBadge.vue';
 import Avatar from '@/shared/ui/component/Avatar.vue';
 import StatusBadge from '@/shared/ui/component/badges/StatusBadge.vue';
 import BaseButton from '@/shared/ui/component/BaseButton.vue';
+
+const emit = defineEmits(['open-modal'])
 </script>

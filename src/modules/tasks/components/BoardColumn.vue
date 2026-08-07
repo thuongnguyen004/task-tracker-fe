@@ -17,7 +17,7 @@
         v-for="ticket in tickets"
         :key="ticket.id"
         :ticket="ticket"
-        @select="emit('select-ticket', $event)"
+        @select="emit('select-ticket', 'ab266a50-0d8b-4c50-bb5a-2e45ac849b63')"
       />
     </div>
   </div>
