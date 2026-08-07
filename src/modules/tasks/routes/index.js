@@ -1,8 +1,6 @@
-import { path } from '@/shared/constants/path.constant.js'
+import { path } from '@/shared/constants/paths.js'
 import SprintBoardPage from '../views/SprintBoardPage.vue'
 import DetailsTicketPage from '../views/DetailsTicketPage.vue'
-import { path } from '@/shared/constants/path.constants'
-import SprintBoardPage from '../views/SprintBoardPage.vue'
 
 export default [
   {
