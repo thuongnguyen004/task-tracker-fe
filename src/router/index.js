@@ -34,17 +34,11 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const isAuthenticated = !!tokenStorage.get()
 
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!isAuthenticated) {
-      next({ name: path.auth.login.name })
-    } else {
-      next()
-    }
-  } else {
-    next()
+  if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated) {
+    return { name: path.auth.login.name }
   }
 })
 
