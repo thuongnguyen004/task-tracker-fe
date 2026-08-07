@@ -1,5 +1,5 @@
 import api from '@/services/api'
-import { path } from '@/shared/constants/path.constants'
+import { path } from '@/shared/constants/path.constant'
 
 export const updateTicket = async (id, payload) => {
   const response = await api.put(path.task.api.update(id), payload)

@@ -1,4 +1,4 @@
-import { path } from '@/shared/constants/path.constants'
+import { path } from '@/shared/constants/path.constant.js'
 import LoginPage from '../views/LoginPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
 

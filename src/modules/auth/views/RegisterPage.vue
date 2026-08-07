@@ -103,7 +103,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { authService } from '@/services/authService'
-import { path } from '@/shared/constants/path.constants'
+import { path } from '@/shared/constants/path.constant'
 
 const router = useRouter()
 const loading = ref(false)

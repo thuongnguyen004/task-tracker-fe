@@ -4,7 +4,7 @@ import {
   TICKET_MESSAGE,
   TITLE_MAX_LENGTH,
   TITLE_MIN_LENGTH,
-} from '@/shared/constants/ticketMessage.js'
+} from '@/shared/constants/ticket-message.js'
 import { required, size } from '@/shared/validators/rules.js'
 
 export const validateEditTicket = (form) => {

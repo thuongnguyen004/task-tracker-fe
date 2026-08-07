@@ -1,4 +1,4 @@
-import { path } from '@/shared/constants/path.constants'
+import { path } from '@/shared/constants/path.constant.js'
 import ProfilePage from '../views/ProfilePage.vue'
 
 export default [
