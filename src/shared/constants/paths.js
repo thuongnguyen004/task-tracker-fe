@@ -43,12 +43,13 @@ export const path = {
     },
 
     details: {
-      href: 'details-ticket',
+      href: 'details-ticket/:id',
       name: 'details-ticket',
     },
     api: {
       create: `tickets`,
       update: (id) => `tickets/${id}`,
+      getById: (id) => `tickets/${id}`,
       ticketStatuses: `ticket-statuses`,
       ticketPriorities: `ticket-priorities`,
       list: '/tickets',

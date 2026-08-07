@@ -1,6 +1,6 @@
 <template>
     <div class="flex gap-3 border-b border-border py-5">
-        <Avatar :name="author" />
+        <UserAvatar :name="author" class="bg-primary!" />
 
         <div class="flex-1">
             <div class="flex text-sm items-center gap-2">
@@ -25,8 +25,7 @@
 </template>
 
 <script setup>
-import Avatar from '@/shared/ui/component/Avatar.vue';
-
+import UserAvatar from '@/shared/ui/component/UserAvatar.vue';
 
 
 defineProps({

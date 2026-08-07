@@ -1,65 +1,58 @@
 <template>
-    <div class="space-y-6 bg-secondary px-6 py-6 h-screen">
+    <div class="h-fit space-y-6 bg-secondary px-6 py-6">
 
         <h3 class="text-md font-semibold text-tertiary">DETAILS</h3>
 
         <div>
-            <p class="mb-2 text-sm font-semibold text-tertiary">STATUS</p>
-            <StatusBadge status="TODO" />
+            <p class="mb-2 text-sm font-semibold text-tertiary-light">STATUS</p>
+            <StatusBadge :status="ticket.status" />
         </div>
 
         <div>
-            <p class="mb-2 text-sm font-semibold text-tertiary">PRIORITY</p>
-            <PriorityBadge priority="HIGH" />
+            <p class="mb-2 text-sm font-semibold text-tertiary-light">PRIORITY</p>
+            <PriorityBadge :priority="ticket.priority" class="text-sm!" />
         </div>
 
         <div>
-            <p class="mb-2 text-sm font-semibold text-tertiary">
+            <p class="mb-2 text-sm font-semibold text-tertiary-light">
                 ASSIGNEE
             </p>
 
-            <div class="flex items-center gap-2 text-sm">
-                <Avatar name="Alex Lee" />
-                <span>Alex Lee</span>
+            <div v-if="ticket.assignee" class="flex items-center gap-2 text-sm">
+                <UserAvatar :name="ticket.assignee" class="bg-primary!" />
+                <span>{{ ticket.assignee }}</span>
             </div>
+            <span v-else class="text-sm text-tertiary-light">Unassigned</span>
         </div>
 
         <div>
-            <p class="mb-2 text-sm font-semibold text-tertiary">
+            <p class="mb-2 text-sm font-semibold text-tertiary-light">
                 CREATED BY
             </p>
 
             <div class="flex items-center gap-2 text-sm">
-                <Avatar name="Alex Lee" />
-                <span>Alex Lee</span>
+                <UserAvatar :name="ticket.createdBy || '-'" class="bg-primary!" />
+                <span>{{ ticket.createdBy || '-' }}</span>
             </div>
         </div>
 
         <div>
-            <p class="mb-2 text-sm font-semibold text-tertiary">
+            <p class="mb-2 text-sm font-semibold text-tertiary-light">
                 CREATED AT
             </p>
 
-            <div class="flex items-center text-sm text-tertiary">
-                <span>Aug 6, 2026</span>
-
-                <span class="mx-2 h-1 w-1 rounded-full bg-tertiary"></span>
-
-                <span>10:30 AM</span>
+            <div class="flex items-center text-sm text-tertiary-light">
+                <span>{{ formatDateTime(ticket.createdAt) }}</span>
             </div>
         </div>
 
         <div>
-            <p class="mb-2 text-sm font-semibold text-tertiary">
+            <p class="mb-2 text-sm font-semibold text-tertiary-light">
                 UPDATED AT
             </p>
 
-            <div class="flex items-center text-sm text-tertiary">
-                <span>Aug 6, 2026</span>
-
-                <span class="mx-2 h-1 w-1 rounded-full bg-tertiary"></span>
-
-                <span>10:30 AM</span>
+            <div class="flex items-center text-sm text-tertiary-light">
+                <span>{{ formatDateTime(ticket.updatedAt) }}</span>
             </div>
         </div>
 
@@ -79,10 +72,18 @@
 </template>
 
 <script setup>
-import PriorityBadge from '@/shared/ui/component/badges/PriorityBadge.vue';
-import Avatar from '@/shared/ui/component/Avatar.vue';
-import StatusBadge from '@/shared/ui/component/badges/StatusBadge.vue';
+import { convertDate, formatDateTime } from '@/shared/utils'
 import BaseButton from '@/shared/ui/component/BaseButton.vue';
+import PriorityBadge from './PriorityBadge.vue';
+import StatusBadge from './StatusBadge.vue';
+import UserAvatar from '@/shared/ui/component/UserAvatar.vue';
+
+defineProps({
+    ticket: {
+        type: Object,
+        default: () => ({}),
+    },
+})
 
 const emit = defineEmits(['open-modal'])
 </script>

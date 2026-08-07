@@ -14,7 +14,7 @@
         :key="col.id"
         :status="col"
         :tickets="ticketsByColumn[col.statusId] || []"
-        @select-ticket="getTicket"
+        @select-ticket="openTicketDetails"
       />
     </div>
     <TicketFormModal
@@ -39,14 +39,17 @@ import { BoardHeader, BoardColumn, TicketFormModal } from '../components'
 import { useSprintBoardStore } from '../stores'
 import { useModal, useTicketActions, useTicketMetadata } from '../composables'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+import { path } from '@/shared/constants/paths'
 
 const modal = useModal()
 const fetch = useTicketMetadata()
 const { open, toggleModalTicket, clearFieldError, forms, errors } = modal
-const { handleNewTicket, getTicket } = useTicketActions(modal, fetch)
+const { handleNewTicket } = useTicketActions(modal, fetch)
 const { statuses, priorities, assignees } = fetch
 
 const boardStore = useSprintBoardStore()
+const router = useRouter()
 const { columns, ticketsByColumn, totalActiveTickets } = storeToRefs(boardStore)
 
 const teamMembers = [
@@ -59,4 +62,8 @@ const teamMembers = [
 onMounted(() => {
   boardStore.fetchBoardData()
 })
+
+const openTicketDetails = (id) => {
+  router.push({ name: path.task.details.name, params: { id } })
+}
 </script>

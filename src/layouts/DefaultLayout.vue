@@ -2,7 +2,7 @@
   <div class="bg-gradient-surface flex h-screen flex-col overflow-hidden p-4">
     <Header class="shrink-0" />
 
-    <main class="px-6 py-4">
+    <main class="min-h-0 flex-1 overflow-y-auto px-6 py-4">
       <RouterView v-slot="{ Component }">
         <Transition
           enter-active-class="transition-all duration-200 ease-out"

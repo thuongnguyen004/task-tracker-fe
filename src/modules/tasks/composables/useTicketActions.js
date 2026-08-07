@@ -4,7 +4,9 @@ import { validateCreateTicket, validateEditTicket } from '../validators'
 import { toast } from 'vue3-toastify'
 
 export const useTicketActions = (modal, fetch) => {
-  const ticketById = ref({})
+
+    const ticketById = ref({})
+
   const handleNewTicket = async () => {
     try {
       const result = validateCreateTicket(modal.forms)
@@ -58,10 +60,12 @@ export const useTicketActions = (modal, fetch) => {
     try {
       const response = await getTicketById(id)
       ticketById.value = response.data
+
     } catch (error) {
       console.error(error)
     }
   }
+
   return {
     handleNewTicket,
     handleUpdateTicket,
