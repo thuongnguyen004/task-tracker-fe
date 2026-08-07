@@ -9,5 +9,5 @@ export const TICKET_MESSAGE = {
 
 export const TITLE_MIN_LENGTH = 1
 export const TITLE_MAX_LENGTH = 100
-export const DESCRIPTION_MIN_LENGTH = 10
+export const DESCRIPTION_MIN_LENGTH = 1
 export const DESCRIPTION_MAX_LENGTH = 500
