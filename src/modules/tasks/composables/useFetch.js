@@ -1,19 +1,18 @@
 import { onMounted, ref } from 'vue'
-import { useTicketMetadataStore } from '../stores/ticketMetadata'
+import { useTicketMetadataStore } from '../stores/ticket-metadata'
 
 export const useFetch = () => {
-  const statuses = ref([])
-  const priorities = ref([])
-  const assignees = ref([])
-  const metadataStore = useTicketMetadataStore()
+  const metadataStore = useTicketMetadataStore();
+
+  const { statuses, priorities, assignees } = storeToRefs(metadataStore);
+
   onMounted(async () => {
-    statuses.value = await metadataStore.fetchStatuses()
-    priorities.value = await metadataStore.fetchPriorities()
-    assignees.value = await metadataStore.fetchAssignees()
-  })
+    await metadataStore.fetchMetadata();
+  });
+
   return {
     statuses,
     priorities,
-    assignees
-  }
+    assignees,
+  };
 }

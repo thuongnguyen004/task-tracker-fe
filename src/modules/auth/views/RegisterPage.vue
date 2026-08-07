@@ -1,74 +1,74 @@
 <template>
-  <div class="flex justify-center items-center flex-col">
-    <div class="flex justify-center items-center flex-col">
+  <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center">
       <div
-        class="size-12 bg-primary text-2xl text-secondary font-bold rounded-xl flex justify-center items-center mb-5"
+        class="bg-primary text-secondary mb-5 flex size-12 items-center justify-center rounded-xl text-2xl font-bold"
       >
         T
       </div>
-      <span class="text-2xl font-bold text-primary">Create account</span>
-      <span class="mb-8 text-tertiary font-normal">Join Mini Task Tracker</span>
+      <span class="text-primary text-2xl font-bold">Create account</span>
+      <span class="text-tertiary mb-8 font-normal">Join Mini Task Tracker</span>
     </div>
 
     <div
-      class="w-105 border border-border rounded-xl bg-card flex justify-center items-center flex-col px-8 py-10"
+      class="border-border bg-card flex w-105 flex-col items-center justify-center rounded-xl border px-8 py-10"
     >
       <form class="w-full" @submit.prevent="handleRegister">
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <label class="text-sm font-medium text-primary">Username</label>
+            <label class="text-primary text-sm font-medium">Username</label>
             <input
               v-model="form.username"
               type="text"
               placeholder="Enter username"
               :disabled="loading"
-              class="py-2 px-3 rounded-xl border-2 text-md bg-input w-full"
+              class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
               :class="errors.username ? 'border-red-500' : 'border-border'"
               @blur="validateField('username')"
             />
-            <span v-if="errors.username" class="text-red-500 text-xs">{{ errors.username }}</span>
+            <span v-if="errors.username" class="text-xs text-red-500">{{ errors.username }}</span>
           </div>
 
           <div class="flex flex-col gap-1.5">
-            <label class="text-sm font-medium text-primary">Email</label>
+            <label class="text-primary text-sm font-medium">Email</label>
             <input
               v-model="form.email"
               type="text"
               placeholder="Enter email"
               :disabled="loading"
-              class="py-2 px-3 rounded-xl border-2 text-md bg-input w-full"
+              class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
               :class="errors.email ? 'border-red-500' : 'border-border'"
               @blur="validateField('email')"
             />
-            <span v-if="errors.email" class="text-red-500 text-xs">{{ errors.email }}</span>
+            <span v-if="errors.email" class="text-xs text-red-500">{{ errors.email }}</span>
           </div>
 
           <div class="flex flex-col gap-1.5">
-            <label class="text-sm font-medium text-primary">Password</label>
+            <label class="text-primary text-sm font-medium">Password</label>
             <input
               v-model="form.password"
               type="password"
               placeholder="Min 8 characters"
               :disabled="loading"
-              class="py-2 px-3 rounded-xl border-2 text-md bg-input w-full"
+              class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
               :class="errors.password ? 'border-red-500' : 'border-border'"
               @blur="validateField('password')"
             />
-            <span v-if="errors.password" class="text-red-500 text-xs">{{ errors.password }}</span>
+            <span v-if="errors.password" class="text-xs text-red-500">{{ errors.password }}</span>
           </div>
 
           <div class="flex flex-col gap-1.5">
-            <label class="text-sm font-medium text-primary">Confirm Password</label>
+            <label class="text-primary text-sm font-medium">Confirm Password</label>
             <input
               v-model="form.confirmPassword"
               type="password"
               placeholder="Re-enter password"
               :disabled="loading"
-              class="py-2 px-3 rounded-xl border-2 text-md bg-input w-full"
+              class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
               :class="errors.confirmPassword ? 'border-red-500' : 'border-border'"
               @blur="validateField('confirmPassword')"
             />
-            <span v-if="errors.confirmPassword" class="text-red-500 text-xs">{{
+            <span v-if="errors.confirmPassword" class="text-xs text-red-500">{{
               errors.confirmPassword
             }}</span>
           </div>
@@ -78,7 +78,7 @@
           <button
             type="submit"
             :disabled="loading"
-            class="w-full py-2 rounded-xl bg-primary text-secondary font-semibold text-sm hover:opacity-90 disabled:opacity-50 cursor-pointer"
+            class="bg-primary text-secondary w-full cursor-pointer rounded-xl py-2 text-sm font-semibold hover:opacity-90 disabled:opacity-50"
           >
             <span v-if="loading">Loading...</span>
             <span v-else>Create Account</span>
@@ -86,7 +86,7 @@
         </div>
       </form>
 
-      <span class="mt-5 text-sm text-tertiary">
+      <span class="text-tertiary mt-5 text-sm">
         Already have an account?
         <RouterLink
           :to="{ name: path.auth.login.name }"
@@ -102,8 +102,9 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { authService } from '@/services/authService'
-import { path } from '@/shared/constants/path.constant'
+import { path } from '@/shared/constants/path.constants'
+import { register } from '../services'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const loading = ref(false)
@@ -180,14 +181,20 @@ const handleRegister = async () => {
 
   loading.value = true
   try {
-    await authService.register({
+    await register({
       username: form.username,
       email: form.email,
       password: form.password,
     })
+
+    toast.success('Account created successfully! Please sign in.')
+
     router.push({ name: path.auth.login.name })
   } catch (error) {
     const message = error?.response?.data?.message || 'Registration failed'
+
+    toast.error(message)
+
     if (message.toLowerCase().includes('email')) {
       errors.email = message
     } else if (message.toLowerCase().includes('username')) {
