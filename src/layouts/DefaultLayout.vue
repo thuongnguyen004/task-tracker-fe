@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gradient-surface">
-    <Header />
+  <div class="bg-gradient-surface flex h-screen flex-col overflow-auto">
+    <Header class="shrink-0" />
 
     <main class="px-6 py-4">
       <RouterView v-slot="{ Component }">
