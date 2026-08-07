@@ -1,10 +1,10 @@
 <template>
-  <section class="flex flex-col items-center justify-center py-8">
+  <section class="flex flex-col items-center py-8">
     <div class="w-full max-w-md rounded-xl bg-white p-8 shadow">
       <div class="text-center">
-        <UserAvatar :name="user.username" size="xl" class="mx-auto" />
+        <UserAvatar :name="user.fullName" size="xl" class="mx-auto" />
 
-        <h5 class="mt-4 text-xl font-semibold">{{ user.username }}</h5>
+        <h5 class="mt-4 text-xl font-semibold">{{ user.fullName }}</h5>
 
         <p class="text-tertiary mt-1 text-sm">Member since {{ formattedDate }}</p>
       </div>
