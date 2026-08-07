@@ -1,10 +1,10 @@
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import authRoute from '@/modules/auth/routes/auth.route'
+import authRoute from '@/modules/auth/routes'
 import taskRoute from '@/modules/tasks/routes'
-import userRoute from '@/modules/users/routes/route'
+import userRoute from '@/modules/users/routes'
 import { path } from '@/shared/constants/path.constants'
-import { tokenStorage } from '@/services/tokenStorage'
+import { tokenStorage } from '@/shared/utils'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
