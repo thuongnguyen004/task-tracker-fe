@@ -1,6 +1,11 @@
 import api from '@/services/api'
 import { path } from '@/shared/constants/paths'
 
+export const createTicket = async(payload) => {
+  const response = await api.post(path.task.api.create, payload)
+  return response.data
+}
+
 export const updateTicket = async (id, payload) => {
   const response = await api.put(path.task.api.update(id), payload)
   return response.data

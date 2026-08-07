@@ -26,3 +26,21 @@ export const validateEditTicket = (form) => {
   }
   return errors
 }
+
+export const validateCreateTicket = (form) => {
+  const errors = {}
+  errors.title =
+    required(form.title, TICKET_MESSAGE.TITLE_REQUIRED) ||
+    size(form.title, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH, TICKET_MESSAGE.TITLE_SIZE)
+  errors.description = size(
+    form.description,
+    DESCRIPTION_MIN_LENGTH,
+    DESCRIPTION_MAX_LENGTH,
+    TICKET_MESSAGE.DESCRIPTION_SIZE,
+  )
+
+  if (!errors.title && !errors.description ) {
+    return
+  }
+  return errors
+}

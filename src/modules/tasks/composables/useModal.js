@@ -1,7 +1,7 @@
 import { reactive, ref } from 'vue'
 
 export const useModal = () => {
-  const open = ref(true)
+  const open = ref(false)
   const id = ref(null)
   const errors = ref({})
 

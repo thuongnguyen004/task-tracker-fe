@@ -1,7 +1,8 @@
 import { onMounted, ref } from 'vue'
-import { useTicketMetadataStore } from '../stores/ticket-metadata'
+import { useTicketMetadataStore } from '../stores';
+import { storeToRefs } from 'pinia';
 
-export const useFetch = () => {
+export const useTicketMetadata = () => {
   const metadataStore = useTicketMetadataStore();
 
   const { statuses, priorities, assignees } = storeToRefs(metadataStore);
