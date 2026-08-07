@@ -1,10 +1,10 @@
 import { path } from '@/shared/constants/path.constants'
-import ProfilePage from '../views/ProfilePage.vue'
+import UserProfilePage from '../views/UserProfilePage.vue'
 
 export default [
   {
     path: path.user.profile.href,
     name: path.user.profile.name,
-    component: ProfilePage,
+    component: UserProfilePage,
   },
 ]
