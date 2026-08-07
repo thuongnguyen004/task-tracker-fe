@@ -1,32 +1,32 @@
 <template>
-    <div class="w-50">
-        <BaseButton @click="open = true">
-            Create Ticket
-        </BaseButton>
-    </div>
+    <div class="flex h-full flex-col gap-4 overflow-hidden">
+        <BoardHeader class="shrink-0" :total-tickets="totalActiveTickets" :total-columns="columns.length"
+            :team-members="teamMembers" />
 
-    <CreateTicketDialog v-model="open" @submit="handleCreateTicket" />
+        <div class="flex flex-1 gap-4 overflow-x-auto overflow-y-hidden pb-2">
+            <BoardColumn v-for="col in columns" :key="col.id" :status="col"
+                :tickets="ticketsByColumn[col.statusId] || []" />
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import { BoardHeader, BoardColumn } from '../components'
+import { useSprintBoardStore } from '../stores'
 
-import BaseButton from "@/shared/ui/component/BaseButton.vue";
-import CreateTicketDialog from "../components/CreateTicketDialog.vue";
-import { createTicket } from "../services/index.js";
-import { toast } from "vue3-toastify";
+const boardStore = useSprintBoardStore()
+const { columns, ticketsByColumn, totalActiveTickets } = storeToRefs(boardStore)
 
-const open = ref(false);
+const teamMembers = [
+    { name: 'Bun Tran' },
+    { name: 'Tinh Tran' },
+    { name: 'Thuong Nguyen' },
+    { name: 'Bao Mai' },
+]
 
-const handleCreateTicket = async (request) => {
-    try {
-        await createTicket(request);
-
-        open.value = false;
-        toast.success("Create ticket successfully");
-
-    } catch (error) {
-        console.error(error);
-    }
-};
+onMounted(() => {
+    boardStore.fetchBoardData()
+})
 </script>

@@ -18,8 +18,8 @@ const props = defineProps({
   },
   loading: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const variantClass = {
@@ -27,7 +27,7 @@ const variantClass = {
   secondary: 'bg-secondary text-tertiary border-2 border-border py-2 px-6',
   tertiary: 'bg-secondary text-red-400 border-2 border-border py-2 px-6',
   quaternary: 'bg-quinary text-tertiary border-2 border-border py-2 px-6',
-  transparent: 'bg-transparent border-none hover:bg-quinary px-2 py-2'
+  transparent: 'bg-transparent border-none hover:bg-quinary px-2 py-2',
 }
 
 const buttonClasses = computed(() => {
@@ -39,6 +39,6 @@ const buttonClasses = computed(() => {
 })
 
 const checkLoading = computed(() => {
-    return props.loading ? 'animate-spin' : '';
+  return props.loading ? 'animate-spin' : ''
 })
 </script>
