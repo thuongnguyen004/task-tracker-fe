@@ -73,7 +73,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/modules/auth/stores'
-import { path } from '@/shared/constants/path.constants'
+import { path } from '@/shared/constants/paths'
 
 const router = useRouter()
 const authStore = useAuthStore()

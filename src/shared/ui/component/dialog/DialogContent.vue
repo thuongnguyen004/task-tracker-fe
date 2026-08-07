@@ -1,3 +1,3 @@
 <template>
-  <div class="px-3 py-3"><slot /></div>
+  <div class="px-5 py-3"><slot /></div>
 </template>
