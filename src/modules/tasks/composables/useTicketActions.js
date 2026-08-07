@@ -23,8 +23,6 @@ export const useTicketActions = (modal, fetch) => {
           null,
         assigneeId: modal.forms.assigneeId,
       }
-      console.log(fetch)
-      console.log(payload)
       const response = await createTicket(payload)
       toast.success(response.message)
     } catch (error) {
@@ -47,7 +45,17 @@ export const useTicketActions = (modal, fetch) => {
         priorityId: modal.forms.priorityId,
         assigneeId: modal.forms.assigneeId,
       }
+      const isEmpty = (value) => value === null || value === undefined || value === ''
+      const isSameValue = (a, b) => (isEmpty(a) && isEmpty(b)) || String(a) === String(b)
+      const hasChanges = Object.keys(payload).some(
+        (key) => !isSameValue(payload[key], modal.originalForms.value[key]),
+      )
+      if (!hasChanges) {
+        toast.info('No changes detected')
+        return
+      }
       const response = await updateTicket(modal.id.value, payload)
+      modal.open.value = false
       toast.success(response.message)
     } catch (error) {
       toast.error(error.response?.data?.message)

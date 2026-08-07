@@ -1,6 +1,6 @@
 <template>
   <BaseButton variant="transparent" type="button" @click="close">
-    <X class="text-primary w-4 h-4" />
+    <X class="text-primary h-4 w-4" />
   </BaseButton>
 </template>
 

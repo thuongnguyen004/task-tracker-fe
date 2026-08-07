@@ -1,3 +1,3 @@
 <template>
-  <label class="text-tertiary font-medium text-md"><slot /></label>
+  <label class="text-tertiary text-md font-medium"><slot /></label>
 </template>

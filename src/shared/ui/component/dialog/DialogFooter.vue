@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between gap-2 px-5 py-4 border-t border-border">
+  <div class="border-border flex justify-between gap-2 border-t px-5 py-4">
     <slot />
   </div>
 </template>

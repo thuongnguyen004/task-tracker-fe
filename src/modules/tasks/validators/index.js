@@ -39,7 +39,7 @@ export const validateCreateTicket = (form) => {
     TICKET_MESSAGE.DESCRIPTION_SIZE,
   )
 
-  if (!errors.title && !errors.description ) {
+  if (!errors.title && !errors.description) {
     return
   }
   return errors

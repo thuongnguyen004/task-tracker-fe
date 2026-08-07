@@ -4,7 +4,7 @@ export const useModal = () => {
   const open = ref(false)
   const id = ref(null)
   const errors = ref({})
-
+  const originalForms = ref(null)
   const forms = reactive({
     title: '',
     description: '',
@@ -28,13 +28,14 @@ export const useModal = () => {
   }
 
   const openModalEditTicket = (ticket) => {
-    open.value = true
     id.value = ticket.id
     forms.title = ticket.title
     forms.description = ticket.description
     forms.priorityId = ticket.priorityId
     forms.statusId = ticket.statusId
     forms.assigneeId = ticket.assigneeId ?? ''
+    originalForms.value = { ...forms }
+    open.value = true
   }
 
   const clearFieldError = (field) => {
@@ -46,6 +47,8 @@ export const useModal = () => {
     openModalEditTicket,
     clearFieldError,
     forms,
+    originalForms,
     errors,
+    id,
   }
 }

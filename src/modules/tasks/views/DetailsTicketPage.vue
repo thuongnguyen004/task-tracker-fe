@@ -5,7 +5,10 @@
       <TicketTabs />
     </div>
 
-    <TicketSidebar @open-modal="openModalEditTicket" />
+    <TicketSidebar
+      @open-modal="openModalEditTicket"
+      :ticketById="ticketById"
+    />
     <TicketFormModal
       title="Edit Ticket"
       buttonTitle="Update Ticket"
@@ -28,6 +31,6 @@ import TicketFormModal from '../components/TicketFormModal.vue'
 import { useModal, useTicketActions, useTicketMetadata } from '../composables'
 const modal = useModal()
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
-const { handleUpdateTicket ,ticketById} = useTicketActions(modal)
+const { handleUpdateTicket, ticketById } = useTicketActions(modal)
 const { statuses, priorities, assignees } = useTicketMetadata()
 </script>

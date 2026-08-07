@@ -1,19 +1,19 @@
-import { onMounted, ref } from 'vue'
-import { useTicketMetadataStore } from '../stores';
-import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue'
+import { useTicketMetadataStore } from '../stores'
+import { storeToRefs } from 'pinia'
 
 export const useTicketMetadata = () => {
-  const metadataStore = useTicketMetadataStore();
+  const metadataStore = useTicketMetadataStore()
 
-  const { statuses, priorities, assignees } = storeToRefs(metadataStore);
+  const { statuses, priorities, assignees } = storeToRefs(metadataStore)
 
   onMounted(async () => {
-    await metadataStore.fetchMetadata();
-  });
+    await metadataStore.fetchMetadata()
+  })
 
   return {
     statuses,
     priorities,
     assignees,
-  };
+  }
 }

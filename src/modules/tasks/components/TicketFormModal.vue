@@ -75,6 +75,7 @@
               id="assignee"
               v-model="forms.assigneeId"
               placeholder="Select Assignee"
+              has-none-option
               :options="assignees"
               @change="emit('clear-error', 'assigneeId')"
             />

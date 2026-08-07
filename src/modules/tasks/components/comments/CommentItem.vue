@@ -1,50 +1,48 @@
 <template>
-    <div class="flex gap-3 border-b border-border py-5">
-        <Avatar :name="author" />
+  <div class="border-border flex gap-3 border-b py-5">
+    <Avatar :name="author" />
 
-        <div class="flex-1">
-            <div class="flex text-sm items-center gap-2">
-                <span class="font-semibold text-primary">
-                    {{ author }}
-                </span>
+    <div class="flex-1">
+      <div class="flex items-center gap-2 text-sm">
+        <span class="text-primary font-semibold">
+          {{ author }}
+        </span>
 
-                <span class="text-sm text-tertiary">
-                    {{ time }}
-                </span>
+        <span class="text-tertiary text-sm">
+          {{ time }}
+        </span>
 
-                <span v-if="edited" class="rounded bg-quinary px-2 py-0.5 text-xs text-tertiary">
-                    Edited
-                </span>
-            </div>
+        <span v-if="edited" class="bg-quinary text-tertiary rounded px-2 py-0.5 text-xs">
+          Edited
+        </span>
+      </div>
 
-            <p class="mt-2 text-sm text-primary">
-                {{ content }}
-            </p>
-        </div>
+      <p class="text-primary mt-2 text-sm">
+        {{ content }}
+      </p>
     </div>
+  </div>
 </template>
 
 <script setup>
-import Avatar from '@/shared/ui/component/Avatar.vue';
-
-
+import Avatar from '@/shared/ui/component/Avatar.vue'
 
 defineProps({
-    author: {
-        type: String,
-        required: true,
-    },
-    content: {
-        type: String,
-        required: true,
-    },
-    time: {
-        type: String,
-        required: true,
-    },
-    edited: {
-        type: Boolean,
-        default: false,
-    },
+  author: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  time: {
+    type: String,
+    required: true,
+  },
+  edited: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>

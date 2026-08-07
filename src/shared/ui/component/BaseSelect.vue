@@ -2,11 +2,13 @@
   <select
     v-model="model"
     @change="emit('change', $event)"
-    class="py-2 px-3 rounded-xl border-2 border-border outline-none text-md bg-input cursor-pointer"
+    class="border-border text-md bg-input cursor-pointer rounded-xl border-2 px-3 py-2 outline-none"
   >
     <option v-if="placeholder" value="" disabled>
       {{ props.placeholder }}
     </option>
+
+    <option v-if="props.hasNoneOption" :value="null">{{ props.noneOptionLabel }}</option>
 
     <option v-for="option in props.options" :key="option.value" :value="option.value">
       {{ option.label }}
@@ -28,6 +30,14 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: '',
+  },
+  hasNoneOption: {
+    type: Boolean,
+    default: false,
+  },
+  noneOptionLabel: {
+    type: String,
+    default: 'None',
   },
 })
 </script>

@@ -42,7 +42,7 @@ import { storeToRefs } from 'pinia'
 
 const modal = useModal()
 const fetch = useTicketMetadata()
-const { open, toggleModalTicket, clearFieldError, forms, errors } = modal
+const { open, toggleModalTicket, clearFieldError, forms, errors, originalForms } = modal
 const { handleNewTicket, getTicket } = useTicketActions(modal, fetch)
 const { statuses, priorities, assignees } = fetch
 
