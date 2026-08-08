@@ -11,7 +11,7 @@
 
     <div
       v-if="isOpen"
-      class="bg-card border-border absolute z-[9999] mt-1 max-h-30 w-full overflow-y-auto rounded-xl border shadow-lg"
+      class="bg-card border-border absolute z-10 mt-1 max-h-30 w-full overflow-y-auto rounded-xl border shadow-lg"
     >
       <div
         v-if="placeholder && isEmpty(model)"
