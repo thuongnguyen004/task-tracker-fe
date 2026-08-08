@@ -1,8 +1,8 @@
 <template>
   <div class="bg-gradient-surface flex h-screen flex-col">
-    <Header class="shrink-0" />
+    <Header />
 
-    <main class="overflow-auto px-6 py-4">
+    <main class="px-6 py-4 overflow-auto flex-1">
       <RouterView v-slot="{ Component }">
         <Transition
           enter-active-class="transition-all duration-200 ease-out"

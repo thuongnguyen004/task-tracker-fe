@@ -46,7 +46,15 @@
                 placeholder="Select Priority"
                 :options="priorities"
                 @change="emit('clear-error', 'priorityId')"
-              />
+              >
+                <template #trigger="{ selectedOption }">
+                  <PriorityBadge v-if="selectedOption" :priority="selectedOption.label" />
+                  <span v-else class="text-muted">Select Priority</span>
+                </template>
+                <template #option="{ option }">
+                  <PriorityBadge :priority="option.label" />
+                </template>
+              </BaseSelect>
 
               <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
                 props.errors.priorityId
@@ -62,7 +70,15 @@
                 :options="statuses"
                 :disabled="props.disableStatus"
                 @change="emit('clear-error', 'statusId')"
-              />
+              >
+                <template #trigger="{ selectedOption }">
+                  <StatusBadge v-if="selectedOption" :status="selectedOption.label" />
+                  <span v-else class="text-muted">Select Status</span>
+                </template>
+                <template #option="{ option }">
+                  <StatusBadge :status="option.label" />
+                </template>
+              </BaseSelect>
 
               <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
                 props.errors.statusId
@@ -111,6 +127,8 @@ import BaseInput from '@/shared/ui/component/BaseInput.vue'
 import BaseLabel from '@/shared/ui/component/BaseLabel.vue'
 import BaseSelect from '@/shared/ui/component/BaseSelect.vue'
 import BaseTexarea from '@/shared/ui/component/BaseTexarea.vue'
+import PriorityBadge from './PriorityBadge.vue'
+import StatusBadge from './StatusBadge.vue'
 
 const props = defineProps({
   title: {

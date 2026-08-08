@@ -37,7 +37,7 @@ const STATUS_CONFIG = {
         badgeClass: 'bg-status-quaternary/30 text-status-quaternary',
         dotClass: 'bg-status-quaternary',
     },
-    Done: {
+    'Done': {
         label: 'Done',
         badgeClass: 'bg-status-quinary/30 text-status-quinary',
         dotClass: 'bg-status-quinary',
@@ -58,7 +58,7 @@ const STATUS_ALIAS_MAP = {
     'Ready for QA': 'Ready for QA',
 
     5: 'Done',
-    Done: 'Done',
+    'Done': 'Done',
 }
 
 const badgeInfo = computed(() => {
