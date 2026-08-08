@@ -1,14 +1,11 @@
 <template>
-    <div class="grid grid-cols-[2fr_1fr] gap-6 px-6">
-        <div>
-            <TicketDescription :ticket="ticketById" />
-            <TicketTabs />
-        </div>
+  <div class="grid grid-cols-[2fr_1fr] gap-6 px-6">
+    <div>
+      <TicketDescription :ticket="ticketById" />
+      <TicketTabs />
+    </div>
 
-    <TicketSidebar
-      @open-modal="openModalEditTicket"
-      :ticketById="ticketById"
-    />
+    <TicketSidebar @open-modal="openModalEditTicket" :ticket="ticketById" />
     <TicketFormModal
       title="Edit Ticket"
       buttonTitle="Update Ticket"
@@ -18,6 +15,7 @@
       :priorities="priorities"
       :assignees="assignees"
       :errors="errors"
+      :loading="loading"
       @close-modal="toggleModalTicket"
       @handle-ticket="handleUpdateTicket"
       @clear-error="clearFieldError"
@@ -32,17 +30,17 @@ import { TicketDescription, TicketSidebar, TicketTabs } from '../components/inde
 import TicketFormModal from '../components/TicketFormModal.vue'
 import { useModal, useTicketActions, useTicketMetadata } from '../composables'
 
+const route = useRoute()
+
 const modal = useModal()
 
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
 
-const { handleUpdateTicket, getTicket, ticketById } = useTicketActions(modal)
+const { handleUpdateTicket, getTicket, ticketById, loading } = useTicketActions(modal)
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
-const route = useRoute()
-
 onMounted(() => {
-    getTicket(route.params.id)
+  getTicket(route.params.id)
 })
 </script>

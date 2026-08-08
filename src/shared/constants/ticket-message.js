@@ -1,7 +1,9 @@
 export const TICKET_MESSAGE = {
   TITLE_REQUIRED: 'Title is required.',
   TITLE_SIZE: 'Title must not exceed 150 characters.',
+  TITLE_BLANK: 'Title cannot contain only spaces',
   DESCRIPTION_SIZE: 'Description must not exceed 5000 characters',
+  DESCRIPTION_BLANK: 'Description cannot contain only spaces',
   PRIORITY_REQUIRED: 'Priority is required',
   STATUS_REQUIRED: 'Status is required',
   ASSIGNEE_REQUIRED: 'Assignee is required',

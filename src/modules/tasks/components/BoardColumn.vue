@@ -14,7 +14,7 @@
 
     <div class="flex flex-1 flex-col gap-3 overflow-y-auto pr-1">
       <TicketCard v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
-        @select="emit('select-ticket', '027118e8-6b8e-4d9c-9c39-d7981d6a3d95')" />
+        @select="emit('select-ticket', ticket.id)" />
     </div>
   </div>
 </template>

@@ -30,34 +30,10 @@
         </p>
       </div>
     </div>
-
-    <h2 class="text-primary text-3xl font-bold">Set up project repository and CI/CD pipeline</h2>
-
-    <div class="text-tertiary flex items-center text-sm">
-      <span>Created by Alex Lee</span>
-
-      <span class="bg-quaternary mx-2 h-1 w-1 scale-75 rounded-full"></span>
-
-      <span>2 days ago</span>
-
-      <span class="bg-quaternary mx-2 h-1 w-1 scale-75 rounded-full"></span>
-
-      <span>Updated 3 hours ago</span>
-    </div>
-
-    <div class="text-tertiary">
-      <p class="text-tertiary font-semibold">DESCRIPTION</p>
-
-      <p class="whitespace-pre-line">
-        Initialize the Git repository with proper branching strategy.
-      </p>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { convertDate } from '@/shared/utils'
 import PriorityBadge from './PriorityBadge.vue'
 import { formatRelativeTime } from '@/shared/utils/datePrevious.js'
 

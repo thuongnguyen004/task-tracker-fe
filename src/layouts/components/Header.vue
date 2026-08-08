@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-secondary border-border flex items-center justify-between border-b px-6 py-3">
+  <header class="bg-secondary border-border flex items-center justify-between border-b px-6 py-3 shrink-0">
     <div class="flex items-center gap-4">
       <span
         class="bg-primary text-secondary flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold"

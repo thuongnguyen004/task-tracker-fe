@@ -43,7 +43,7 @@ export const path = {
     },
 
     details: {
-      href: 'details-ticket',
+      href: 'details-ticket/:id',
       name: 'details-ticket',
     },
     api: {

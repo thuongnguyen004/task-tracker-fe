@@ -3,13 +3,18 @@ import { createTicket, getTicketById, updateTicket } from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
+import { useRoute } from 'vue-router'
 
 export const useTicketActions = (modal, fetch) => {
+  const loading = ref(false)
 
-    const ticketById = ref({})
+  const ticketById = ref({})
+
+  const route = useRoute()
 
   const handleNewTicket = async () => {
     try {
+      loading.value = true
       const result = validateCreateTicket(modal.forms)
       modal.errors.value = result || {}
 
@@ -18,8 +23,8 @@ export const useTicketActions = (modal, fetch) => {
       }
 
       const payload = {
-        title: modal.forms.title,
-        description: modal.forms.description,
+        title: modal.forms.title.trim(),
+        description: modal.forms.description.trim(),
         statusId:
           fetch.statuses.value?.find((item) => item.label?.toLowerCase() === 'to do')?.value ||
           null,
@@ -44,11 +49,14 @@ export const useTicketActions = (modal, fetch) => {
       console.error(error)
 
       toast.error(error.response?.data?.message || 'Failed to create ticket')
+    } finally {
+      loading.value = false
     }
   }
 
   const handleUpdateTicket = async () => {
     try {
+      loading.value = true
       const result = validateEditTicket(modal.forms)
       modal.errors.value = result || {}
 
@@ -57,8 +65,8 @@ export const useTicketActions = (modal, fetch) => {
       }
 
       const payload = {
-        title: modal.forms.title,
-        description: modal.forms.description,
+        title: modal.forms.title.trim(),
+        description: modal.forms.description.trim(),
         statusId: modal.forms.statusId,
         priorityId: modal.forms.priorityId,
         assigneeId: modal.forms.assigneeId,
@@ -70,21 +78,25 @@ export const useTicketActions = (modal, fetch) => {
       )
       if (!hasChanges) {
         toast.info('No changes detected')
+        modal.open.value = false
         return
       }
       const response = await updateTicket(modal.id.value, payload)
+      await getTicket()
       modal.open.value = false
       toast.success(response.message)
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to update ticket')
+      toast.error(error.response?.data?.message)
+    } finally {
+      loading.value = false
     }
   }
 
-  const getTicket = async (id) => {
+  const getTicket = async () => {
     try {
-      const response = await getTicketById(id)
-      ticketById.value = response.data
+      const response = await getTicketById(route.params.id)
 
+      ticketById.value = response.data
     } catch (error) {
       console.error(error)
     }
@@ -95,5 +107,6 @@ export const useTicketActions = (modal, fetch) => {
     handleUpdateTicket,
     getTicket,
     ticketById,
+    loading,
   }
 }
