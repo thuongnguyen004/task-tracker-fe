@@ -1,6 +1,6 @@
 export const path = {
   auth: {
-    href: '/auth',
+    href: '/',
 
     login: {
       href: 'login',

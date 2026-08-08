@@ -41,12 +41,17 @@ import { useModal, useTicketActions, useTicketMetadata } from '../composables'
 import { storeToRefs } from 'pinia'
 
 const modal = useModal()
+
 const fetch = useTicketMetadata()
-const { open, toggleModalTicket, clearFieldError, forms, errors, originalForms } = modal
-const { handleNewTicket, getTicket } = useTicketActions(modal, fetch)
+
+const { open, toggleModalTicket, clearFieldError, forms, errors } = modal
+
+const { handleNewTicket } = useTicketActions(modal, fetch)
+
 const { statuses, priorities, assignees } = fetch
 
 const boardStore = useSprintBoardStore()
+
 const { columns, ticketsByColumn, totalActiveTickets } = storeToRefs(boardStore)
 
 const teamMembers = [
