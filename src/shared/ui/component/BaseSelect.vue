@@ -1,32 +1,47 @@
 <template>
-  <select
-    v-model="model"
-    class="py-2 px-3 rounded-xl border-2 border-border outline-none text-md bg-input cursor-pointer"
-  >
-    <option
-      v-if="placeholder"
-      value=""
-      disabled
-    >
-      {{ props.placeholder }}
-    </option>
+  <div class="relative">
+    <button type="button" :class="triggerClasses" :disabled="props.disabled" @click="toggleOpen">
+      <span :class="selectedLabelClasses">{{ selectedLabel }}</span>
+      <span :class="arrowClasses">▼</span>
+    </button>
 
-    <option
-      v-for="option in props.options"
-      :key="option.value"
-      :value="option.value"
+    <div
+      v-if="isOpen"
+      class="bg-card border-border absolute z-10 mt-1 w-full overflow-hidden rounded-xl border shadow-lg"
     >
-      {{ option.label }}
-    </option>
-  </select>
+      <div
+        v-if="placeholder && isEmpty(model)"
+        class="text-muted cursor-not-allowed px-3 py-2 text-sm opacity-60"
+      >
+        {{ placeholder }}
+      </div>
+
+      <div v-if="hasNoneOption" :class="getOptionClasses(null)" @click="selectValue(null)">
+        {{ noneOptionLabel }}
+      </div>
+
+      <div
+        v-for="option in props.options"
+        :key="option.value"
+        :class="getOptionClasses(option.value)"
+        @click="selectValue(option.value)"
+      >
+        {{ option.label }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
+import { computed, ref } from 'vue'
 
 const model = defineModel({
-  type: [String, Number],
+  type: null,
   default: '',
 })
+
+const emit = defineEmits(['change'])
+
 const props = defineProps({
   options: {
     type: Array,
@@ -36,5 +51,73 @@ const props = defineProps({
     type: String,
     default: "",
   },
-});
+  hasNoneOption: {
+    type: Boolean,
+    default: false,
+  },
+  noneOptionLabel: {
+    type: String,
+    default: 'None',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const isOpen = ref(false)
+
+const isEmpty = (value) => value === null || value === undefined || value === ''
+
+const triggerClasses = computed(() => {
+  return {
+    'border-border text-md bg-input flex w-full items-center justify-between rounded-xl border-2 px-3 py-2 outline-none': true,
+    'cursor-not-allowed opacity-50': props.disabled,
+    'cursor-pointer': !props.disabled,
+  }
+})
+
+const selectedLabelClasses = computed(() => {
+  return {
+    'text-muted': isEmpty(model.value),
+  }
+})
+
+const arrowClasses = computed(() => {
+  return {
+    'text-sm transition-transform duration-200': true,
+    'rotate-180': isOpen.value,
+  }
+})
+
+const baseOptionClasses =
+  'hover:bg-secondary border-border cursor-pointer border-b px-3 py-3 transition-colors last:border-b-0'
+
+const getOptionClasses = (value) => {
+  return {
+    [baseOptionClasses]: true,
+    'bg-secondary/50': model.value === value,
+  }
+}
+
+const selectedLabel = computed(() => {
+  if (isEmpty(model.value)) {
+    return props.placeholder || 'Select...'
+  }
+  const option = props.options.find((item) => item.value === model.value)
+  return option?.label || model.value
+})
+
+const toggleOpen = () => {
+  if (props.disabled) {
+    return
+  }
+  isOpen.value = !isOpen.value
+}
+
+const selectValue = (value) => {
+  model.value = value
+  isOpen.value = false
+  emit('change', value)
+}
 </script>
