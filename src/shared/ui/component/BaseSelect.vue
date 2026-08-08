@@ -1,13 +1,17 @@
 <template>
   <div class="relative">
     <button type="button" :class="triggerClasses" :disabled="props.disabled" @click="toggleOpen">
-      <span :class="selectedLabelClasses">{{ selectedLabel }}</span>
+      <span :class="selectedLabelClasses">
+        <slot name="trigger" :selected-option="selectedOption">
+          {{ selectedLabel }}
+        </slot>
+      </span>
       <span :class="arrowClasses">▼</span>
     </button>
 
     <div
       v-if="isOpen"
-      class="bg-card border-border absolute z-10 mt-1 w-full overflow-hidden rounded-xl border shadow-lg"
+      class="bg-card border-border absolute z-10 mt-1 max-h-30 w-full overflow-y-auto rounded-xl border shadow-lg"
     >
       <div
         v-if="placeholder && isEmpty(model)"
@@ -17,7 +21,9 @@
       </div>
 
       <div v-if="hasNoneOption" :class="getOptionClasses(null)" @click="selectValue(null)">
-        {{ noneOptionLabel }}
+        <slot name="option" :option="{ value: null, label: noneOptionLabel }">
+          {{ noneOptionLabel }}
+        </slot>
       </div>
 
       <div
@@ -26,7 +32,9 @@
         :class="getOptionClasses(option.value)"
         @click="selectValue(option.value)"
       >
-        {{ option.label }}
+        <slot name="option" :option="option">
+          {{ option.label }}
+        </slot>
       </div>
     </div>
   </div>
@@ -49,7 +57,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "",
+    default: '',
   },
   hasNoneOption: {
     type: Boolean,
@@ -90,22 +98,33 @@ const arrowClasses = computed(() => {
   }
 })
 
-const baseOptionClasses =
-  'hover:bg-secondary border-border cursor-pointer border-b px-3 py-3 transition-colors last:border-b-0'
+const baseOptionClasses = [
+  'hover:bg-quinary',
+  'border-border',
+  'cursor-pointer',
+  'border-b',
+  'px-3',
+  'py-3',
+  'transition-colors',
+  'last:border-b-0',
+]
 
 const getOptionClasses = (value) => {
-  return {
-    [baseOptionClasses]: true,
-    'bg-secondary/50': model.value === value,
-  }
+  return [baseOptionClasses, model.value === value ? 'bg-quinary' : '']
 }
+
+const selectedOption = computed(() => {
+  if (isEmpty(model.value)) {
+    return null
+  }
+  return props.options.find((item) => item.value === model.value) || null
+})
 
 const selectedLabel = computed(() => {
   if (isEmpty(model.value)) {
     return props.placeholder || 'Select...'
   }
-  const option = props.options.find((item) => item.value === model.value)
-  return option?.label || model.value
+  return selectedOption.value?.label || model.value
 })
 
 const toggleOpen = () => {
