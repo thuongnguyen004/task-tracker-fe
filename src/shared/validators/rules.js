@@ -1,18 +1,29 @@
 export const required = (value, message) => {
-  if (value === null || value === undefined || value === '') {
+  if (
+    value === null ||
+    value === undefined ||
+    String(value).trim() === ''
+  ) {
     return message
   }
   return ''
 }
 
 export const size = (value, min, max, message) => {
-  if (value === null || value === undefined || value === '') {
+  if (
+    value === null ||
+    value === undefined ||
+    String(value).trim() === ''
+  ) {
     return ''
   }
-  const length = String(value).length
+
+  const length = String(value).trim().length
+
   if (length < min || length > max) {
     return message
   }
+
   return ''
 }
 

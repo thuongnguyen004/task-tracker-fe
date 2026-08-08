@@ -8,14 +8,10 @@
       <DialogContent>
         <div class="space-y-4">
           <div class="flex flex-col gap-1">
-            <BaseLabel for="title">Title</BaseLabel>
+            <BaseLabel for="title">Title <span class="text-danger">*</span></BaseLabel>
 
-            <BaseInput
-              id="title"
-              v-model="forms.title"
-              placeholder="Enter ticket title"
-              @input="emit('clear-error', 'title')"
-            />
+            <BaseInput id="title" v-model="forms.title" placeholder="Enter ticket title"
+              @input="emit('clear-error', 'title')" />
 
             <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
               props.errors.title
@@ -24,13 +20,8 @@
           <div class="flex flex-col gap-1">
             <BaseLabel for="description">Description</BaseLabel>
 
-            <BaseTexarea
-              id="description"
-              v-model="forms.description"
-              placeholder="Add a description (optional)"
-              rows="3"
-              @input="emit('clear-error', 'description')"
-            />
+            <BaseTexarea id="description" v-model="forms.description" placeholder="Add a description (optional)"
+              rows="3" @input="emit('clear-error', 'description')" />
 
             <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
               props.errors.description
@@ -40,13 +31,8 @@
             <div class="flex flex-col gap-1">
               <BaseLabel for="priority">Priority</BaseLabel>
 
-              <BaseSelect
-                id="priority"
-                v-model="forms.priorityId"
-                placeholder="Select Priority"
-                :options="priorities"
-                @change="emit('clear-error', 'priorityId')"
-              />
+              <BaseSelect id="priority" v-model="forms.priorityId" placeholder="Select Priority" :options="priorities"
+                @change="emit('clear-error', 'priorityId')" />
 
               <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
                 props.errors.priorityId
@@ -55,13 +41,8 @@
             <div class="flex flex-col gap-1">
               <BaseLabel for="status">Status</BaseLabel>
 
-              <BaseSelect
-                id="status"
-                v-model="forms.statusId"
-                placeholder="Select Status"
-                :options="statuses"
-                @change="emit('clear-error', 'statusId')"
-              />
+              <BaseSelect id="status" v-model="forms.statusId" placeholder="Select Status" :options="statuses"
+                :disabled="props.disableStatus" @change="emit('clear-error', 'statusId')" />
 
               <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
                 props.errors.statusId
@@ -88,9 +69,7 @@
       </DialogContent>
 
       <DialogFooter>
-        <BaseButton @click="emit('close-modal')" variant="secondary" type="button"
-          >Cancel</BaseButton
-        >
+        <BaseButton @click="emit('close-modal')" variant="secondary" type="button">Cancel</BaseButton>
 
         <BaseButton variant="primary">{{ props.buttonTitle }}</BaseButton>
       </DialogFooter>
@@ -130,11 +109,15 @@ const props = defineProps({
   },
   errors: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
   buttonTitle: {
     type: String,
     default: '',
+  },
+  disableStatus: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -144,7 +127,7 @@ const open = defineModel('open', {
 })
 const forms = defineModel('forms', {
   type: Object,
-  default: () => {},
+  default: () => { },
 })
 
 const emit = defineEmits(['close-modal', 'handle-ticket', 'clear-error'])

@@ -13,12 +13,8 @@
     <div class="mb-2 h-1.5 w-full shrink-0 rounded-t-full" :class="status.accentBg" />
 
     <div class="flex flex-1 flex-col gap-3 overflow-y-auto pr-1">
-      <TicketCard
-        v-for="ticket in tickets"
-        :key="ticket.id"
-        :ticket="ticket"
-        @select="emit('select-ticket', 'ab266a50-0d8b-4c50-bb5a-2e45ac849b63')"
-      />
+      <TicketCard v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"
+        @select="emit('select-ticket', '027118e8-6b8e-4d9c-9c39-d7981d6a3d95')" />
     </div>
   </div>
 </template>
