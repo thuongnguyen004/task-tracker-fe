@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { createTicket, getTicketById, updateTicket } from '../services'
+import { changeStatusTicket, createTicket, getTicketById, updateTicket } from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
@@ -92,6 +92,18 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
+  const handleChangeStatus = async (ticketId, statusId) => {
+    try {
+      await changeStatusTicket(ticketId, statusId)
+      const boardStore = useSprintBoardStore()
+      await boardStore.fetchBoardData()
+    } catch (error) {
+      const boardStore = useSprintBoardStore()
+      await boardStore.fetchBoardData()
+      toast.error(error.response?.data?.message)
+    }
+  }
+
   const getTicket = async () => {
     try {
       const response = await getTicketById(route.params.id)
@@ -105,6 +117,7 @@ export const useTicketActions = (modal, fetch) => {
   return {
     handleNewTicket,
     handleUpdateTicket,
+    handleChangeStatus,
     getTicket,
     ticketById,
     loading,

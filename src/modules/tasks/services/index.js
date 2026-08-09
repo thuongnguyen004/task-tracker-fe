@@ -13,9 +13,15 @@ export const updateTicket = async (id, payload) => {
   return response.data
 }
 
+export const changeStatusTicket = async (ticketId, statusId) => {
+  await api.patch(path.task.api.changeStatus(ticketId, statusId))
+  
+  return
+}
+
 export const getTicketById = async (id) => {
   const response = await api.get(path.task.api.listById(id))
-  
+
   return response.data
 }
 

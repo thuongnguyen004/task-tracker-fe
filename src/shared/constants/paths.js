@@ -49,6 +49,7 @@ export const path = {
     api: {
       create: `tickets`,
       update: (id) => `tickets/${id}`,
+      changeStatus: (ticketId, statusId) => `tickets/${ticketId}/status/${statusId}`,
       getById: (id) => `tickets/${id}`,
       ticketStatuses: `ticket-statuses`,
       ticketPriorities: `ticket-priorities`,

@@ -15,6 +15,8 @@
         :status="col"
         :tickets="ticketsByColumn[col.statusId] || []"
         @select-ticket="openTicketDetails"
+        @change-status="handleChangeStatus"
+        @refresh-tickets="boardStore.fetchBoardData"
       />
     </div>
     <TicketFormModal
@@ -50,7 +52,7 @@ const fetch = useTicketMetadata()
 
 const { open, toggleModalTicket, openCreateTicketModal, clearFieldError, forms, errors } = modal
 
-const { handleNewTicket, loading } = useTicketActions(modal, fetch)
+const { handleNewTicket, handleChangeStatus, loading } = useTicketActions(modal, fetch)
 
 const { statuses, priorities, assignees } = fetch
 
