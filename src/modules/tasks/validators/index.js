@@ -9,7 +9,8 @@ import { notBlank, required, size } from '@/shared/validators/rules.js'
 
 export const validateEditTicket = (form) => {
   const errors = {}
-  required(form.title, TICKET_MESSAGE.TITLE_REQUIRED) ||
+  errors.title =
+    required(form.title, TICKET_MESSAGE.TITLE_REQUIRED) ||
     notBlank(form.title, TICKET_MESSAGE.TITLE_BLANK) ||
     size(form.title, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH, TICKET_MESSAGE.TITLE_SIZE)
   errors.description =
@@ -31,7 +32,8 @@ export const validateEditTicket = (form) => {
 
 export const validateCreateTicket = (form) => {
   const errors = {}
-  required(form.title, TICKET_MESSAGE.TITLE_REQUIRED) ||
+  errors.title =
+    required(form.title, TICKET_MESSAGE.TITLE_REQUIRED) ||
     notBlank(form.title, TICKET_MESSAGE.TITLE_BLANK) ||
     size(form.title, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH, TICKET_MESSAGE.TITLE_SIZE)
   errors.description =
