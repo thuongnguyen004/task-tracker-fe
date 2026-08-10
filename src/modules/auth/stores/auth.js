@@ -33,7 +33,11 @@ export const useAuthStore = defineStore('auth', () => {
 
       return response
     } catch (err) {
-      const message = err.response?.data?.message || err.message || 'Login failed'
+      const status = err.response?.status
+      const message =
+        status === 400 || status === 401 || status === 403
+          ? 'Email or password is incorrect'
+          : err.response?.data?.message || err.message || 'Login failed'
 
       toast.error(message)
 
