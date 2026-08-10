@@ -24,7 +24,7 @@
               :disabled="loading"
               class="py-2 px-3 rounded-xl border-2 text-md bg-input w-full"
               :class="errors.email ? 'border-red-500' : 'border-border'"
-              @blur="validateField('email')"
+              @input="validateField('email')"
             />
             <span v-if="errors.email" class="text-red-500 text-xs">{{ errors.email }}</span>
           </div>
@@ -38,7 +38,7 @@
               :disabled="loading"
               class="py-2 px-3 rounded-xl border-2 text-md bg-input w-full"
               :class="errors.password ? 'border-red-500' : 'border-border'"
-              @blur="validateField('password')"
+              @input="validateField('password')"
             />
             <span v-if="errors.password" class="text-red-500 text-xs">{{ errors.password }}</span>
           </div>
@@ -121,11 +121,7 @@ const handleLogin = async () => {
       password: form.password,
     })
     router.push({ name: path.task.board.name })
-  } catch (error) {
-    const message = error?.response?.data?.message || 'Login failed'
-    if (message.toLowerCase().includes('password') || message.toLowerCase().includes('email')) {
-      errors.password = message
-    }
+  } catch {
   } finally {
     loading.value = false
   }
