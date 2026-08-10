@@ -50,7 +50,7 @@
     <div class="border-border w-full border-t"></div>
 
     <div class="space-y-3">
-      <BaseButton @click="emit('open-modal', ticket)"> Edit </BaseButton>
+      <BaseButton @click="emit('open-modal', ticket)"> Edit Ticket</BaseButton>
 
       <BaseButton variant="tertiary"> Archive Ticket </BaseButton>
     </div>
