@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { BaseButton, UserAvatar } from '@/shared/ui/component'
+import { BaseButton, UserAvatar } from '@/shared/ui/components'
 import { ArrowLeft } from '@lucide/vue'
 import { UserProfile } from '../components'
 import { useRouter } from 'vue-router'
