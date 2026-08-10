@@ -38,10 +38,10 @@
               :disabled="loading"
               class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
               :class="errors.fullName ? 'border-red-500' : 'border-border'"
-              @input="onFullNameInput"
               @keydown="onFullNameKeydown"
-              @paste="onFullNamePaste"
-            />
+              @blur="onFullNameBlur"
+              />
+
             <span v-if="errors.fullName" class="text-xs text-red-500">{{ errors.fullName }}</span>
           </div>
 
@@ -123,9 +123,8 @@ const {
   form,
   handleRegister,
   loading,
-  onFullNameInput,
+  onFullNameBlur,
   onFullNameKeydown,
-  onFullNamePaste,
   path,
   validateField,
 } = useRegister()

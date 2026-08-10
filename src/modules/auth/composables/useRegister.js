@@ -24,71 +24,47 @@ export function useRegister() {
     confirmPassword: '',
   })
 
+  // Format: viết hoa chữ cái đầu
   function formatFullName(value) {
     if (!value) return ''
 
-    const sanitized = value.replace(/[^\p{L} -]/gu, '')
-
-    return sanitized.replace(
-      /(^|[ -])(\p{L})/gu,
-      (_, separator, character) => separator + character.toLocaleUpperCase('vi-VN'),
+    // Viết hoa chữ cái đầu của mỗi từ
+    return value.replace(
+      /(^|\s)(\p{L})/gu,
+      (_, separator, character) => separator + character.toLocaleUpperCase('vi-VN')
     )
   }
 
-  function onFullNameInput(event) {
-    if (event.isComposing) return
-
-    const input = event.target
-    const originalValue = input.value
-    const cursorPosition = input.selectionStart ?? originalValue.length
-    const formattedValue = formatFullName(originalValue)
-    const nextCursorPosition = formatFullName(originalValue.slice(0, cursorPosition)).length
-
-    form.fullName = formattedValue
-    validateField('fullName')
-
-    nextTick(() => {
-      input.setSelectionRange(nextCursorPosition, nextCursorPosition)
-    })
-  }
-
+  // Ngăn space liên tiếp và space ở đầu
   function onFullNameKeydown(event) {
     if (event.key !== ' ') return
 
     const input = event.target
-    const start = input.selectionStart ?? 0
-    const end = input.selectionEnd ?? start
-    const before = input.value.slice(0, start)
-    const after = input.value.slice(end)
+    const value = input.value
+    const cursorPosition = input.selectionStart
 
-    if (!before || before.endsWith(' ') || after.startsWith(' ')) {
+    // Không cho space ở đầu
+    if (cursorPosition === 0) {
       event.preventDefault()
-    }
-  }
-
-  function onFullNamePaste(event) {
-    event.preventDefault()
-    const pastedText = event.clipboardData?.getData('text') ?? ''
-
-    if (/[^\p{L} -]/u.test(pastedText)) {
-      errors.fullName = 'Full name can only contain letters and hyphens (-)'
       return
     }
 
-    const input = event.target
-    const start = input.selectionStart ?? 0
-    const end = input.selectionEnd ?? start
-    const before = form.fullName.slice(0, start)
-    const after = form.fullName.slice(end)
-    const nextValue = formatFullName(before + pastedText + after)
-    const nextCursorPosition = formatFullName(before + pastedText).length
+    // Không cho 2 space liên tiếp
+    const charBeforeCursor = value[cursorPosition - 1]
+    if (charBeforeCursor === ' ') {
+      event.preventDefault()
+      return
+    }
+  }
 
-    form.fullName = nextValue
+  // Format và validate fullName khi blur
+  function onFullNameBlur() {
+    // Xóa space thừa ở cuối (nếu có)
+    form.fullName = form.fullName.trimEnd()
+    // Format viết hoa chữ cái đầu
+    form.fullName = formatFullName(form.fullName)
+    // Validate
     validateField('fullName')
-
-    nextTick(() => {
-      input.setSelectionRange(nextCursorPosition, nextCursorPosition)
-    })
   }
 
   const validateField = (field) => {
@@ -97,10 +73,10 @@ export function useRegister() {
     if (field === 'fullName') {
       if (!form.fullName) {
         errors.fullName = 'This field is required'
-      } else if (form.fullName.length < 2 || form.fullName.length > 100) {
+      } else if (form.fullName.trim().length < 2 || form.fullName.trim().length > 100) {
         errors.fullName = 'Full name must be between 2 and 100 characters'
-      } else if (!/^[\p{L} -]+$/u.test(form.fullName)) {
-        errors.fullName = 'Full name can only contain letters and hyphens (-)'
+      } else if (!/^[a-zA-ZÀ-ỹ\s-]+$/u.test(form.fullName.trim())) {
+        errors.fullName = 'Full name can only contain letters, hyphens (-), and spaces'
       }
     }
 
@@ -189,9 +165,8 @@ export function useRegister() {
     form,
     handleRegister,
     loading,
-    onFullNameInput,
+    onFullNameBlur,
     onFullNameKeydown,
-    onFullNamePaste,
     path,
     validateField,
   }
