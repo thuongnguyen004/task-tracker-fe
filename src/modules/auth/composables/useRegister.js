@@ -1,8 +1,8 @@
 import { nextTick, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
-import { path } from '@/shared/constants/path.constants'
 import { register } from '../services'
+import { path } from '@/shared/constants/paths'
 
 export function useRegister() {
   const router = useRouter()
