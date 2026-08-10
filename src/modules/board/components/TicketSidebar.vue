@@ -4,11 +4,13 @@
 
     <div>
       <p class="text-tertiary-light mb-2 text-sm font-semibold">STATUS</p>
+
       <StatusBadge :status="ticket.status" />
     </div>
 
     <div>
       <p class="text-tertiary-light mb-2 text-sm font-semibold">PRIORITY</p>
+
       <PriorityBadge :priority="ticket.priority" class="text-sm!" />
     </div>
 
@@ -17,8 +19,10 @@
 
       <div v-if="ticket.assignee" class="flex items-center gap-2 text-sm">
         <UserAvatar :name="ticket.assignee" class="bg-primary!" />
+
         <span>{{ ticket.assignee }}</span>
       </div>
+
       <span v-else class="text-tertiary-light text-sm">Unassigned</span>
     </div>
 
@@ -27,6 +31,7 @@
 
       <div class="flex items-center gap-2 text-sm">
         <UserAvatar :name="ticket.createdBy || '-'" class="bg-primary!" />
+
         <span>{{ ticket.createdBy || '-' }}</span>
       </div>
     </div>
@@ -50,7 +55,7 @@
     <div class="border-border w-full border-t"></div>
 
     <div class="space-y-3">
-      <BaseButton @click="emit('open-modal', ticket)"> Edit </BaseButton>
+      <BaseButton @click="emit('open-modal', ticket)"> Edit Ticket</BaseButton>
 
       <BaseButton variant="tertiary"> Archive Ticket </BaseButton>
     </div>
@@ -59,10 +64,9 @@
 
 <script setup>
 import { formatDateTime } from '@/shared/utils'
-import BaseButton from '@/shared/ui/component/BaseButton.vue'
 import PriorityBadge from './PriorityBadge.vue'
 import StatusBadge from './StatusBadge.vue'
-import UserAvatar from '@/shared/ui/component/UserAvatar.vue'
+import { UserAvatar, BaseButton } from '@/shared/ui/components'
 
 defineProps({
   ticket: {
@@ -70,5 +74,6 @@ defineProps({
     default: () => ({}),
   },
 })
+
 const emit = defineEmits(['open-modal'])
 </script>

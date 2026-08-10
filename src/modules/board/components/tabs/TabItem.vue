@@ -5,6 +5,7 @@
     :class="buttonClass"
   >
     {{ title }}
+
     <span class="bg-quinary text-tertiary ml-1 rounded-full px-2 py-0.5 text-xs">
       {{ count }}
     </span>

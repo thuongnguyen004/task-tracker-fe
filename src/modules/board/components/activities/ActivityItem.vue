@@ -40,7 +40,7 @@
 <script setup>
 import { computed } from 'vue'
 import { PriorityBadge, StatusBadge } from '..'
-import { formatRelativeTime } from '@/shared/utils/datePrevious'
+import { formatRelativeTime } from '@/shared/utils'
 
 const props = defineProps({
   activity: {

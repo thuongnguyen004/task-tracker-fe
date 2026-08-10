@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { UserAvatar } from '@/shared/ui/component'
+import { UserAvatar } from '@/shared/ui/components'
 import { ExternalLink, LogOut } from '@lucide/vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores'

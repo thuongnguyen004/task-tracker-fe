@@ -48,7 +48,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { ActivityList, CommentList, TabItem, TicketDescription, TicketSidebar } from '../components/index.js'
 import TicketFormModal from '../components/TicketFormModal.vue'
-import { useModal, useTicketActions, useTicketMetadata } from '../composables'
+import { useModal, useTicketActions, useTicketMetadata } from '../composables/index.js'
 
 const route = useRoute()
 

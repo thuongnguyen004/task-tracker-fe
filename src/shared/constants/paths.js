@@ -28,6 +28,7 @@ export const path = {
       href: 'profile',
       name: 'profile',
     },
+
     api: {
       assignees: `assignees`,
       profile: '/auth/current-user',
@@ -46,6 +47,7 @@ export const path = {
       href: 'details-ticket/:id',
       name: 'details-ticket',
     },
+
     api: {
       create: `tickets`,
       update: (id) => `tickets/${id}`,

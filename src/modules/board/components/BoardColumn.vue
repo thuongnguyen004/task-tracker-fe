@@ -43,12 +43,13 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['select-ticket', 'change-status','refresh-tickets'])
+const emit = defineEmits(['select-ticket', 'change-status', 'refresh-tickets'])
 
 const localTickets = ref([...props.tickets])
 
 watch(
   () => props.tickets,
+
   (newTickets) => {
     localTickets.value = [...newTickets]
   },

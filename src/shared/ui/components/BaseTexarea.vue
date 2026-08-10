@@ -11,5 +11,6 @@ const model = defineModel({
   type: [String, Number],
   default: '',
 })
+
 const emit = defineEmits(['input'])
 </script>

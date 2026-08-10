@@ -52,7 +52,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { BaseButton, UserAvatar } from '@/shared/ui/component'
+import { BaseButton, UserAvatar } from '@/shared/ui/components'
 import { Plus, SlidersHorizontal } from '@lucide/vue'
 
 const props = defineProps({

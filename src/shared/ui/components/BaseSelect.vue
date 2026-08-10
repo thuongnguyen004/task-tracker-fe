@@ -6,6 +6,7 @@
           {{ selectedLabel }}
         </slot>
       </span>
+
       <span :class="arrowClasses">▼</span>
     </button>
 
@@ -117,6 +118,7 @@ const selectedOption = computed(() => {
   if (isEmpty(model.value)) {
     return null
   }
+
   return props.options.find((item) => item.value === model.value) || null
 })
 
@@ -124,6 +126,7 @@ const selectedLabel = computed(() => {
   if (isEmpty(model.value)) {
     return props.placeholder || 'Select...'
   }
+
   return selectedOption.value?.label || model.value
 })
 
@@ -131,6 +134,7 @@ const toggleOpen = () => {
   if (props.disabled) {
     return
   }
+
   isOpen.value = !isOpen.value
 }
 

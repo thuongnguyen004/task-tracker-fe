@@ -21,6 +21,7 @@
               props.errors.title
             }}</span>
           </div>
+
           <div class="flex flex-col gap-1">
             <BaseLabel for="description">Description</BaseLabel>
 
@@ -32,10 +33,11 @@
               @input="emit('clear-error', 'description')"
             />
 
-            <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
-              props.errors.description
-            }}</span>
+            <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal"
+              >{{ props.errors.description }}
+            </span>
           </div>
+
           <div class="grid grid-cols-2 gap-2">
             <div class="flex flex-col gap-1">
               <BaseLabel for="priority">Priority</BaseLabel>
@@ -49,17 +51,20 @@
               >
                 <template #trigger="{ selectedOption }">
                   <PriorityBadge v-if="selectedOption" :priority="selectedOption.label" />
+
                   <span v-else class="text-muted">Select Priority</span>
                 </template>
+
                 <template #option="{ option }">
                   <PriorityBadge :priority="option.label" />
                 </template>
               </BaseSelect>
 
-              <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
-                props.errors.priorityId
-              }}</span>
+              <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal"
+                >{{ props.errors.priorityId }}
+              </span>
             </div>
+
             <div class="flex flex-col gap-1">
               <BaseLabel for="status">Status</BaseLabel>
 
@@ -71,11 +76,13 @@
                 :disabled="props.disableStatus"
                 @change="emit('clear-error', 'statusId')"
               />
-              <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
-                props.errors.statusId
-              }}</span>
+
+              <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal"
+                >{{ props.errors.statusId }}
+              </span>
             </div>
           </div>
+
           <div class="flex flex-col gap-1">
             <BaseLabel for="assignee">Assignee</BaseLabel>
 
@@ -88,17 +95,17 @@
               @change="emit('clear-error', 'assigneeId')"
             />
 
-            <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
-              props.errors.assigneeId
-            }}</span>
+            <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal"
+              >{{ props.errors.assigneeId }}
+            </span>
           </div>
         </div>
       </DialogContent>
 
       <DialogFooter>
         <BaseButton @click="emit('close-modal')" variant="secondary" type="button"
-          >Cancel</BaseButton
-        >
+          >Cancel
+        </BaseButton>
 
         <BaseButton :disabled="loading" variant="primary">{{ props.buttonTitle }}</BaseButton>
       </DialogFooter>
@@ -113,13 +120,12 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-} from '@/shared/ui/component'
-import BaseInput from '@/shared/ui/component/BaseInput.vue'
-import BaseLabel from '@/shared/ui/component/BaseLabel.vue'
-import BaseSelect from '@/shared/ui/component/BaseSelect.vue'
-import BaseTexarea from '@/shared/ui/component/BaseTexarea.vue'
+} from '@/shared/ui/components/index.js'
+import BaseInput from '@/shared/ui/components/BaseInput.vue'
+import BaseLabel from '@/shared/ui/components/BaseLabel.vue'
+import BaseSelect from '@/shared/ui/components/BaseSelect.vue'
+import BaseTexarea from '@/shared/ui/components/BaseTexarea.vue'
 import PriorityBadge from './PriorityBadge.vue'
-import StatusBadge from './StatusBadge.vue'
 
 const props = defineProps({
   title: {
@@ -160,6 +166,7 @@ const open = defineModel('open', {
   type: Boolean,
   default: false,
 })
+
 const forms = defineModel('forms', {
   type: Object,
   default: () => {},

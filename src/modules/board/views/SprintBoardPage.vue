@@ -19,6 +19,7 @@
         @refresh-tickets="boardStore.fetchBoardData"
       />
     </div>
+
     <TicketFormModal
       title="Create New Ticket"
       buttonTitle="Create Ticket"

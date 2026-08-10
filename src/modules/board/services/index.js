@@ -66,7 +66,7 @@ const COLUMNS = [
   { id: 'done', name: 'DONE', statusId: 5, accentBg: 'bg-status-quinary' },
 ]
 
-export const getColumns = async () => {
+export const getColumns = () => {
   return COLUMNS
 }
 

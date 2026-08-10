@@ -2,8 +2,17 @@
   <div>
     <div class="space-y-6">
       <div class="space-y-1">
+        <BaseButton
+          variant="secondary"
+          class="h-10! w-10! rounded-full! p-0!"
+          @click="handleBackToBoard"
+        >
+          <ArrowLeft class="h-4 w-4" />
+        </BaseButton>
+
         <div class="flex gap-4">
           <p class="text-tertiary-light text-sm">TICKET-{{ ticket.id }}</p>
+
           <PriorityBadge :priority="ticket.priority" class="text-sm!" />
         </div>
 
@@ -32,10 +41,15 @@
     </div>
   </div>
 </template>
-
 <script setup>
+import { BaseButton } from '@/shared/ui/components'
 import PriorityBadge from './PriorityBadge.vue'
-import { formatRelativeTime } from '@/shared/utils/datePrevious.js'
+import { formatRelativeTime } from '@/shared/utils'
+import { ArrowLeft } from '@lucide/vue'
+import { useRouter } from 'vue-router'
+import { path } from '@/shared/constants/paths.js'
+
+const router = useRouter()
 
 defineProps({
   ticket: {
@@ -43,4 +57,8 @@ defineProps({
     default: () => ({}),
   },
 })
+
+const handleBackToBoard = () => {
+  router.push({ name: path.task.board.name })
+}
 </script>

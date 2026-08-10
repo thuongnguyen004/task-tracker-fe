@@ -19,7 +19,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { UserAvatar } from '@/shared/ui/component'
+import { UserAvatar } from '@/shared/ui/components/index.js'
 import PriorityBadge from './PriorityBadge.vue'
 
 const props = defineProps({

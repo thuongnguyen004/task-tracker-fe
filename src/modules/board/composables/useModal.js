@@ -30,15 +30,12 @@ export const useModal = () => {
   }
 
   const openCreateTicketModal = (statuses, priorities) => {
-
     toggleModalTicket()
 
-    forms.statusId =
-      statuses.find(item => item.label === 'To Do')?.value ?? ''
+    forms.statusId = statuses.find((item) => item.label === 'To Do')?.value ?? ''
 
-    forms.priorityId =
-      priorities.find(item => item.label === 'Medium')?.value ?? ''
-}
+    forms.priorityId = priorities.find((item) => item.label === 'Medium')?.value ?? ''
+  }
 
   const openModalEditTicket = (ticket) => {
     id.value = ticket.id
