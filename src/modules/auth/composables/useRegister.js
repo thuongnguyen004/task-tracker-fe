@@ -24,38 +24,23 @@ export function useRegister() {
     confirmPassword: '',
   })
 
-  function formatFullName(value) {
-    if (!value) return ''
-
-    return value.replace(
-      /(^|\s)(\p{L})/gu,
-      (_, separator, character) => separator + character.toLocaleUpperCase('vi-VN')
-    )
-  }
-
-  function onFullNameKeydown(event) {
-    if (event.key !== ' ') return
-
+  function onFullNameInput(event) {
     const input = event.target
-    const value = input.value
-    const cursorPosition = input.selectionStart
+    const oldValue = input.value
+    const cursorPos = input.selectionStart
 
-    if (cursorPosition === 0) {
-      event.preventDefault()
-      return
+    const newValue = oldValue
+      .replace(/^ +/, '')
+      .replace(/ {2,}/g, ' ')
+
+    if (newValue !== oldValue) {
+      const diff = oldValue.length - newValue.length
+      form.fullName = newValue
+      nextTick(() => {
+        const newPos = Math.max(0, cursorPos - diff)
+        input.setSelectionRange(newPos, newPos)
+      })
     }
-
-    const charBeforeCursor = value[cursorPosition - 1]
-    if (charBeforeCursor === ' ') {
-      event.preventDefault()
-      return
-    }
-  }
-
-  function onFullNameBlur() {
-    form.fullName = form.fullName.trimEnd()
-
-    form.fullName = formatFullName(form.fullName)
 
     validateField('fullName')
   }
@@ -158,8 +143,7 @@ export function useRegister() {
     form,
     handleRegister,
     loading,
-    onFullNameBlur,
-    onFullNameKeydown,
+    onFullNameInput,
     path,
     validateField,
   }
