@@ -6,16 +6,16 @@
       <div class="text-sm">
         <template v-if="activity.eventCode === 'ASSIGNEE_CHANGED'">
           <span>
-            {{ props.activity.performedByName }}
+            <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
             {{ activity.newValue ? ' changed assignee to ' : ' removed assignee' }}
-            {{ activity.newValue ?? '' }}
+            <span class="text-primary font-semibold">{{ activity.newValue ?? '' }}</span>
           </span>
         </template>
 
         <template v-else-if="valueComponent">
           <span>
-            {{ props.activity.performedByName }}
-            {{ activityLabel }}
+            <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
+            <span class="text-primary">{{ activityLabel }}</span>
           </span>
 
           <component :is="valueComponent.component" v-bind="valueComponent.oldProps" />
@@ -26,7 +26,8 @@
         </template>
 
         <template v-else>
-          {{ activityText }}
+          <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
+          <span class="text-primary">{{ activityText }}</span>
         </template>
       </div>
 
@@ -58,9 +59,11 @@ const valueComponent = computed(() => {
         component: StatusBadge,
         oldProps: {
           status: activity.oldValue,
+          dot: false,
         },
         newProps: {
           status: activity.newValue,
+          dot: false,
         },
       }
 
@@ -69,9 +72,11 @@ const valueComponent = computed(() => {
         component: PriorityBadge,
         oldProps: {
           priority: activity.oldValue,
+          dot: false,
         },
         newProps: {
           priority: activity.newValue,
+          dot: false,
         },
       }
 
@@ -83,10 +88,10 @@ const valueComponent = computed(() => {
 const activityLabel = computed(() => {
   switch (props.activity.eventCode) {
     case 'STATUS_CHANGED':
-      return 'changed status from'
+      return ' changed status from '
 
     case 'PRIORITY_CHANGED':
-      return 'changed priority from'
+      return ' changed priority from '
 
     default:
       return ''
@@ -98,19 +103,19 @@ const activityText = computed(() => {
 
   switch (activity.eventCode) {
     case 'TICKET_CREATED':
-      return `${activity.performedByName} created this ticket`
+      return ` created this ticket`
 
     case 'TICKET_ARCHIVED':
-      return `${activity.performedByName} archived this ticket`
+      return ` archived this ticket`
 
     case 'TITLE_CHANGED':
-      return `${activity.performedByName} changed the title`
+      return ` changed the title`
 
     case 'DESCRIPTION_CHANGED':
-      return `${activity.performedByName} changed the description`
+      return ` changed the description`
 
     case 'COMMENT_ADDED':
-      return `${activity.performedByName} added a comment`
+      return ` added a comment`
 
     default:
       return activity.eventName
