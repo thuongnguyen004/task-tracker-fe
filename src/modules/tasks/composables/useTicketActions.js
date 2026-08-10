@@ -1,5 +1,11 @@
 import { ref } from 'vue'
-import { changeStatusTicket, createTicket, getTicketById, updateTicket } from '../services'
+import {
+  changeStatusTicket,
+  createTicket,
+  getTicketActivitiesById,
+  getTicketById,
+  updateTicket,
+} from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
@@ -9,6 +15,8 @@ export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
 
   const ticketById = ref({})
+
+  const ticketActivities = ref([])
 
   const route = useRoute()
 
@@ -83,6 +91,7 @@ export const useTicketActions = (modal, fetch) => {
       }
       const response = await updateTicket(modal.id.value, payload)
       await getTicket()
+      await getTicketActivities()
       modal.open.value = false
       toast.success(response.message)
     } catch (error) {
@@ -114,12 +123,24 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
+  const getTicketActivities = async () => {
+    try {
+      const response = await getTicketActivitiesById(route.params.id)
+
+      ticketActivities.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     handleNewTicket,
     handleUpdateTicket,
     handleChangeStatus,
     getTicket,
+    getTicketActivities,
     ticketById,
+    ticketActivities,
     loading,
   }
 }
