@@ -24,18 +24,15 @@ export function useRegister() {
     confirmPassword: '',
   })
 
-  // Format: viết hoa chữ cái đầu
   function formatFullName(value) {
     if (!value) return ''
 
-    // Viết hoa chữ cái đầu của mỗi từ
     return value.replace(
       /(^|\s)(\p{L})/gu,
       (_, separator, character) => separator + character.toLocaleUpperCase('vi-VN')
     )
   }
 
-  // Ngăn space liên tiếp và space ở đầu
   function onFullNameKeydown(event) {
     if (event.key !== ' ') return
 
@@ -43,13 +40,11 @@ export function useRegister() {
     const value = input.value
     const cursorPosition = input.selectionStart
 
-    // Không cho space ở đầu
     if (cursorPosition === 0) {
       event.preventDefault()
       return
     }
 
-    // Không cho 2 space liên tiếp
     const charBeforeCursor = value[cursorPosition - 1]
     if (charBeforeCursor === ' ') {
       event.preventDefault()
@@ -57,13 +52,11 @@ export function useRegister() {
     }
   }
 
-  // Format và validate fullName khi blur
   function onFullNameBlur() {
-    // Xóa space thừa ở cuối (nếu có)
     form.fullName = form.fullName.trimEnd()
-    // Format viết hoa chữ cái đầu
+
     form.fullName = formatFullName(form.fullName)
-    // Validate
+
     validateField('fullName')
   }
 
