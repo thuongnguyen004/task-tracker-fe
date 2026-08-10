@@ -70,16 +70,7 @@
                 :options="statuses"
                 :disabled="props.disableStatus"
                 @change="emit('clear-error', 'statusId')"
-              >
-                <template #trigger="{ selectedOption }">
-                  <StatusBadge v-if="selectedOption" :status="selectedOption.label" />
-                  <span v-else class="text-muted">Select Status</span>
-                </template>
-                <template #option="{ option }">
-                  <StatusBadge :status="option.label" />
-                </template>
-              </BaseSelect>
-
+              />
               <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
                 props.errors.statusId
               }}</span>
