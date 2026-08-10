@@ -10,12 +10,8 @@
           <div class="flex flex-col gap-1">
             <BaseLabel for="title">Title <span class="text-danger">*</span></BaseLabel>
 
-            <BaseInput
-              id="title"
-              v-model="forms.title"
-              placeholder="Enter ticket title"
-              @input="emit('clear-error', 'title')"
-            />
+            <BaseInput id="title" v-model="forms.title" placeholder="Enter ticket title"
+              @input="emit('clear-error', 'title')" />
 
             <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
               props.errors.title
@@ -24,13 +20,8 @@
           <div class="flex flex-col gap-1">
             <BaseLabel for="description">Description</BaseLabel>
 
-            <BaseTexarea
-              id="description"
-              v-model="forms.description"
-              placeholder="Add a description (optional)"
-              rows="3"
-              @input="emit('clear-error', 'description')"
-            />
+            <BaseTexarea id="description" v-model="forms.description" placeholder="Add a description (optional)"
+              rows="3" @input="emit('clear-error', 'description')" />
 
             <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
               props.errors.description
@@ -40,13 +31,8 @@
             <div class="flex flex-col gap-1">
               <BaseLabel for="priority">Priority</BaseLabel>
 
-              <BaseSelect
-                id="priority"
-                v-model="forms.priorityId"
-                placeholder="Select Priority"
-                :options="priorities"
-                @change="emit('clear-error', 'priorityId')"
-              >
+              <BaseSelect id="priority" v-model="forms.priorityId" placeholder="Select Priority" :options="priorities"
+                @change="emit('clear-error', 'priorityId')">
                 <template #trigger="{ selectedOption }">
                   <PriorityBadge v-if="selectedOption" :priority="selectedOption.label" />
                   <span v-else class="text-muted">Select Priority</span>
@@ -63,21 +49,8 @@
             <div class="flex flex-col gap-1">
               <BaseLabel for="status">Status</BaseLabel>
 
-              <BaseSelect
-                id="status"
-                v-model="forms.statusId"
-                placeholder="Select Status"
-                :options="statuses"
-                :disabled="props.disableStatus"
-                @change="emit('clear-error', 'statusId')"
-              >
-                <template #trigger="{ selectedOption }">
-                  <StatusBadge v-if="selectedOption" :status="selectedOption.label" />
-                  <span v-else class="text-muted">Select Status</span>
-                </template>
-                <template #option="{ option }">
-                  <StatusBadge :status="option.label" />
-                </template>
+              <BaseSelect id="status" v-model="forms.statusId" placeholder="Select Status" :options="statuses"
+                :disabled="props.disableStatus" @change="emit('clear-error', 'statusId')">
               </BaseSelect>
 
               <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
@@ -88,14 +61,8 @@
           <div class="flex flex-col gap-1">
             <BaseLabel for="assignee">Assignee</BaseLabel>
 
-            <BaseSelect
-              id="assignee"
-              v-model="forms.assigneeId"
-              placeholder="Select Assignee"
-              has-none-option
-              :options="assignees"
-              @change="emit('clear-error', 'assigneeId')"
-            />
+            <BaseSelect id="assignee" v-model="forms.assigneeId" placeholder="Select Assignee" has-none-option
+              :options="assignees" @change="emit('clear-error', 'assigneeId')" />
 
             <span v-if="props.errors" class="text-danger text-xs leading-5 tracking-normal">{{
               props.errors.assigneeId
@@ -105,9 +72,7 @@
       </DialogContent>
 
       <DialogFooter>
-        <BaseButton @click="emit('close-modal')" variant="secondary" type="button"
-          >Cancel</BaseButton
-        >
+        <BaseButton @click="emit('close-modal')" variant="secondary" type="button">Cancel</BaseButton>
 
         <BaseButton :disabled="loading" variant="primary">{{ props.buttonTitle }}</BaseButton>
       </DialogFooter>
@@ -149,7 +114,7 @@ const props = defineProps({
   },
   errors: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
   buttonTitle: {
     type: String,
@@ -171,7 +136,7 @@ const open = defineModel('open', {
 })
 const forms = defineModel('forms', {
   type: Object,
-  default: () => {},
+  default: () => { },
 })
 
 const emit = defineEmits(['close-modal', 'handle-ticket', 'clear-error'])

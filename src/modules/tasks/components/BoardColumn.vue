@@ -12,13 +12,8 @@
 
     <div class="mb-2 h-1.5 w-full shrink-0 rounded-t-full" :class="props.status.accentBg" />
 
-    <draggableComponent
-      v-model="localTickets"
-      class="flex flex-1 flex-col gap-3 overflow-y-auto pr-1"
-      group="tickets"
-      item-key="id"
-      @change="handleChange"
-    >
+    <draggableComponent v-model="localTickets" class="flex flex-1 flex-col gap-3 overflow-y-auto pr-1" group="tickets"
+      item-key="id" @change="handleChange">
       <template #item="{ element: ticket }">
         <TicketCard :ticket="ticket" @select="emit('select-ticket', ticket.id)" />
       </template>
@@ -43,7 +38,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['select-ticket', 'change-status','refresh-tickets'])
+const emit = defineEmits(['select-ticket', 'change-status', 'refresh-tickets'])
 
 const localTickets = ref([...props.tickets])
 
