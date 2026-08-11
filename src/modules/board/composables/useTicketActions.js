@@ -1,5 +1,12 @@
 import { ref } from 'vue'
-import { changeStatusTicket, createTicket, getTicketById, updateTicket } from '../services'
+import {
+  changeStatusTicket,
+  createTicket,
+  getAllTicketArchives,
+  getTicketArchiveById,
+  getTicketById,
+  updateTicket,
+} from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
@@ -9,6 +16,10 @@ export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
 
   const ticketById = ref({})
+
+  const archiveTickets = ref({})
+
+  const archiveById = ref({})
 
   const route = useRoute()
 
@@ -114,6 +125,26 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
+  const getTicketArchives = async () => {
+    try {
+      const response = await getAllTicketArchives()
+
+      archiveTickets.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getArchiveById = async (id) => {
+    try {
+      const response = await getTicketArchiveById(id)
+
+      archiveById.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     handleNewTicket,
     handleUpdateTicket,
@@ -121,5 +152,9 @@ export const useTicketActions = (modal, fetch) => {
     getTicket,
     ticketById,
     loading,
+    getTicketArchives,
+    archiveTickets,
+    getArchiveById,
+    archiveById,
   }
 }

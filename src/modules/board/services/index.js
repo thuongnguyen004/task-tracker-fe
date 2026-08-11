@@ -37,6 +37,18 @@ export const getTicketStatuses = async () => {
   return response.data
 }
 
+export const getAllTicketArchives = async () => {
+  const response = await api.get(path.task.api.archiveList)
+
+  return response.data
+}
+
+export const getTicketArchiveById = async (id) => {
+  const response = await api.get(path.task.api.archiveById(id))
+
+  return response.data
+}
+
 const COLUMNS = [
   { id: 'todo', name: 'TO DO', statusId: 1, accentBg: 'bg-status-primary' },
   {

@@ -58,6 +58,8 @@ export const path = {
       list: '/tickets',
       listById: (id) => `/tickets/${id}`,
       columns: '/columns',
+      archiveList: `/tickets/archives`,
+      archiveById: (id) => `/tickets/archives/${id}`,
     },
   },
 }
