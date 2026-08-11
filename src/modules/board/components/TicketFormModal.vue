@@ -25,7 +25,7 @@
           <div class="flex flex-col gap-1">
             <BaseLabel for="description">Description</BaseLabel>
 
-            <BaseTexarea
+            <BaseTextarea
               id="description"
               v-model="forms.description"
               placeholder="Add a description (optional)"
@@ -108,7 +108,9 @@
           >Cancel
         </BaseButton>
 
-        <BaseButton :disabled="loading" variant="primary">{{ props.buttonTitle }}</BaseButton>
+        <BaseButton :disabled="loading" :loading="loading" variant="primary"
+          >{{ props.buttonTitle }}
+        </BaseButton>
       </DialogFooter>
     </form>
   </Dialog>
@@ -123,10 +125,7 @@ import {
   DialogFooter,
   DialogHeader,
 } from '@/shared/ui/components/index.js'
-import BaseInput from '@/shared/ui/components/BaseInput.vue'
-import BaseLabel from '@/shared/ui/components/BaseLabel.vue'
-import BaseSelect from '@/shared/ui/components/BaseSelect.vue'
-import BaseTexarea from '@/shared/ui/components/BaseTexarea.vue'
+import { BaseInput, BaseLabel, BaseSelect, BaseTextarea } from '@/shared/ui/components'
 import PriorityBadge from './PriorityBadge.vue'
 
 const props = defineProps({

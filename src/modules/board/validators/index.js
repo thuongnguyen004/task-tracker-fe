@@ -45,3 +45,12 @@ export const validateCreateTicket = (form) => {
   }
   return errors
 }
+
+export const validateComment = (content) => {
+  return (
+    required(content, 'Comment content is required.') ||
+    notBlank(content, 'Comment content cannot contain only spaces.') ||
+    size(content, 1, 2000, 'Comment must be under 2,000 characters') ||
+    null
+  )
+}
