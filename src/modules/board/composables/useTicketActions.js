@@ -20,6 +20,10 @@ export const useTicketActions = (modal, fetch) => {
 
   const route = useRoute()
 
+  const page = ref(0)
+  const size = ref(20)
+  const totalElements = ref(0)
+
   const handleNewTicket = async () => {
     try {
       loading.value = true
@@ -125,9 +129,11 @@ export const useTicketActions = (modal, fetch) => {
 
   const getTicketActivities = async () => {
     try {
-      const response = await getTicketActivitiesById(route.params.id)
+      const response = await getTicketActivitiesById(route.params.id, page.value, size.value)
 
-      ticketActivities.value = response.data
+      ticketActivities.value = response.data.data
+
+      totalElements.value = response.data.totalElements
     } catch (error) {
       console.error(error)
     }
@@ -141,6 +147,8 @@ export const useTicketActions = (modal, fetch) => {
     getTicketActivities,
     ticketById,
     ticketActivities,
+    totalElements,
+    size,
     loading,
   }
 }
