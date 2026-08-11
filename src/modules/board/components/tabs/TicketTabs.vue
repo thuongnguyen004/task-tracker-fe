@@ -3,7 +3,7 @@
     <TabItem
       title="Comments"
       tab="comments"
-      :count="comments.length"
+      :count="commentsCount"
       :active-tab="activeTab"
       @change="changeTab"
     />
@@ -18,7 +18,11 @@
   </div>
 
   <div class="mt-6">
-    <CommentList v-if="activeTab === 'comments'" />
+    <CommentList
+      v-if="activeTab === 'comments'"
+      :ticket-id="ticketId"
+      @update:count="handleCountUpdate"
+    />
 
     <ActivityList v-else />
   </div>
@@ -32,10 +36,12 @@ import ActivityList from '../activities/ActivityList.vue'
 
 const activeTab = ref('comments')
 
+const commentsCount = ref(0)
+
 defineProps({
-  comments: {
-    type: Array,
-    default: () => [],
+  ticketId: {
+    type: String,
+    default: '',
   },
   activities: {
     type: Array,
@@ -45,5 +51,9 @@ defineProps({
 
 const changeTab = (tab) => {
   activeTab.value = tab
+}
+
+const handleCountUpdate = (count) => {
+  commentsCount.value = count
 }
 </script>

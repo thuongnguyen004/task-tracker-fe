@@ -69,3 +69,27 @@ export const getTickets = async () => {
 
   return response.data.data
 }
+
+export const getComments = async (ticketId) => {
+  const response = await api.get(path.task.api.comments(ticketId))
+
+  return response.data
+}
+
+export const addComment = async (ticketId, payload) => {
+  const response = await api.post(path.task.api.comments(ticketId), payload)
+
+  return response.data
+}
+
+export const updateComment = async (ticketId, commentId, payload) => {
+  const response = await api.put(path.task.api.commentUpdate(ticketId, commentId), payload)
+
+  return response.data
+}
+
+export const deleteComment = async (ticketId, commentId) => {
+  const response = await api.delete(path.task.api.commentDelete(ticketId, commentId))
+
+  return response.data
+}
