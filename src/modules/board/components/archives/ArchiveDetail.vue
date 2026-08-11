@@ -3,7 +3,7 @@
     <!-- Header -->
     <DialogHeader class="px-5 py-3">
       <div class="flex w-full items-center justify-between">
-        <h2>Ticket - {{ archiveById.id }}</h2>
+        <h2>Ticket - {{ item.id }}</h2>
       </div>
     </DialogHeader>
 
@@ -27,7 +27,7 @@
           <!-- Title -->
 
           <h1 class="text-3xl font-semibold text-gray-800">
-            {{ archiveById.title }}
+            {{ item.title }}
           </h1>
 
           <!-- Description -->
@@ -67,15 +67,7 @@
 
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import {
-  AlignLeft,
-  Archive,
-  ChevronDown,
-  Image,
-  MessageSquare,
-  MoreHorizontal,
-  X,
-} from '@lucide/vue'
+import { AlignLeft, MessageSquare } from '@lucide/vue'
 
 import {
   Dialog,
@@ -87,7 +79,6 @@ import {
 import BaseButton from '@/shared/ui/components/BaseButton.vue'
 import BaseTexarea from '@/shared/ui/components/BaseTexarea.vue'
 import { useTicketActions } from '../../composables'
-import { useRoute } from 'vue-router'
 
 const open = defineModel({
   default: false,
@@ -100,14 +91,12 @@ const props = defineProps({
   },
 })
 
-const { getArchiveById, archiveById } = useTicketActions()
+const description = ref('')
 
 watch(
-  () => props.item?.id,
-  (id) => {
-    if (id) {
-      getArchiveById(id)
-    }
+  () => props.item?.description,
+  (value) => {
+    description.value = value ?? ''
   },
   { immediate: true },
 )

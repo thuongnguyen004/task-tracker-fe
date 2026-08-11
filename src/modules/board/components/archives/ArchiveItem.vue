@@ -3,7 +3,7 @@
     <div>
       <div
         class="flex cursor-pointer flex-col justify-between gap-3 rounded-xl border border-gray-200 bg-white p-3 shadow-xs transition-shadow hover:shadow-md"
-        @click="$emit('open-archive-details', ticket)"
+        @click="$emit('open-archive-details', ticket.id)"
       >
         <h3 class="text-primary text-sm font-semibold">{{ ticket.title }}</h3>
 

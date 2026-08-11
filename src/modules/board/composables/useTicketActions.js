@@ -17,7 +17,7 @@ export const useTicketActions = (modal, fetch) => {
 
   const ticketById = ref({})
 
-  const archiveTickets = ref({})
+  const archiveTickets = ref([])
 
   const archiveById = ref({})
 

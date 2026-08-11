@@ -9,7 +9,7 @@
       <ArchiveList @select="handleSelect" />
     </div>
 
-    <ArchiveDetail v-model="isArchiveDetailOpen" :item="selectedArchive" />
+    <ArchiveDetail v-model="isArchiveDetailOpen" :item="archiveById" />
   </div>
 </template>
 
@@ -18,16 +18,27 @@ import { ref } from 'vue'
 import ArchiveDetail from './ArchiveDetail.vue'
 import ArchiveHeader from './ArchiveHeader.vue'
 import ArchiveList from './ArchiveList.vue'
-import { useArchive } from '../../composables/useArchive.js'
+import { useTicketActions } from '../../composables/useTicketActions.js'
 
-const { isArchiveListOpen, handleSelect, isArchiveDetailOpen, selectedArchive } = useArchive()
+const isArchiveListOpen = ref(true)
+const isArchiveDetailOpen = ref(false)
+
+const { getArchiveById, archiveById } = useTicketActions()
 
 const emit = defineEmits(['back-menu'])
+
+const handleSelect = async (id) => {
+  await getArchiveById(id)
+
+  isArchiveListOpen.value = false
+  isArchiveDetailOpen.value = true
+}
 
 const handleArchiveHeaderAction = (action) => {
   if (action === 'back') {
     emit('back-menu')
   }
+
   if (action === 'close') {
     isArchiveListOpen.value = false
   }
