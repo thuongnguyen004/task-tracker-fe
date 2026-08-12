@@ -21,7 +21,7 @@
           </span>
         </div>
 
-        <div v-if="isOwnComment && !isEditing" class="flex items-center gap-3 text-xs">
+        <div v-if="isOwnComment && !isEditing && !ticketArchived" class="flex items-center gap-3 text-xs">
           <button
             class="text-tertiary hover:text-primary cursor-pointer font-medium transition-colors"
             @click="startEdit"
@@ -98,6 +98,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  ticketArchived: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const emit = defineEmits(['update', 'delete'])

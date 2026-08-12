@@ -32,7 +32,11 @@
           mode="out-in"
         >
           <div v-if="activeTab === 'comments'" key="comments" class="min-h-0 flex-1">
-            <CommentList :ticket-id="ticketById?.id" @update:count="handleCommentCountUpdate" />
+            <CommentList
+              :ticket-id="ticketById?.id"
+              :ticketById="ticketById"
+              @update:count="handleCommentCountUpdate"
+            />
           </div>
 
           <div v-else key="activities" class="min-h-0 flex-1 overflow-y-auto">
@@ -48,9 +52,12 @@
       </div>
     </div>
 
-    <div class="col-span-1">
-      <TicketSidebar @open-modal="openModalEditTicket" :ticket="ticketById" />
-    </div>
+    <TicketSidebar
+      @open-modal="openModalEditTicket"
+      @archive-ticket="handleArchiveTicket"
+      @restore-ticket="handleRestoreTicket"
+      :ticket="ticketById"
+    />
     <TicketFormModal
       title="Edit Ticket"
       buttonTitle="Update Ticket"
@@ -94,10 +101,18 @@ const modal = useModal()
 
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
 
-const { handleUpdateTicket, getTicket, ticketById, loading } = useTicketActions(modal)
-
 const { ticketActivities, getTicketActivities, handleLoadMoreActivity, showLoadMoreButton } =
   useTicketActivity()
+
+const {
+  handleUpdateTicket,
+  getTicket,
+  ticketById,
+  loading,
+  getArchiveById,
+  handleArchiveTicket,
+  handleRestoreTicket,
+} = useTicketActions(modal)
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
@@ -114,16 +129,18 @@ const handleCommentCountUpdate = (count) => {
 
 onMounted(() => {
   getTicket(route.params.id)
-  getTicketActivities()
+  if (route.query.archived === 'true') {
+    getArchiveById(route.params.id)
+  } else {
+    getTicket(route.params.id)
+  }
 })
 
 watch(
-  () => commentsCount.value,
-  (countActivity) => {
-    if (countActivity) {
-      getTicketActivities()
-    }
+  [() => commentsCount.value, () => ticketById.value?.archived, () => ticketById.value],
+  () => {
+    getTicketActivities()
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

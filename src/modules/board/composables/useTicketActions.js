@@ -1,8 +1,12 @@
 import { ref } from 'vue'
 import {
+  archiveTicketById,
   changeStatusTicket,
   createTicket,
+  getAllTicketArchives,
+  getTicketArchiveById,
   getTicketById,
+  restoreTicketById,
   updateTicket,
 } from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
@@ -14,6 +18,8 @@ export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
 
   const ticketById = ref({})
+
+  const archiveTickets = ref([])
 
   const route = useRoute()
 
@@ -119,6 +125,47 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
+  const getTicketArchives = async () => {
+    try {
+      const response = await getAllTicketArchives()
+
+      archiveTickets.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getArchiveById = async (id) => {
+    try {
+      const response = await getTicketArchiveById(id)
+
+      ticketById.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleArchiveTicket = async (id) => {
+    try {
+      await archiveTicketById(id)
+
+      ticketById.value.archived = true
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleRestoreTicket = async (id) => {
+    try {
+      await restoreTicketById(id)
+
+      if (ticketById.value?.id === id) {
+        ticketById.value.archived = false
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return {
     handleNewTicket,
     handleUpdateTicket,
@@ -126,5 +173,10 @@ export const useTicketActions = (modal, fetch) => {
     getTicket,
     ticketById,
     loading,
+    getTicketArchives,
+    archiveTickets,
+    getArchiveById,
+    handleArchiveTicket,
+    handleRestoreTicket,
   }
 }

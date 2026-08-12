@@ -44,6 +44,28 @@ export const getTicketActivitiesById = async (id, page, size) => {
       size,
     },
   })
+  return response.data
+}
+export const getAllTicketArchives = async () => {
+  const response = await api.get(path.task.api.archiveList)
+
+  return response.data
+}
+
+export const archiveTicketById = async (id) => {
+  const response = await api.patch(path.task.api.archivedTicket(id))
+
+  return response.data
+}
+
+export const restoreTicketById = async (id) => {
+  const response = await api.patch(path.task.api.restoreTicket(id))
+
+  return response.data
+}
+
+export const getTicketArchiveById = async (id) => {
+  const response = await api.get(path.task.api.archiveById(id))
 
   return response.data
 }

@@ -61,7 +61,11 @@ export const path = {
       list: '/tickets',
       listById: (id) => `/tickets/${id}`,
       columns: '/columns',
-      activities:(id) => `ticket-activities/${id}`
+      activities: (id) => `ticket-activities/${id}`,
+      archiveList: `/tickets/archives`,
+      archiveById: (id) => `/tickets/archives/${id}`,
+      archivedTicket: (id) => `/tickets/${id}/archive`,
+      restoreTicket: (id) => `/tickets/${id}/restore`,
     },
   },
 }
