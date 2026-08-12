@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { tokenStorage } from '@/shared/utils'
-import { path } from '@/shared/constants/path.constants'
+import { path } from '@/shared/constants/paths'
 
 const api = axios.create({
   baseURL: 'http://localhost:8080/api',

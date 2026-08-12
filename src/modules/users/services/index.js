@@ -1,3 +1,10 @@
+import api from '@/services/api'
+import { path } from '@/shared/constants/paths'
+
+export const getAssignees = async () => {
+  const response = await api.get(path.user.api.assignees)
+  return response.data
+}
 import { getCurrentUser } from '@/modules/auth/services'
 
 export const getUserProfile = async () => {

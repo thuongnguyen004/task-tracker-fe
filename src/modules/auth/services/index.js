@@ -1,5 +1,5 @@
 import api from '@/services/api'
-import { path } from '@/shared/constants/path.constants'
+import { path } from '@/shared/constants/paths'
 import { tokenStorage } from '@/shared/utils'
 
 export const login = async (loginPayload) => {

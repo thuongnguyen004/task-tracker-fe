@@ -1,7 +1,7 @@
 <template>
   <main>
-    <div class="min-h-screen bg-gradient-surface overflow-hidden">
-      <div class="flex justify-center items-center min-h-screen">
+    <div class="bg-gradient-surface min-h-screen overflow-hidden">
+      <div class="flex min-h-screen items-center justify-center">
         <RouterView v-slot="{ Component }">
           <Transition
             enter-active-class="transition-all duration-200 ease-out"

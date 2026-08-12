@@ -1,5 +1,7 @@
 <template>
-  <header class="flex items-center justify-between">
+  <header
+    class="bg-secondary border-border flex shrink-0 items-center justify-between border-b px-6 py-3"
+  >
     <div class="flex items-center gap-4">
       <span
         class="bg-primary text-secondary flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold"
@@ -13,7 +15,7 @@
     <div class="flex items-center gap-4">
       <div ref="userMenuRef" class="relative">
         <UserAvatar
-          :name="user.username"
+          :name="user.fullName"
           @click="handleUserMenuToggle"
           class="border border-transparent transition-all duration-200 hover:cursor-pointer hover:border-gray-300 hover:shadow-sm"
         />
@@ -25,7 +27,7 @@
 </template>
 
 <script setup>
-import { UserAvatar, UserMenu } from '@/shared/ui/component'
+import { UserAvatar, UserMenu } from '@/shared/ui/components'
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores'

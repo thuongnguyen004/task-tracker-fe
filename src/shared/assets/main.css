@@ -4,15 +4,17 @@
   --color-primary: #2d2a26;
   --color-secondary: #ffffff;
   --color-tertiary: #7f7a74;
+  --color-tertiary-light: #a9a39c;
   --color-quaternary: #bebab2;
   --color-quinary: #f5f0eb;
+  --color-danger: #fb2c36;
 
   --color-priority-primary: #16a34a;
   --color-priority-secondary: #2563eb;
   --color-priority-tertiary: #d97706;
   --color-priority-quaternary: #dc2626;
 
-  --color-status-primary: #d6d3cd;
+  --color-status-primary: #7f7a74;
   --color-status-secondary: #3b82f6;
   --color-status-tertiary: #f97316;
   --color-status-quaternary: #8b5cf6;

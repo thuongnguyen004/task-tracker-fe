@@ -1,8 +1,8 @@
 import { nextTick, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
-import { path } from '@/shared/constants/path.constants'
 import { register } from '../services'
+import { path } from '@/shared/constants/paths'
 
 export function useRegister() {
   const router = useRouter()
@@ -24,21 +24,26 @@ export function useRegister() {
     confirmPassword: '',
   })
 
+  function formatFullName(str) {
+    if (!str) return ''
+    const cleaned = str.replace(/^\s+/, '').replace(/\s{2,}/g, ' ')
+    return cleaned.replace(/(^|\s)(\p{L})/gu, (match, p1, p2) => p1 + p2.toUpperCase())
+  }
+
   function onFullNameInput(event) {
     const input = event.target
     const oldValue = input.value
     const cursorPos = input.selectionStart
 
-    const newValue = oldValue
-      .replace(/^ +/, '')
-      .replace(/ {2,}/g, ' ')
+    const newValue = formatFullName(oldValue)
+
+    form.fullName = newValue
 
     if (newValue !== oldValue) {
       const diff = oldValue.length - newValue.length
-      form.fullName = newValue
+      const targetPos = Math.max(0, cursorPos - diff)
       nextTick(() => {
-        const newPos = Math.max(0, cursorPos - diff)
-        input.setSelectionRange(newPos, newPos)
+        input.setSelectionRange(targetPos, targetPos)
       })
     }
 
@@ -104,6 +109,7 @@ export function useRegister() {
   }
 
   const handleRegister = async () => {
+    form.fullName = formatFullName(form.fullName).trim()
     if (!validateAll()) return
 
     loading.value = true

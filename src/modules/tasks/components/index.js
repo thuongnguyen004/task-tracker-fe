@@ -1,4 +1,0 @@
-export { default as TicketCard } from './TicketCard.vue'
-export { default as BoardColumn } from './BoardColumn.vue'
-export { default as BoardHeader } from './BoardHeader.vue'
-export { default as PriorityBadge } from './PriorityBadge.vue'
