@@ -8,11 +8,10 @@
         <TabItem
           title="Comments"
           tab="comments"
-          :count="0"
+          :count="commentsCount"
           :active-tab="activeTab"
           @change="changeTab"
         />
-
         <TabItem
           title="Activities"
           tab="activities"
@@ -32,16 +31,16 @@
           leave-to-class="opacity-0 scale-95"
           mode="out-in"
         >
-          <div v-if="activeTab === 'comments'" class="min-h-0 flex-1" key="comments">
-            <CommentList />
+          <div v-if="activeTab === 'comments'" key="comments" class="min-h-0 flex-1">
+            <CommentList :ticket-id="ticketById?.id" @update:count="handleCommentCountUpdate" />
           </div>
 
-          <div class="min-h-0 flex-1 overflow-y-auto" v-else>
+          <div v-else key="activities" class="min-h-0 flex-1 overflow-y-auto">
             <ActivityList :activities="ticketActivities" />
 
-            <div class="mx-auto mt-2 w-fit text-xs" v-if="showLoadMoreButton">
-              <BaseButton @click="handleLoadMoreAcitivity" variant="quaternary"
-                >Load more...
+            <div v-if="showLoadMoreButton" class="mx-auto mt-2 w-fit text-xs">
+              <BaseButton variant="quaternary" @click="handleLoadMoreActivity">
+                Load more...
               </BaseButton>
             </div>
           </div>
@@ -70,7 +69,8 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, watch } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import {
   ActivityList,
@@ -80,7 +80,12 @@ import {
   TicketSidebar,
 } from '../components/index.js'
 import TicketFormModal from '../components/TicketFormModal.vue'
-import { useModal, useTicketActions, useTicketMetadata } from '../composables/index.js'
+import {
+  useModal,
+  useTicketActions,
+  useTicketActivity,
+  useTicketMetadata,
+} from '../composables/index.js'
 import BaseButton from '@/shared/ui/components/BaseButton.vue'
 
 const route = useRoute()
@@ -89,40 +94,36 @@ const modal = useModal()
 
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
 
-const {
-  handleUpdateTicket,
-  getTicket,
-  getTicketActivities,
-  ticketById,
-  ticketActivities,
-  totalElements,
-  size,
-  loading,
-} = useTicketActions(modal)
+const { handleUpdateTicket, getTicket, ticketById, loading } = useTicketActions(modal)
+
+const { ticketActivities, getTicketActivities, handleLoadMoreActivity, showLoadMoreButton } =
+  useTicketActivity()
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
 const activeTab = ref('comments')
+const commentsCount = ref(0)
 
 const changeTab = (tab) => {
   activeTab.value = tab
 }
 
-const handleLoadMoreAcitivity = async () => {
-  try {
-    size.value += 20
-    getTicketActivities()
-  } catch (error) {
-    console.log(error)
-  }
+const handleCommentCountUpdate = (count) => {
+  commentsCount.value = count
 }
-
-const showLoadMoreButton = computed(() => {
-  return ticketActivities.value.length >= 20 && totalElements.value > ticketActivities.value.length
-})
 
 onMounted(() => {
   getTicket(route.params.id)
   getTicketActivities()
 })
+
+watch(
+  () => commentsCount.value,
+  (countActivity) => {
+    if (countActivity) {
+      getTicketActivities()
+    }
+  },
+  { immediate: true }
+)
 </script>

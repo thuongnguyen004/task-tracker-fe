@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import {
   changeStatusTicket,
   createTicket,
-  getTicketActivitiesById,
   getTicketById,
   updateTicket,
 } from '../services'
@@ -16,13 +15,7 @@ export const useTicketActions = (modal, fetch) => {
 
   const ticketById = ref({})
 
-  const ticketActivities = ref([])
-
   const route = useRoute()
-
-  const page = ref(0)
-  const size = ref(20)
-  const totalElements = ref(0)
 
   const handleNewTicket = async () => {
     try {
@@ -95,7 +88,6 @@ export const useTicketActions = (modal, fetch) => {
       }
       const response = await updateTicket(modal.id.value, payload)
       await getTicket()
-      await getTicketActivities()
       modal.open.value = false
       toast.success(response.message)
     } catch (error) {
@@ -127,28 +119,12 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
-  const getTicketActivities = async () => {
-    try {
-      const response = await getTicketActivitiesById(route.params.id, page.value, size.value)
-
-      ticketActivities.value = response.data.data
-
-      totalElements.value = response.data.totalElements
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return {
     handleNewTicket,
     handleUpdateTicket,
     handleChangeStatus,
     getTicket,
-    getTicketActivities,
     ticketById,
-    ticketActivities,
-    totalElements,
-    size,
     loading,
   }
 }

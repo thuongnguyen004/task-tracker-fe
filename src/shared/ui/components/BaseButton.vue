@@ -1,7 +1,7 @@
 <template>
-  <button :disabled="disabled" :class="buttonClasses">
-    <LoaderCircle :class="checkLoading" v-if="disabled" />
-    
+  <button :disabled="disabled || loading" :class="buttonClasses">
+    <LoaderCircle class="h-4 w-4 animate-spin" v-if="loading" />
+
     <slot />
   </button>
 </template>
@@ -12,7 +12,6 @@ import { computed } from 'vue'
 
 const props = defineProps({
   disabled: { type: Boolean, default: false },
-  default: false,
   variant: {
     type: String,
     default: 'primary',
@@ -35,11 +34,7 @@ const buttonClasses = computed(() => {
   return [
     'flex gap-2 items-center justify-center transition-transform duration-200 font-medium text-md rounded-xl hover:scale-95 active:scale-75 disabled:bg-gray-300 w-full',
     variantClass[props.variant],
-    props.disabled && 'opacity-50 cursor-not-allowed',
+    (props.disabled || props.loading) && 'opacity-50 cursor-not-allowed',
   ]
-})
-
-const checkLoading = computed(() => {
-  return props.loading ? 'animate-spin' : ''
 })
 </script>
