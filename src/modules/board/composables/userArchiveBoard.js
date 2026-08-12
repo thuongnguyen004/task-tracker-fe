@@ -33,9 +33,6 @@ export const useArchiveBoard = () => {
       params: {
         id,
       },
-      query: {
-        archived: 'true',
-      },
     })
   }
 

@@ -54,10 +54,6 @@ const {
 const { statuses, priorities, assignees } = useTicketMetadata()
 
 onMounted(() => {
-  if (route.query.archived === 'true') {
-    getArchiveById(route.params.id)
-  } else {
-    getTicket(route.params.id)
-  }
+  getTicket(route.params.id)
 })
 </script>
