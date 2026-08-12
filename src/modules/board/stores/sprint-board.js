@@ -14,15 +14,18 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
   const unassigned = ref(false)
 
   const priorityAliasMap = {
-    1: 'low', low: 'low',
-    2: 'medium', medium: 'medium',
-    3: 'high', high: 'high',
-    4: 'critical', critical: 'critical'
+    1: 'low',
+    low: 'low',
+    2: 'medium',
+    medium: 'medium',
+    3: 'high',
+    high: 'high',
+    4: 'critical',
+    critical: 'critical',
   }
 
   const filteredTickets = computed(() => {
     return tickets.value.filter((t) => {
-      // 1. Search keyword (partial match, case-insensitive)
       if (search.value && search.value.trim() !== '') {
         const query = search.value.trim().toLowerCase()
         const titleMatch = t.title ? t.title.toLowerCase().includes(query) : false
@@ -32,7 +35,6 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
         }
       }
 
-      // 2. Assignee filter (single-select, includes 'UNASSIGNED')
       if (unassigned.value || selectedAssigneeId.value === 'UNASSIGNED') {
         if (t.assigneeId != null || (t.assignee != null && t.assignee !== '')) {
           return false
@@ -40,16 +42,25 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
       } else if (selectedAssigneeId.value !== null && selectedAssigneeId.value !== '') {
         const sel = String(selectedAssigneeId.value)
         const matchId = t.assigneeId != null && String(t.assigneeId) === sel
-        const matchObjId = t.assignee && typeof t.assignee === 'object' && t.assignee.id != null && String(t.assignee.id) === sel
-        const matchObjName = t.assignee && typeof t.assignee === 'object' && (t.assignee.name === sel || t.assignee.username === sel)
-        const matchStrName = t.assignee && typeof t.assignee === 'string' && t.assignee.toLowerCase() === sel.toLowerCase()
+        const matchObjId =
+          t.assignee &&
+          typeof t.assignee === 'object' &&
+          t.assignee.id != null &&
+          String(t.assignee.id) === sel
+        const matchObjName =
+          t.assignee &&
+          typeof t.assignee === 'object' &&
+          (t.assignee.name === sel || t.assignee.username === sel)
+        const matchStrName =
+          t.assignee &&
+          typeof t.assignee === 'string' &&
+          t.assignee.toLowerCase() === sel.toLowerCase()
 
         if (!matchId && !matchObjId && !matchObjName && !matchStrName) {
           return false
         }
       }
 
-      // 3. Priority filter (multi-select: Low / Medium / High / Critical)
       if (selectedPriorityIds.value && selectedPriorityIds.value.length > 0) {
         const matchPriority = selectedPriorityIds.value.some((pVal) => {
           if (t.priorityId != null && String(t.priorityId) === String(pVal)) return true
@@ -57,7 +68,11 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
             const tP = String(t.priority).toLowerCase()
             const selP = String(pVal).toLowerCase()
             if (tP === selP) return true
-            if (priorityAliasMap[tP] === priorityAliasMap[selP] && priorityAliasMap[tP] !== undefined) return true
+            if (
+              priorityAliasMap[tP] === priorityAliasMap[selP] &&
+              priorityAliasMap[tP] !== undefined
+            )
+              return true
           }
           return false
         })
@@ -75,14 +90,15 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
       (search.value && search.value.trim() !== '') ||
       (selectedPriorityIds.value && selectedPriorityIds.value.length > 0) ||
       (selectedAssigneeId.value !== null && selectedAssigneeId.value !== '') ||
-      unassigned.value
-    )
+      unassigned.value,
+    ),
   )
 
   const activeFiltersCount = computed(() => {
     let count = 0
     if (search.value && search.value.trim() !== '') count++
-    if (selectedPriorityIds.value && selectedPriorityIds.value.length > 0) count += selectedPriorityIds.value.length
+    if (selectedPriorityIds.value && selectedPriorityIds.value.length > 0)
+      count += selectedPriorityIds.value.length
     if (selectedAssigneeId.value !== null && selectedAssigneeId.value !== '') count++
     if (unassigned.value && selectedAssigneeId.value !== 'UNASSIGNED') count++
     return count
@@ -105,9 +121,7 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     }
   }
 
-  const applyFilters = async () => {
-    // In-memory filtering via filteredTickets computed property
-  }
+  const applyFilters = async () => {}
 
   const clearFilters = () => {
     search.value = ''

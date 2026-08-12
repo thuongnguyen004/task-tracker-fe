@@ -9,16 +9,15 @@
       @open-modal="openCreateTicketModal(statuses, priorities)"
     />
 
-    <!-- Active Filter Summary Bar -->
     <div
       v-if="hasActiveFilters"
-      class="flex flex-wrap items-center gap-2 rounded-lg bg-blue-50/70 px-3.5 py-2 text-xs text-blue-900 border border-blue-100 shrink-0"
+      class="flex shrink-0 flex-wrap items-center gap-2 rounded-lg border border-blue-100 bg-blue-50/70 px-3.5 py-2 text-xs text-blue-900"
     >
       <span class="font-bold text-blue-900">Active Filters:</span>
 
       <span
         v-if="boardStore.search"
-        class="inline-flex items-center gap-1.5 rounded-md bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs border border-blue-200"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
       >
         Keyword: "{{ boardStore.search }}"
         <button type="button" @click="boardStore.search = ''" class="hover:text-blue-950">
@@ -28,30 +27,42 @@
 
       <span
         v-if="boardStore.unassigned || boardStore.selectedAssigneeId === 'UNASSIGNED'"
-        class="inline-flex items-center gap-1.5 rounded-md bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs border border-blue-200"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
       >
         Assignee: Unassigned
-        <button type="button" @click="boardStore.selectedAssigneeId = null; boardStore.unassigned = false" class="hover:text-blue-950">
+        <button
+          type="button"
+          @click="boardStore.selectedAssigneeId = null; boardStore.unassigned = false"
+          class="hover:text-blue-950"
+        >
           <X class="h-3 w-3" />
         </button>
       </span>
 
       <span
         v-else-if="boardStore.selectedAssigneeId"
-        class="inline-flex items-center gap-1.5 rounded-md bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs border border-blue-200"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
       >
         Assignee: {{ boardStore.selectedAssigneeId }}
-        <button type="button" @click="boardStore.selectedAssigneeId = null" class="hover:text-blue-950">
+        <button
+          type="button"
+          @click="boardStore.selectedAssigneeId = null"
+          class="hover:text-blue-950"
+        >
           <X class="h-3 w-3" />
         </button>
       </span>
 
       <span
         v-if="boardStore.selectedPriorityIds && boardStore.selectedPriorityIds.length > 0"
-        class="inline-flex items-center gap-1.5 rounded-md bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs border border-blue-200"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
       >
         Priority: {{ boardStore.selectedPriorityIds.join(', ') }}
-        <button type="button" @click="boardStore.selectedPriorityIds = []" class="hover:text-blue-950">
+        <button
+          type="button"
+          @click="boardStore.selectedPriorityIds = []"
+          class="hover:text-blue-950"
+        >
           <X class="h-3 w-3" />
         </button>
       </span>
@@ -65,32 +76,23 @@
       </button>
     </div>
 
-    <!-- Empty State when no tickets match active search/filters -->
     <div
       v-if="hasActiveFilters && totalActiveTickets === 0"
-      class="my-auto flex flex-1 flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50 p-12 text-center"
+      class="border-border bg-quinary/40 my-auto flex flex-1 flex-col items-center justify-center rounded-2xl border-2 border-dashed p-12 text-center"
     >
-      <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+      <div
+        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600"
+      >
         <SearchX class="h-8 w-8" />
       </div>
 
-      <h3 class="text-base font-bold text-gray-900">No tickets found</h3>
+      <h3 class="text-primary text-base font-bold">No tickets found</h3>
 
-      <p class="mt-1 max-w-sm text-xs text-gray-500">
+      <p class="text-tertiary mt-1 max-w-sm text-xs">
         No tickets match your search or filter criteria. Try clearing or adjusting your filters.
       </p>
-
-      <BaseButton
-        variant="secondary"
-        class="mt-5! h-9! w-auto! px-4! text-xs font-semibold"
-        @click="boardStore.clearFilters()"
-      >
-        <RotateCcw class="mr-1.5 h-3.5 w-3.5" />
-        Clear all search & filters
-      </BaseButton>
     </div>
 
-    <!-- Board Columns -->
     <div v-else class="flex flex-1 gap-4 overflow-x-auto overflow-y-hidden pb-2">
       <BoardColumn
         v-for="col in columns"
@@ -129,8 +131,7 @@ import { useModal, useTicketActions, useTicketMetadata } from '../composables'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { path } from '@/shared/constants/paths'
-import { BaseButton } from '@/shared/ui/components'
-import { SearchX, RotateCcw, X } from '@lucide/vue'
+import { SearchX, X } from '@lucide/vue'
 
 const modal = useModal()
 
