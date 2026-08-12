@@ -7,16 +7,6 @@
     >
       Restore
     </BaseButton>
-
-    <span class="bg-quaternary mx-4 h-1.5 w-1.5 scale-75 rounded-full"></span>
-
-    <BaseButton
-      variant="secondary"
-      class="hover:text-danger h-7! w-7! border-none! p-0! text-sm!"
-      @click="emit('delete-ticket', ticket.id)"
-    >
-      Delete
-    </BaseButton>
   </div>
 </template>
 
@@ -30,5 +20,5 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['restore-ticket', 'delete-ticket'])
+const emit = defineEmits(['restore-ticket'])
 </script>

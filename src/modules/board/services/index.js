@@ -55,12 +55,6 @@ export const restoreTicketById = async (id) => {
   return response.data
 }
 
-export const deleteTicket = async (id) => {
-  const response = await api.delete(path.task.api.delete(id))
-
-  return response.data
-}
-
 export const getTicketArchiveById = async (id) => {
   const response = await api.get(path.task.api.archiveById(id))
 

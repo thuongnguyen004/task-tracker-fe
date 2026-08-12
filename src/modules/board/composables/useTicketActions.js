@@ -3,7 +3,6 @@ import {
   archiveTicketById,
   changeStatusTicket,
   createTicket,
-  deleteTicket,
   getAllTicketArchives,
   getTicketArchiveById,
   getTicketById,
@@ -162,24 +161,13 @@ export const useTicketActions = (modal, fetch) => {
     try {
       await restoreTicketById(id)
 
-      ticketById.value.archived = false
+      if (ticketById.value?.id === id) {
+        ticketById.value.archived = false
+      }
     } catch (error) {
       console.error(error)
     }
   }
-
-  const handleDeleteTicket = async (id) => {
-    try {
-      await deleteTicket(id)
-
-      router.push({
-        name: path.task.board.name,
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return {
     handleNewTicket,
     handleUpdateTicket,
@@ -192,6 +180,5 @@ export const useTicketActions = (modal, fetch) => {
     getArchiveById,
     handleArchiveTicket,
     handleRestoreTicket,
-    handleDeleteTicket,
   }
 }

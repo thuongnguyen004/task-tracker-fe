@@ -9,7 +9,6 @@
       @open-modal="openModalEditTicket"
       @archive-ticket="handleArchiveTicket"
       @restore-ticket="handleRestoreTicket"
-      @delete-ticket="handleDeleteTicket"
       :ticket="ticketById"
     />
     <TicketFormModal
@@ -50,7 +49,6 @@ const {
   getArchiveById,
   handleArchiveTicket,
   handleRestoreTicket,
-  handleDeleteTicket,
 } = useTicketActions(modal)
 
 const { statuses, priorities, assignees } = useTicketMetadata()

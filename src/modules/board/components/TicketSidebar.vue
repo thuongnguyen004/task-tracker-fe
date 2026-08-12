@@ -18,7 +18,7 @@
       <p class="text-tertiary-light mb-2 text-sm font-semibold">ASSIGNEE</p>
 
       <div v-if="ticket.assignee" class="flex items-center gap-2 text-sm">
-        <UserAvatar :name="ticket.assignee" class="bg-primary!" />
+        <UserAvatar :name="ticket.assignee" />
 
         <span>{{ ticket.assignee }}</span>
       </div>
@@ -30,7 +30,7 @@
       <p class="text-tertiary-light mb-2 text-sm font-semibold">CREATED BY</p>
 
       <div class="flex items-center gap-2 text-sm">
-        <UserAvatar :name="ticket.createdBy || '-'" class="bg-primary!" />
+        <UserAvatar :name="ticket.createdBy || '-'" />
 
         <span>{{ ticket.createdBy || '-' }}</span>
       </div>
@@ -64,10 +64,6 @@
       </template>
       <template v-else>
         <BaseButton @click="emit('restore-ticket', ticket.id)"> Restore Ticket </BaseButton>
-
-        <BaseButton variant="tertiary" @click="emit('delete-ticket', ticket.id)">
-          Delete Ticket
-        </BaseButton>
       </template>
     </div>
   </div>
@@ -86,5 +82,5 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['open-modal', 'archive-ticket', 'restore-ticket', 'delete-ticket'])
+const emit = defineEmits(['open-modal', 'archive-ticket', 'restore-ticket'])
 </script>

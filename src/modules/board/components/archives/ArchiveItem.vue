@@ -12,11 +12,7 @@
           <span>Archived</span>
         </div>
       </div>
-      <ArchiveAction
-        @restore-ticket="handleRestoreTicket"
-        @delete-ticket="handleDeleteTicket"
-        :ticket="ticket"
-      />
+      <ArchiveAction @restore-ticket="$emit('restore-ticket', ticket.id)" />
     </div>
   </div>
 </template>
@@ -24,9 +20,6 @@
 <script setup>
 import { Archive } from '@lucide/vue'
 import ArchiveAction from './ArchiveAction.vue'
-import { useTicketActions } from '../../composables/useTicketActions.js'
-
-const { handleRestoreTicket, handleDeleteTicket } = useTicketActions()
 
 defineProps({
   ticket: {
@@ -35,5 +28,5 @@ defineProps({
   },
 })
 
-defineEmits(['open-archive-details'])
+defineEmits(['open-archive-details', 'restore-ticket'])
 </script>

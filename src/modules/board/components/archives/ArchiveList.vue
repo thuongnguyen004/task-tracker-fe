@@ -5,6 +5,7 @@
       :key="ticket.id"
       :ticket="ticket"
       @open-archive-details="$emit('select', $event)"
+      @restore-ticket="handleRestore"
     />
   </div>
 </template>
@@ -13,10 +14,25 @@
 import { onMounted } from 'vue'
 import { useTicketActions } from '../../composables/useTicketActions.js'
 import ArchiveItem from './ArchiveItem.vue'
+import { useSprintBoardStore } from '../../stores/sprint-board.js'
 
-const { getTicketArchives, archiveTickets } = useTicketActions()
+const { getTicketArchives, archiveTickets, handleRestoreTicket } = useTicketActions()
 
-defineEmits(['select'])
+const boardStore = useSprintBoardStore()
+
+const emit = defineEmits(['select'])
+
+const handleRestore = async (id) => {
+  try {
+    await handleRestoreTicket(id)
+
+    await getTicketArchives()
+
+    await boardStore.fetchBoardData()
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 onMounted(() => {
   getTicketArchives()
