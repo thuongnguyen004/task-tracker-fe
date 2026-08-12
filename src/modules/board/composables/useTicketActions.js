@@ -1,16 +1,20 @@
 import { ref } from 'vue'
 import {
+  archiveTicketById,
   changeStatusTicket,
   createTicket,
+  deleteTicket,
   getAllTicketArchives,
   getTicketArchiveById,
   getTicketById,
+  restoreTicketById,
   updateTicket,
 } from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { path } from '@/shared/constants/paths'
 
 export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
@@ -19,9 +23,8 @@ export const useTicketActions = (modal, fetch) => {
 
   const archiveTickets = ref([])
 
-  const archiveById = ref({})
-
   const route = useRoute()
+  const router = useRouter()
 
   const handleNewTicket = async () => {
     try {
@@ -139,7 +142,39 @@ export const useTicketActions = (modal, fetch) => {
     try {
       const response = await getTicketArchiveById(id)
 
-      archiveById.value = response.data
+      ticketById.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleArchiveTicket = async (id) => {
+    try {
+      await archiveTicketById(id)
+
+      ticketById.value.archived = true
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleRestoreTicket = async (id) => {
+    try {
+      await restoreTicketById(id)
+
+      ticketById.value.archived = false
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleDeleteTicket = async (id) => {
+    try {
+      await deleteTicket(id)
+
+      router.push({
+        name: path.task.board.name,
+      })
     } catch (error) {
       console.error(error)
     }
@@ -155,6 +190,8 @@ export const useTicketActions = (modal, fetch) => {
     getTicketArchives,
     archiveTickets,
     getArchiveById,
-    archiveById,
+    handleArchiveTicket,
+    handleRestoreTicket,
+    handleDeleteTicket,
   }
 }

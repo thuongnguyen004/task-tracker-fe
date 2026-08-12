@@ -12,7 +12,11 @@
           <span>Archived</span>
         </div>
       </div>
-      <ArchiveAction />
+      <ArchiveAction
+        @restore-ticket="handleRestoreTicket"
+        @delete-ticket="handleDeleteTicket"
+        :ticket="ticket"
+      />
     </div>
   </div>
 </template>
@@ -21,7 +25,8 @@
 import { Archive } from '@lucide/vue'
 import ArchiveAction from './ArchiveAction.vue'
 import { useTicketActions } from '../../composables/useTicketActions.js'
-import { onMounted } from 'vue'
+
+const { handleRestoreTicket, handleDeleteTicket } = useTicketActions()
 
 defineProps({
   ticket: {

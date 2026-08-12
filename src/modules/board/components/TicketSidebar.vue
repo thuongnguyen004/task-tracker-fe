@@ -55,9 +55,20 @@
     <div class="border-border w-full border-t"></div>
 
     <div class="space-y-3">
-      <BaseButton @click="emit('open-modal', ticket)"> Edit Ticket</BaseButton>
+      <template v-if="!ticket.archived">
+        <BaseButton @click="emit('open-modal', ticket)"> Edit Ticket</BaseButton>
 
-      <BaseButton variant="tertiary"> Archive Ticket </BaseButton>
+        <BaseButton variant="tertiary" @click="emit('archive-ticket', ticket.id)">
+          Archive Ticket
+        </BaseButton>
+      </template>
+      <template v-else>
+        <BaseButton @click="emit('restore-ticket', ticket.id)"> Restore Ticket </BaseButton>
+
+        <BaseButton variant="tertiary" @click="emit('delete-ticket', ticket.id)">
+          Delete Ticket
+        </BaseButton>
+      </template>
     </div>
   </div>
 </template>
@@ -75,5 +86,5 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['open-modal'])
+const emit = defineEmits(['open-modal', 'archive-ticket', 'restore-ticket', 'delete-ticket'])
 </script>

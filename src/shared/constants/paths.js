@@ -60,6 +60,9 @@ export const path = {
       columns: '/columns',
       archiveList: `/tickets/archives`,
       archiveById: (id) => `/tickets/archives/${id}`,
+      archivedTicket: (id) => `/tickets/${id}/archive`,
+      restoreTicket: (id) => `/tickets/${id}/restore`,
+      delete: (id) => `/tickets/${id}`,
     },
   },
 }

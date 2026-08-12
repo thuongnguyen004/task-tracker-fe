@@ -5,7 +5,13 @@
       <TicketTabs />
     </div>
 
-    <TicketSidebar @open-modal="openModalEditTicket" :ticket="ticketById" />
+    <TicketSidebar
+      @open-modal="openModalEditTicket"
+      @archive-ticket="handleArchiveTicket"
+      @restore-ticket="handleRestoreTicket"
+      @delete-ticket="handleDeleteTicket"
+      :ticket="ticketById"
+    />
     <TicketFormModal
       title="Edit Ticket"
       buttonTitle="Update Ticket"
@@ -36,11 +42,24 @@ const modal = useModal()
 
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
 
-const { handleUpdateTicket, getTicket, ticketById, loading } = useTicketActions(modal)
+const {
+  handleUpdateTicket,
+  getTicket,
+  ticketById,
+  loading,
+  getArchiveById,
+  handleArchiveTicket,
+  handleRestoreTicket,
+  handleDeleteTicket,
+} = useTicketActions(modal)
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
 onMounted(() => {
-  getTicket(route.params.id)
+  if (route.query.archived === 'true') {
+    getArchiveById(route.params.id)
+  } else {
+    getTicket(route.params.id)
+  }
 })
 </script>
