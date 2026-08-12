@@ -21,7 +21,7 @@
 
 <script setup>
 import { Search, X } from '@lucide/vue'
-import { useSprintBoardStore } from '../stores'
+import { useSprintBoardStore } from '../../stores'
 
 const boardStore = useSprintBoardStore()
 </script>

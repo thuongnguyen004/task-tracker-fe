@@ -61,7 +61,7 @@
 <script setup>
 import { computed } from 'vue'
 import { Check, RotateCcw } from '@lucide/vue'
-import { useSprintBoardStore } from '../stores'
+import { useSprintBoardStore } from '../../stores'
 
 const props = defineProps({
   assignees: {

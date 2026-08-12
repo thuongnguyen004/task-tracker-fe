@@ -30,9 +30,7 @@
 import { computed } from 'vue'
 import { Plus } from '@lucide/vue'
 import { BaseButton } from '@/shared/ui/components'
-import BoardSearchInput from './BoardSearchInput.vue'
-import BoardFilterButton from './BoardFilterButton.vue'
-import BoardMemberAvatars from './BoardMemberAvatars.vue'
+import { BoardSearchInput, BoardFilterButton, BoardMemberAvatars } from './filter'
 
 const props = defineProps({
   totalTickets: {

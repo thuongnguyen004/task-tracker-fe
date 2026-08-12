@@ -41,7 +41,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { SlidersHorizontal } from '@lucide/vue'
 import { BaseButton } from '@/shared/ui/components'
-import { useSprintBoardStore } from '../stores'
+import { useSprintBoardStore } from '../../stores'
 import BoardFilterPanel from './BoardFilterPanel.vue'
 
 const props = defineProps({
