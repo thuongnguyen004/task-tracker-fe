@@ -29,10 +29,9 @@
 </template>
 
 <script setup>
+import { BaseButton } from '@/shared/ui/components';
 import { Archive, X } from '@lucide/vue'
-import Dialog from '../dialog/Dialog.vue'
-import DialogHeader from '../dialog/DialogHeader.vue'
-import BaseButton from '../BaseButton.vue'
+
 
 defineEmits(['open-archive', 'close-archive-board'])
 </script>

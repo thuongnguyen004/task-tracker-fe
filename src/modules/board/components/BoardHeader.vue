@@ -78,9 +78,9 @@
 import { computed, ref } from 'vue'
 import { BaseButton, UserAvatar } from '@/shared/ui/components'
 import { Ellipsis, Plus, SlidersHorizontal } from '@lucide/vue'
-import BoardMenu from '@/shared/ui/components/menus/BoardMenu.vue'
 import ArchiveBoard from './archives/ArchiveBoard.vue'
 import { useArchiveBoard } from '../composables/index.js'
+import { BoardMenu } from './index.js'
 
 const {
   isBoardMenuOpen,

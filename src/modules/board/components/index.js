@@ -1,6 +1,7 @@
 export { default as TicketCard } from './TicketCard.vue'
 export { default as BoardColumn } from './BoardColumn.vue'
 export { default as BoardHeader } from './BoardHeader.vue'
+export { default as BoardMenu } from './BoardMenu.vue'
 export { default as PriorityBadge } from './PriorityBadge.vue'
 export { default as StatusBadge } from './StatusBadge.vue'
 export { default as TicketFormModal } from './TicketFormModal.vue'
