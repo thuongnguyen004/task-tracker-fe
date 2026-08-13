@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(npx vite build --mode development 2 >& 1)",
+      "Shell(npx vite build 2>&1)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}
