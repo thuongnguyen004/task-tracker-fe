@@ -1,1 +1,0 @@
-- Prefers custom CSS color variables defined in main.css (the @theme block) over raw Tailwind color utilities (e.g., blue-500, blue-600, text-white). When the custom palette lacks a needed color, the preference is to add a new CSS variable to main.css rather than fall back to a Tailwind color class. Confidence: 0.95

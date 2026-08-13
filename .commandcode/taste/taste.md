@@ -1,1 +1,0 @@
-- Prefers displaying human-readable names/labels over technical IDs in the UI (e.g., showing the assignee's name instead of their ID in the active filter bar). Confidence: 0.8
