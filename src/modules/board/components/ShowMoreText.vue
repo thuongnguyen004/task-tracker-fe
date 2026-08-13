@@ -13,9 +13,10 @@
     </button>
   </div>
 </template>
+
 <script setup>
 import { toRef } from 'vue'
-import { useShowMore } from '../composables';
+import { useShowMore } from '../composables/useShowMore'
 
 const props = defineProps({
   content: {
@@ -31,7 +32,9 @@ const props = defineProps({
     default: '',
   },
 })
+
 const content = toRef(props, 'content')
+
 const { isExpanded, shouldShowToggle, displayedContent, toggle } = useShowMore(
   content,
   props.maxLength,
