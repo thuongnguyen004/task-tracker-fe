@@ -1,35 +1,62 @@
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import authRoute from '@/modules/auth/routes/auth.route'
-import taskRoute from '@/modules/tasks/routes/task.route'
-import userRoute from '@/modules/users/routes/user.route'
-import { path } from '@/shared/constants/path.constants'
+import authRoute from '@/modules/auth/routes'
+import taskRoute from '@/modules/board/routes'
+import userRoute from '@/modules/users/routes'
+import { path } from '@/shared/constants/paths'
+import { tokenStorage } from '@/shared/utils'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(),
+
   routes: [
     {
       path: path.auth.href,
       redirect: path.auth.login.href,
+      meta: { guestOnly: true },
     },
+
     {
       path: path.auth.href,
       component: AuthLayout,
       children: authRoute,
+      meta: { requiresGuest: true },
     },
+
     {
       path: path.task.href,
       component: DefaultLayout,
       children: taskRoute,
+      meta: { requiresAuth: true },
     },
+
     {
       path: path.user.href,
       component: DefaultLayout,
       children: userRoute,
+      meta: { requiresAuth: true },
     },
-    
   ],
+})
+
+router.beforeEach((to) => {
+  const isAuthenticated = !!tokenStorage.get()
+
+  if (to.meta.guestOnly && isAuthenticated) {
+    return { name: path.task.board.name }
+  }
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return {
+      path: path.auth.login.href,
+      query: { redirect: to.fullPath },
+    }
+  }
+
+  if (to.matched.some((record) => record.meta.requiresGuest) && isAuthenticated) {
+    return { name: path.task.board.name }
+  }
 })
 
 export default router
