@@ -4,7 +4,6 @@ import {
   changeStatusTicket,
   createTicket,
   getAllTicketArchives,
-  getTicketArchiveById,
   getTicketById,
   restoreTicketById,
   updateTicket,
@@ -45,7 +44,6 @@ export const useTicketActions = (modal, fetch) => {
           null,
         assigneeId: modal.forms.assigneeId || null,
       }
-
       const response = await createTicket(payload)
 
       toast.success(response.message || 'Ticket created successfully')
@@ -92,14 +90,15 @@ export const useTicketActions = (modal, fetch) => {
         modal.open.value = false
         return
       }
+      await new Promise((resolve) => setTimeout(resolve, 3000))
       const response = await updateTicket(modal.id.value, payload)
       await getTicket()
-      modal.open.value = false
       toast.success(response.message)
     } catch (error) {
       toast.error(error.response?.data?.message)
     } finally {
       loading.value = false
+      modal.open.value = false
     }
   }
 
@@ -135,16 +134,6 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
-  const getArchiveById = async (id) => {
-    try {
-      const response = await getTicketArchiveById(id)
-
-      ticketById.value = response.data
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   const handleArchiveTicket = async (id) => {
     try {
       await archiveTicketById(id)
@@ -175,7 +164,6 @@ export const useTicketActions = (modal, fetch) => {
     loading,
     getTicketArchives,
     archiveTickets,
-    getArchiveById,
     handleArchiveTicket,
     handleRestoreTicket,
   }

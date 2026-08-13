@@ -8,7 +8,7 @@
       <ArrowLeft :size="20" />
     </BaseButton>
 
-    <h2 class="text-lg font-semibold text-gray-600">Archived items</h2>
+    <h2 class="text-lg font-semibold text-gray-600">{{ props.title }}</h2>
 
     <BaseButton
       variant="transparent"
@@ -23,6 +23,13 @@
 <script setup>
 import BaseButton from '@/shared/ui/components/BaseButton.vue'
 import { ArrowLeft, X } from '@lucide/vue'
+
+const props = defineProps({
+    title: {
+        type: String,
+        default: ""
+    }
+})
 
 defineEmits(['header-action'])
 </script>

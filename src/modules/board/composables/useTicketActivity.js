@@ -1,18 +1,38 @@
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getTicketActivitiesById } from '../services'
+import { getTicketActivities, getTicketActivitiesByTicketId } from '../services'
 
 export const useTicketActivity = () => {
   const route = useRoute()
+
+  const ticketActivitiesByTicket = ref([])
+  const pageByTicket = ref(0)
+  const sizeByTicket = ref(20)
+  const totalElementsByTicket = ref(0)
 
   const ticketActivities = ref([])
   const page = ref(0)
   const size = ref(20)
   const totalElements = ref(0)
 
-  const getTicketActivities = async () => {
+  const getTicketActivitiesByTicket = async () => {
     try {
-      const response = await getTicketActivitiesById(route.params.id, page.value, size.value)
+      const response = await getTicketActivitiesByTicketId(
+        route.params.id,
+        pageByTicket.value,
+        sizeByTicket.value,
+      )
+
+      ticketActivitiesByTicket.value = response.data.data
+      totalElementsByTicket.value = response.data.totalElements
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getAllTicketActivities = async () => {
+    try {
+      const response = await getTicketActivities(page.value, size.value)
 
       ticketActivities.value = response.data.data
       totalElements.value = response.data.totalElements
@@ -20,22 +40,36 @@ export const useTicketActivity = () => {
       console.error(error)
     }
   }
+  const handleLoadMoreActivityByTicket = async () => {
+    sizeByTicket.value += 20
+    await getTicketActivitiesByTicket()
+  }
 
   const handleLoadMoreActivity = async () => {
     size.value += 20
-    await getTicketActivities()
+    await getAllTicketActivities()
   }
 
-  const showLoadMoreButton = computed(() => {
-    return ticketActivities.value.length >= 20 && totalElements.value > ticketActivities.value.length
+  const showLoadMoreButtonByTicket = computed(() => {
+    return (
+      ticketActivitiesByTicket.value.length >= 20 && totalElementsByTicket.value > ticketActivitiesByTicket.value.length
+    )
+  })
+
+   const showLoadMoreButton = computed(() => {
+    return (
+      ticketActivities.value.length >= 20 && totalElements.value > ticketActivities.value.length
+    )
   })
 
   return {
+    ticketActivitiesByTicket,
     ticketActivities,
-    totalElements,
-    size,
-    getTicketActivities,
+    getTicketActivitiesByTicket,
+    getAllTicketActivities,
     handleLoadMoreActivity,
+    handleLoadMoreActivityByTicket,
     showLoadMoreButton,
+    showLoadMoreButtonByTicket
   }
 }

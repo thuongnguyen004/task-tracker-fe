@@ -58,9 +58,15 @@
       <template v-if="!ticket.archived">
         <BaseButton @click="emit('open-modal', ticket)"> Edit Ticket</BaseButton>
 
-        <BaseButton variant="tertiary" @click="emit('archive-ticket', ticket.id)">
-          Archive Ticket
-        </BaseButton>
+        <BaseButton variant="tertiary" @click="openArchiveConfirm"> Archive Ticket </BaseButton>
+
+        <ConfirmModal
+          v-model="showArchiveConfirm"
+          title="Confirm archive ticket."
+          message="Archive this ticket? It will be removed from the board."
+          @confirm="handleConfirmArchive"
+          @cancel="handleCancelArchive"
+        />
       </template>
       <template v-else>
         <BaseButton @click="emit('restore-ticket', ticket.id)"> Restore Ticket </BaseButton>
@@ -73,14 +79,35 @@
 import { formatDateTime } from '@/shared/utils'
 import PriorityBadge from './PriorityBadge.vue'
 import StatusBadge from './StatusBadge.vue'
-import { UserAvatar, BaseButton } from '@/shared/ui/components'
+import { UserAvatar, BaseButton, ConfirmModal } from '@/shared/ui/components'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { path } from '@/shared/constants/paths.js'
 
-defineProps({
+const router = useRouter()
+
+const props = defineProps({
   ticket: {
     type: Object,
     default: () => ({}),
   },
 })
+
+const showArchiveConfirm = ref(false)
+
+const openArchiveConfirm = () => {
+  showArchiveConfirm.value = true
+}
+
+const handleConfirmArchive = () => {
+  emit('archive-ticket', props.ticket.id)
+  showArchiveConfirm.value = false
+  router.push({ name: path.task.board.name })
+}
+
+const handleCancelArchive = () => {
+  showArchiveConfirm.value = false
+}
 
 const emit = defineEmits(['open-modal', 'archive-ticket', 'restore-ticket'])
 </script>

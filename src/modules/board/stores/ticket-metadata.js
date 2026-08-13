@@ -28,7 +28,7 @@ export const useTicketMetadataStore = defineStore('ticketMetadata', () => {
 
       assignees.value = assigneesResponse.data.map((item) => ({
         value: item.id,
-        label: item.username,
+        label: item.fullName,
       }))
     } catch (error) {
       console.error(error)

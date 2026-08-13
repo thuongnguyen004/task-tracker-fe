@@ -58,37 +58,46 @@
           </BaseButton>
         </div>
       </div>
-      <BoardMenu
-        v-if="isBoardMenuOpen"
-        class="absolute top-0 right-0 z-50"
-        @open-archive="handleArchiveOpen"
-        @close-archive-board="handleBoardMenuToggle"
-      />
+      <TransitionFadeScale
+        ><BoardMenu
+          v-if="isBoardMenuOpen"
+          class="absolute top-0 right-0 z-50"
+          @open-archive="handleArchiveOpen"
+          @open-global="handleActivityOpen"
+          @close-menu-board="handleBoardMenuToggle"
+      /></TransitionFadeScale>
 
-      <ArchiveBoard
-        v-if="isArchiveListOpen"
-        class="absolute top-0 right-0 z-50"
-        @back-menu="handleBackMenu"
-      />
+      <TransitionFadeScale
+        ><ArchiveBoard
+          v-if="isArchiveListOpen"
+          class="absolute top-0 right-0 z-50"
+          @back-menu="handleBackMenu"
+      /></TransitionFadeScale>
+
+      <TransitionFadeScale
+        ><ActivityGlobal
+          v-if="isActivityListOpen"
+          class="absolute top-0 right-0 z-50"
+          @back-menu="handleBackMenu"
+      /></TransitionFadeScale>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
-import { BaseButton, UserAvatar } from '@/shared/ui/components'
+import { BaseButton, TransitionFadeScale, UserAvatar } from '@/shared/ui/components'
 import { Ellipsis, Plus, SlidersHorizontal } from '@lucide/vue'
-import BoardMenu from '@/shared/ui/components/menus/BoardMenu.vue'
 import ArchiveBoard from './archives/ArchiveBoard.vue'
-import { useArchiveBoard } from '../composables/index.js'
+import { useArchiveBoard, useGlobalActivityBoard } from '../composables/index.js'
+import { ActivityGlobal, BoardMenu } from './index.js'
 
-const {
-  isBoardMenuOpen,
-  isArchiveListOpen,
-  handleBoardMenuToggle,
-  handleArchiveOpen,
-  handleBackMenu,
-} = useArchiveBoard()
+const isBoardMenuOpen = ref(false)
+
+const archiveBoard = useArchiveBoard(isBoardMenuOpen)
+const globalActivity = useGlobalActivityBoard(isBoardMenuOpen)
+const { isArchiveListOpen, handleArchiveOpen } = archiveBoard
+const { isActivityListOpen, handleActivityOpen } = globalActivity
 
 const props = defineProps({
   totalTickets: {
@@ -118,6 +127,27 @@ const props = defineProps({
 })
 
 defineEmits(['toggle-filters', 'create-ticket', 'open-modal'])
+
+const handleBoardMenuToggle = () => {
+  isBoardMenuOpen.value = !isBoardMenuOpen.value
+
+  if (isBoardMenuOpen.value) {
+    isArchiveListOpen.value = false
+  }
+  if (isActivityListOpen.value) {
+    isActivityListOpen.value = false
+  }
+}
+
+const handleBackMenu = () => {
+  isBoardMenuOpen.value = true
+  if (isArchiveListOpen.value) {
+    isArchiveListOpen.value = false
+  }
+  if (isActivityListOpen.value) {
+    isActivityListOpen.value = false
+  }
+}
 
 const displayedMembers = computed(() => {
   return props.teamMembers.slice(0, props.maxAvatars)

@@ -39,10 +39,10 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, provide } from 'vue'
 import { BoardHeader, BoardColumn, TicketFormModal } from '../components'
 import { useSprintBoardStore } from '../stores'
-import { useModal, useTicketActions, useTicketMetadata } from '../composables'
+import { useModal, useTicketActions, useTicketActivity, useTicketMetadata } from '../composables'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { path } from '@/shared/constants/paths'
@@ -54,6 +54,8 @@ const fetch = useTicketMetadata()
 const { open, toggleModalTicket, openCreateTicketModal, clearFieldError, forms, errors } = modal
 
 const { handleNewTicket, handleChangeStatus, loading } = useTicketActions(modal, fetch)
+
+const { getAllTicketActivities, ticketActivities, showLoadMoreButton, handleLoadMoreActivity } = useTicketActivity()
 
 const { statuses, priorities, assignees } = fetch
 
@@ -68,11 +70,16 @@ const teamMembers = [
   { name: 'Bao Mai' },
 ]
 
-onMounted(() => {
-  boardStore.fetchBoardData()
-})
-
 const openTicketDetails = (id) => {
   router.push({ name: path.task.details.name, params: { id } })
 }
+
+provide('ticketActivities', ticketActivities)
+provide('showLoadMoreButton', showLoadMoreButton)
+provide('handleLoadMoreActivity', handleLoadMoreActivity)
+
+onMounted(() => {
+  boardStore.fetchBoardData()
+  getAllTicketActivities()
+})
 </script>

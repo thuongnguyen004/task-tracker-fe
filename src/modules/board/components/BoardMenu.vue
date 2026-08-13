@@ -8,7 +8,7 @@
       <BaseButton
         variant="transparent"
         class="hover:bg-quinary absolute right-2 h-7! w-7! p-0!"
-        @click="$emit('close-archive-board')"
+        @click="$emit('close-menu-board')"
       >
         <X :size="20" />
       </BaseButton>
@@ -24,15 +24,21 @@
 
         <Archive :size="16" class="text-tertiary" />
       </button>
+      <button
+        class="hover:bg-quinary mt-1 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition"
+        @click="$emit('open-global')"
+      >
+        <span>Global activity</span>
+
+        <List :size="16" class="text-tertiary" />
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { Archive, X } from '@lucide/vue'
-import Dialog from '../dialog/Dialog.vue'
-import DialogHeader from '../dialog/DialogHeader.vue'
-import BaseButton from '../BaseButton.vue'
+import { BaseButton } from '@/shared/ui/components';
+import { Archive, List, X } from '@lucide/vue'
 
-defineEmits(['open-archive', 'close-archive-board'])
+defineEmits(['open-archive', 'open-global','close-menu-board'])
 </script>

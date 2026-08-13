@@ -2,21 +2,20 @@
   <div>
     <div
       v-if="isArchiveListOpen"
-      class="bg-secondary w-72 rounded-xl shadow-xl ring-1 ring-black/5"
+      class="bg-secondary w-lg rounded-xl shadow-xl ring-1 ring-black/5"
     >
-      <BoardMenuHeader @header-action="handleArchiveHeaderAction" title="Archived items"/>
+      <BoardMenuHeader @header-action="handleArchiveHeaderAction" title="Activity items"/>
 
-      <ArchiveList @select="handleSelect" />
+      <ActivityGlobalItems />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import ArchiveList from './ArchiveList.vue'
+
 import BoardMenuHeader from '../BoardMenuHeader.vue'
-import { useArchiveBoard } from '../../composables/useArchiveBoard.js'
-const { handleSelect } = useArchiveBoard()
+import { ActivityGlobalItems } from '../index.js'
 
 const isArchiveListOpen = ref(true)
 
