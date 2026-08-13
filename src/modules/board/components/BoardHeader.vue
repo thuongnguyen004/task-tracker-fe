@@ -70,16 +70,44 @@
         class="absolute top-0 right-0 z-50"
         @back-menu="handleBackMenu"
       />
+      <p class="text-tertiary mt-0.5 text-xs">
+        {{ totalTickets }} active tickets · {{ totalColumns }} columns
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <BaseButton
+        variant="primary"
+        class="h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap"
+        @click="$emit('open-modal')"
+      >
+        <Plus class="h-4 w-4" />
+
+        New Ticket
+      </BaseButton>
+
+      <BaseButton
+        variant="secondary"
+        class="h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap text-gray-700"
+        @click="$emit('toggle-filters')"
+      >
+        <SlidersHorizontal class="h-4 w-4 text-gray-500" />
+
+        Filters
+      </BaseButton>
+
+      <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
 import { BaseButton, UserAvatar } from '@/shared/ui/components'
 import { Ellipsis, Plus, SlidersHorizontal } from '@lucide/vue'
 import ArchiveBoard from './archives/ArchiveBoard.vue'
 import { useArchiveBoard } from '../composables/index.js'
+import BoardMembersAvatarList from './members/MembersAvatarList.vue'
+
 import { BoardMenu } from './index.js'
 
 const {
@@ -90,10 +118,9 @@ const {
   handleBackMenu,
 } = useArchiveBoard()
 
-const props = defineProps({
+defineProps({
   totalTickets: {
     type: Number,
-    default: 12,
   },
 
   totalColumns: {
@@ -103,12 +130,7 @@ const props = defineProps({
 
   teamMembers: {
     type: Array,
-    default: () => [
-      { name: 'Bun Tran' },
-      { name: 'Tinh Tran' },
-      { name: 'Thuong Nguyen' },
-      { name: 'Bao Mai' },
-    ],
+    default: () => [],
   },
 
   maxAvatars: {
@@ -118,12 +140,4 @@ const props = defineProps({
 })
 
 defineEmits(['toggle-filters', 'create-ticket', 'open-modal'])
-
-const displayedMembers = computed(() => {
-  return props.teamMembers.slice(0, props.maxAvatars)
-})
-
-const remainingCount = computed(() => {
-  return Math.max(0, props.teamMembers.length - props.maxAvatars)
-})
 </script>

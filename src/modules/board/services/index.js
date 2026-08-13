@@ -1,6 +1,14 @@
 import api from '@/services/api'
 import { path } from '@/shared/constants/paths'
 
+const STATUS_ACCENT_STYLES = [
+  { accentBg: 'bg-status-primary', columnBg: 'bg-status-primary/10' },
+  { accentBg: 'bg-status-secondary', columnBg: 'bg-status-secondary/10' },
+  { accentBg: 'bg-status-tertiary', columnBg: 'bg-status-tertiary/10' },
+  { accentBg: 'bg-status-quaternary', columnBg: 'bg-status-quaternary/10' },
+  { accentBg: 'bg-status-quinary', columnBg: 'bg-status-quinary/10' },
+]
+
 export const createTicket = async (payload) => {
   const response = await api.post(path.task.api.create, payload)
 
@@ -70,31 +78,19 @@ export const getTicketArchiveById = async (id) => {
   return response.data
 }
 
-const COLUMNS = [
-  { id: 'todo', name: 'TO DO', statusId: 1, accentBg: 'bg-status-primary' },
-  {
-    id: 'in_progress',
-    name: 'IN PROGRESS',
-    statusId: 2,
-    accentBg: 'bg-status-secondary',
-  },
-  {
-    id: 'code_review',
-    name: 'CODE REVIEW',
-    statusId: 3,
-    accentBg: 'bg-status-tertiary',
-  },
-  {
-    id: 'ready_for_qa',
-    name: 'READY FOR QA',
-    statusId: 4,
-    accentBg: 'bg-status-quaternary',
-  },
-  { id: 'done', name: 'DONE', statusId: 5, accentBg: 'bg-status-quinary' },
-]
+export const getColumns = async () => {
+  const response = await getTicketStatuses()
+  const statusesList = Array.isArray(response) ? response : response?.data || []
 
-export const getColumns = () => {
-  return COLUMNS
+  return statusesList.map((status, index) => {
+    const style = STATUS_ACCENT_STYLES[index % STATUS_ACCENT_STYLES.length]
+    return {
+      id: status.id,
+      name: (status.name || '').toUpperCase(),
+      accentBg: style.accentBg,
+      columnBg: style.columnBg,
+    }
+  })
 }
 
 export const getTickets = async () => {

@@ -4,7 +4,7 @@
       class="shrink-0"
       :total-tickets="totalActiveTickets"
       :total-columns="columns.length"
-      :team-members="teamMembers"
+      :team-members="assignees"
       @open-modal="openCreateTicketModal(statuses, priorities)"
     />
 
@@ -13,7 +13,7 @@
         v-for="col in columns"
         :key="col.id"
         :status="col"
-        :tickets="ticketsByColumn[col.statusId] || []"
+        :tickets="ticketsByColumn[col.id] || []"
         @select-ticket="openTicketDetails"
         @change-status="handleChangeStatus"
         @refresh-tickets="boardStore.fetchBoardData"
@@ -60,13 +60,6 @@ const { statuses, priorities, assignees } = fetch
 const boardStore = useSprintBoardStore()
 const router = useRouter()
 const { columns, ticketsByColumn, totalActiveTickets } = storeToRefs(boardStore)
-
-const teamMembers = [
-  { name: 'Bun Tran' },
-  { name: 'Tinh Tran' },
-  { name: 'Thuong Nguyen' },
-  { name: 'Bao Mai' },
-]
 
 onMounted(() => {
   boardStore.fetchBoardData()
