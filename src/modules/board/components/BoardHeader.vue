@@ -30,23 +30,7 @@
           Filters
         </BaseButton>
 
-        <div class="flex items-center -space-x-1.5">
-          <UserAvatar
-            v-for="member in displayedMembers"
-            :key="member.name"
-            :name="member.name"
-            size="sm"
-            class="ring-2 ring-white"
-          />
-
-          <span
-            v-if="remainingCount > 0"
-            class="bg-quinary text-tertiary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ring-2 ring-white select-none"
-            :title="`${remainingCount} more members`"
-          >
-            +{{ remainingCount }}
-          </span>
-        </div>
+        <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
 
         <div ref="userMenuRef" class="relative">
           <BaseButton
@@ -58,6 +42,7 @@
           </BaseButton>
         </div>
       </div>
+
       <BoardMenu
         v-if="isBoardMenuOpen"
         class="absolute top-0 right-0 z-50"
@@ -70,33 +55,6 @@
         class="absolute top-0 right-0 z-50"
         @back-menu="handleBackMenu"
       />
-      <p class="text-tertiary mt-0.5 text-xs">
-        {{ totalTickets }} active tickets · {{ totalColumns }} columns
-      </p>
-    </div>
-
-    <div class="flex items-center gap-3">
-      <BaseButton
-        variant="primary"
-        class="h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap"
-        @click="$emit('open-modal')"
-      >
-        <Plus class="h-4 w-4" />
-
-        New Ticket
-      </BaseButton>
-
-      <BaseButton
-        variant="secondary"
-        class="h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap text-gray-700"
-        @click="$emit('toggle-filters')"
-      >
-        <SlidersHorizontal class="h-4 w-4 text-gray-500" />
-
-        Filters
-      </BaseButton>
-
-      <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
     </div>
   </div>
 </template>

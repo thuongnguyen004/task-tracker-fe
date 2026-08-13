@@ -119,7 +119,7 @@ const valueComponent = computed(() => {
 const contentChange = computed(() => {
   const activity = props.activity
 
-  if (!['DESCRIPTION_CHANGED', 'COMMENT_CHANGED'].includes(activity.eventCode)) {
+  if (!['TITLE_CHANGED', 'DESCRIPTION_CHANGED', 'COMMENT_CHANGED'].includes(activity.eventCode)) {
     return null
   }
 
@@ -148,7 +148,14 @@ const assigneeChangeText = computed(() => {
 })
 
 const contentChangeLabel = computed(() => {
-  return contentChange.value?.eventCode === 'DESCRIPTION_CHANGED' ? 'description' : 'comment'
+  switch (contentChange.value?.eventCode) {
+    case 'TITLE_CHANGED':
+      return 'title'
+    case 'DESCRIPTION_CHANGED':
+      return 'description'
+    default:
+      return 'comment'
+  }
 })
 
 const activityText = computed(() => {
@@ -160,12 +167,6 @@ const activityText = computed(() => {
 
     case 'TICKET_ARCHIVED':
       return ' archived this ticket'
-
-    case 'TITLE_CHANGED':
-      return ' changed the title'
-
-    case 'COMMENT_ADDED':
-      return ' added a comment'
 
     default:
       return activity.eventName

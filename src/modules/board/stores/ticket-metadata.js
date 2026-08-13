@@ -31,6 +31,7 @@ export const useTicketMetadataStore = defineStore('ticketMetadata', () => {
         id: item.id,
         value: item.id,
         username: item.username,
+        fullName: item.fullName,
         label: item.fullName,
       }))
     } catch (error) {
