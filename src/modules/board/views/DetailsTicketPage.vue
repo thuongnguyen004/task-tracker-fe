@@ -28,6 +28,7 @@
               :ticket-id="ticketById?.id"
               :ticketById="ticketById"
               @update:count="handleCommentCountUpdate"
+              @comment-changed="handleCommentChanged"
             />
           </div>
 
@@ -110,6 +111,7 @@ const { statuses, priorities, assignees } = useTicketMetadata()
 
 const activeTab = ref('comments')
 const commentsCount = ref(0)
+const commentChanged = ref(0)
 
 const changeTab = (tab) => {
   activeTab.value = tab
@@ -119,12 +121,16 @@ const handleCommentCountUpdate = (count) => {
   commentsCount.value = count
 }
 
+const handleCommentChanged = () => {
+  commentChanged.value += 1
+}
+
 onMounted(() => {
   getTicket(route.params.id)
 })
 
 watch(
-  [() => commentsCount.value, () => ticketById.value?.archived, () => ticketById.value],
+  [() => commentChanged.value, () => ticketById.value?.archived, () => ticketById.value],
   () => {
     getTicketActivitiesByTicket()
   },

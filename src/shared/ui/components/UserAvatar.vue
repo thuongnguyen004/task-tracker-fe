@@ -1,5 +1,5 @@
 <template>
-  <span :class="avatarClasses">
+  <span :class="avatarClasses" :style="avatarStyle">
     {{ abbreviationName }}
   </span>
 </template>
@@ -25,6 +25,19 @@ const sizeClasses = {
   xl: 'h-16 w-16 text-xl',
 }
 
+const colorPalette = [
+  '#00875A',
+  '#0052CC',
+  '#DE350B',
+  '#00B8D9',
+  '#6554C0',
+  '#FF9900',
+  '#36B37E',
+  '#FF5630',
+  '#5243AA',
+  '#00A3BF',
+]
+
 const abbreviationName = computed(() => {
   if (!props.name || !String(props.name).trim()) return 'U'
 
@@ -37,9 +50,30 @@ const abbreviationName = computed(() => {
   return (words[0][0] + words[words.length - 1][0]).toUpperCase()
 })
 
+const getColorFromName = (name) => {
+  const str = String(name).trim()
+
+  let hash = 0
+
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  }
+
+  const index = Math.abs(hash) % colorPalette.length
+
+  return colorPalette[index]
+}
+
+const avatarStyle = computed(() => {
+  return {
+    backgroundColor: getColorFromName(props.name),
+    color: '#ffffff',
+  }
+})
+
 const avatarClasses = computed(() => {
   return [
-    'bg-tertiary text-secondary flex items-center justify-center rounded-full font-bold select-none shrink-0',
+    'flex items-center justify-center rounded-full aspect-square font-bold select-none shrink-0 shadow-xs',
     sizeClasses[props.size] || sizeClasses.md,
   ]
 })

@@ -14,7 +14,6 @@ export const validateEditTicket = (form) => {
     notBlank(form.title, TICKET_MESSAGE.TITLE_BLANK) ||
     size(form.title, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH, TICKET_MESSAGE.TITLE_SIZE)
   errors.description =
-    notBlank(form.description, TICKET_MESSAGE.DESCRIPTION_BLANK) ||
     size(
       form.description,
       DESCRIPTION_MIN_LENGTH,
@@ -37,7 +36,6 @@ export const validateCreateTicket = (form) => {
     notBlank(form.title, TICKET_MESSAGE.TITLE_BLANK) ||
     size(form.title, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH, TICKET_MESSAGE.TITLE_SIZE)
   errors.description =
-    notBlank(form.description, TICKET_MESSAGE.DESCRIPTION_BLANK) ||
     size(
       form.description,
       DESCRIPTION_MIN_LENGTH,

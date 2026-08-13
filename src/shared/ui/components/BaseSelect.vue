@@ -14,13 +14,6 @@
       v-if="isOpen"
       class="bg-card border-border absolute z-10 mt-1 max-h-30 w-full overflow-y-auto rounded-xl border shadow-lg"
     >
-      <div
-        v-if="placeholder && isEmpty(model)"
-        class="text-muted cursor-not-allowed px-3 py-2 text-sm opacity-60"
-      >
-        {{ placeholder }}
-      </div>
-
       <div v-if="hasNoneOption" :class="getOptionClasses(null)" @click="selectValue(null)">
         <slot name="option" :option="{ value: null, label: noneOptionLabel }">
           {{ noneOptionLabel }}
@@ -42,7 +35,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const model = defineModel({
   type: null,
@@ -75,6 +68,7 @@ const props = defineProps({
 })
 
 const isOpen = ref(false)
+const hasSelectedNone = ref(false)
 
 const isEmpty = (value) => value === null || value === undefined || value === ''
 
@@ -124,6 +118,10 @@ const selectedOption = computed(() => {
 
 const selectedLabel = computed(() => {
   if (isEmpty(model.value)) {
+    if (hasSelectedNone.value) {
+      return props.noneOptionLabel
+    }
+
     return props.placeholder || 'Select...'
   }
 
@@ -139,8 +137,15 @@ const toggleOpen = () => {
 }
 
 const selectValue = (value) => {
+  hasSelectedNone.value = value === null
   model.value = value
   isOpen.value = false
   emit('change', value)
 }
+
+watch(model, (value) => {
+  if (value === '' || value === undefined) {
+    hasSelectedNone.value = false
+  }
+})
 </script>

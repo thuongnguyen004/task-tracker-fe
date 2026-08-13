@@ -89,8 +89,9 @@
             <BaseSelect
               id="assignee"
               v-model="forms.assigneeId"
-              placeholder="Select Assignee"
+              :placeholder="assigneePlaceholder"
               has-none-option
+              none-option-label="Unassigned"
               :options="assignees"
               @change="emit('clear-error', 'assigneeId')"
             />
@@ -116,6 +117,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import {
   BaseButton,
   Dialog,
@@ -169,6 +171,10 @@ const open = defineModel('open', {
 const forms = defineModel('forms', {
   type: Object,
   default: () => {},
+})
+
+const assigneePlaceholder = computed(() => {
+  return props.title === 'Edit Ticket' ? 'Unassigned' : 'Select Assignee'
 })
 
 const emit = defineEmits(['close-modal', 'handle-ticket', 'clear-error'])

@@ -30,23 +30,7 @@
           Filters
         </BaseButton>
 
-        <div class="flex items-center -space-x-1.5">
-          <UserAvatar
-            v-for="member in displayedMembers"
-            :key="member.name"
-            :name="member.name"
-            size="sm"
-            class="ring-2 ring-white"
-          />
-
-          <span
-            v-if="remainingCount > 0"
-            class="bg-quinary text-tertiary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ring-2 ring-white select-none"
-            :title="`${remainingCount} more members`"
-          >
-            +{{ remainingCount }}
-          </span>
-        </div>
+        <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
 
         <div ref="userMenuRef" class="relative">
           <BaseButton
@@ -80,6 +64,12 @@
           class="absolute top-0 right-0 z-50"
           @back-menu="handleBackMenu"
       /></TransitionFadeScale>
+      <ArchiveBoard
+        v-if="isArchiveListOpen"
+        class="absolute top-0 right-0 z-50"
+        @back-menu="handleBackMenu"
+      />
+
     </div>
   </div>
 </template>
@@ -90,7 +80,7 @@ import { BaseButton, TransitionFadeScale, UserAvatar } from '@/shared/ui/compone
 import { Ellipsis, Plus, SlidersHorizontal } from '@lucide/vue'
 import ArchiveBoard from './archives/ArchiveBoard.vue'
 import { useArchiveBoard, useGlobalActivityBoard } from '../composables/index.js'
-import { ActivityGlobal, BoardMenu } from './index.js'
+import { ActivityGlobal, BoardMembersAvatarList, BoardMenu } from './index.js'
 
 const isBoardMenuOpen = ref(false)
 
@@ -99,10 +89,9 @@ const globalActivity = useGlobalActivityBoard(isBoardMenuOpen)
 const { isArchiveListOpen, handleArchiveOpen } = archiveBoard
 const { isActivityListOpen, handleActivityOpen } = globalActivity
 
-const props = defineProps({
+defineProps({
   totalTickets: {
     type: Number,
-    default: 12,
   },
 
   totalColumns: {
@@ -112,12 +101,7 @@ const props = defineProps({
 
   teamMembers: {
     type: Array,
-    default: () => [
-      { name: 'Bun Tran' },
-      { name: 'Tinh Tran' },
-      { name: 'Thuong Nguyen' },
-      { name: 'Bao Mai' },
-    ],
+    default: () => [],
   },
 
   maxAvatars: {

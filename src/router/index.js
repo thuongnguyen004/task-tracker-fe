@@ -14,12 +14,14 @@ const router = createRouter({
     {
       path: path.auth.href,
       redirect: path.auth.login.href,
+      meta: { guestOnly: true },
     },
 
     {
       path: path.auth.href,
       component: AuthLayout,
       children: authRoute,
+      meta: { requiresGuest: true },
     },
 
     {
@@ -41,8 +43,19 @@ const router = createRouter({
 router.beforeEach((to) => {
   const isAuthenticated = !!tokenStorage.get()
 
-  if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated) {
-    return { name: path.auth.login.name }
+  if (to.meta.guestOnly && isAuthenticated) {
+    return { name: path.task.board.name }
+  }
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return {
+      path: path.auth.login.href,
+      query: { redirect: to.fullPath },
+    }
+  }
+
+  if (to.matched.some((record) => record.meta.requiresGuest) && isAuthenticated) {
+    return { name: path.task.board.name }
   }
 })
 
