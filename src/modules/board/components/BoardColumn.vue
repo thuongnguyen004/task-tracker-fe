@@ -64,7 +64,7 @@ const handleChange = (event) => {
   if (event.added) {
     const ticket = event.added.element
 
-    emit('change-status', ticket.id, props.status.statusId)
+    emit('change-status', ticket.id, props.status.id)
   }
 }
 </script>

@@ -11,29 +11,29 @@
 
     <div
       v-if="hasActiveFilters"
-      class="flex shrink-0 flex-wrap items-center gap-2 rounded-lg border border-blue-100 bg-blue-50/70 px-3.5 py-2 text-xs text-blue-900"
+      class="flex shrink-0 flex-wrap items-center gap-2 rounded-lg border border-blue-muted bg-blue-subtle/70 px-3.5 py-2 text-xs text-blue-deep"
     >
-      <span class="font-bold text-blue-900">Active Filters:</span>
+      <span class="font-bold text-blue-deep">Active Filters:</span>
 
       <span
         v-if="boardStore.search"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
       >
         Keyword: "{{ boardStore.search }}"
-        <button type="button" @click="boardStore.search = ''" class="hover:text-blue-950">
+        <button type="button" @click="boardStore.search = ''" class="hover:text-blue-deepest">
           <X class="h-3 w-3" />
         </button>
       </span>
 
       <span
         v-if="boardStore.unassigned || boardStore.selectedAssigneeId === 'UNASSIGNED'"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
       >
         Assignee: Unassigned
         <button
           type="button"
           @click="boardStore.selectedAssigneeId = null; boardStore.unassigned = false"
-          class="hover:text-blue-950"
+          class="hover:text-blue-deepest"
         >
           <X class="h-3 w-3" />
         </button>
@@ -41,13 +41,13 @@
 
       <span
         v-else-if="boardStore.selectedAssigneeId"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
       >
-        Assignee: {{ boardStore.selectedAssigneeId }}
+        Assignee: {{ selectedAssigneeName }}
         <button
           type="button"
           @click="boardStore.selectedAssigneeId = null"
-          class="hover:text-blue-950"
+          class="hover:text-blue-deepest"
         >
           <X class="h-3 w-3" />
         </button>
@@ -55,13 +55,13 @@
 
       <span
         v-if="boardStore.selectedPriorityIds && boardStore.selectedPriorityIds.length > 0"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-800 shadow-xs"
+        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
       >
         Priority: {{ boardStore.selectedPriorityIds.join(', ') }}
         <button
           type="button"
           @click="boardStore.selectedPriorityIds = []"
-          class="hover:text-blue-950"
+          class="hover:text-blue-deepest"
         >
           <X class="h-3 w-3" />
         </button>
@@ -69,8 +69,8 @@
 
       <button
         type="button"
-        class="ml-auto text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline"
-        @click="boardStore.clearFilters()"
+        class="ml-auto text-xs font-semibold text-blue-foreground hover:text-blue-deep hover:underline"
+        @click="boardStore.clearAllFilter()"
       >
         Clear all
       </button>
@@ -81,7 +81,7 @@
       class="border-border bg-quinary/40 my-auto flex flex-1 flex-col items-center justify-center rounded-2xl border-2 border-dashed p-12 text-center"
     >
       <div
-        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600"
+        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-subtle text-blue"
       >
         <SearchX class="h-8 w-8" />
       </div>
@@ -124,7 +124,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { BoardHeader, BoardColumn, TicketFormModal } from '../components'
 import { useSprintBoardStore } from '../stores'
 import { useModal, useTicketActions, useTicketMetadata } from '../composables'
@@ -153,6 +153,19 @@ const teamMembers = [
   { name: 'Thuong Nguyen' },
   { name: 'Bao Mai' },
 ]
+
+const selectedAssigneeName = computed(() => {
+  const id = boardStore.selectedAssigneeId
+  if (!id) return ''
+
+  const assignee = assignees.value.find((a) => String(a.value) === String(id))
+  if (assignee) return assignee.label
+
+  const member = teamMembers.find((m) => m.name === id)
+  if (member) return member.name
+
+  return id
+})
 
 onMounted(() => {
   boardStore.fetchBoardData()

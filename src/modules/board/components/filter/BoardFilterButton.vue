@@ -3,17 +3,17 @@
     <BaseButton
       variant="secondary"
       class="h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap text-primary transition-colors"
-      :class="boardStore.hasActiveFilters ? 'border-blue-500 bg-blue-50 text-blue-700 font-bold' : ''"
+      :class="boardStore.hasActiveFilters ? 'border-blue bg-blue-subtle text-blue-foreground font-bold' : ''"
       @click="togglePopover"
     >
       <SlidersHorizontal
         class="h-4 w-4"
-        :class="boardStore.hasActiveFilters ? 'text-blue-600' : 'text-tertiary'"
+        :class="boardStore.hasActiveFilters ? 'text-blue' : 'text-tertiary'"
       />
       Filters
       <span
         v-if="boardStore.activeFiltersCount > 0"
-        class="ml-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-bold text-white"
+        class="ml-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-blue px-1 text-[10px] font-bold text-secondary"
       >
         {{ boardStore.activeFiltersCount }}
       </span>

@@ -5,7 +5,7 @@
       v-model="boardStore.search"
       type="text"
       placeholder="Search tickets..."
-      class="h-9 w-full rounded-lg border border-border bg-secondary pl-9 pr-8 text-xs text-primary placeholder-quaternary transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+      class="h-9 w-full rounded-lg border border-border bg-secondary pl-9 pr-8 text-xs text-primary placeholder-quaternary transition-colors focus:border-blue focus:outline-none focus:ring-1 focus:ring-blue"
     />
     <button
       v-if="boardStore.search"

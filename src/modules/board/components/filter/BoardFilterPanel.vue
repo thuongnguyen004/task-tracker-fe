@@ -5,11 +5,11 @@
       <button
         v-if="boardStore.hasActiveFilters"
         type="button"
-        class="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800"
+        class="text-blue hover:text-blue-hover flex items-center gap-1 text-xs font-medium"
         @click="boardStore.clearFilters()"
       >
         <RotateCcw class="h-3 w-3" />
-        Clear all
+        Clear filters
       </button>
     </div>
 
@@ -18,9 +18,9 @@
       <select
         :value="currentAssigneeValue"
         @change="handleAssigneeChange($event.target.value)"
-        class="border-border bg-secondary text-primary h-9 w-full rounded-lg border px-3 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+        class="border-border bg-secondary text-primary focus:border-blue focus:ring-blue h-9 w-full rounded-lg border px-3 text-xs focus:ring-1 focus:outline-none"
       >
-        <option value="">All Assignees</option>
+        <option value="">Select an assignee</option>
         <option value="UNASSIGNED">Unassigned (No Assignee)</option>
         <option
           v-for="assignee in props.assignees"
@@ -42,7 +42,7 @@
           class="flex items-center justify-between rounded-lg border px-3 py-2 text-xs font-medium transition-all"
           :class="
             isPrioritySelected(p.value)
-              ? 'border-blue-500 bg-blue-50 font-semibold text-blue-700 shadow-xs'
+              ? 'border-blue bg-blue-subtle text-blue-foreground font-semibold shadow-xs'
               : 'border-border bg-secondary text-primary hover:bg-quinary'
           "
           @click="togglePriority(p.value)"
@@ -51,7 +51,7 @@
             <span class="h-2 w-2 rounded-full" :class="p.dotClass" />
             {{ p.label }}
           </span>
-          <Check v-if="isPrioritySelected(p.value)" class="h-3.5 w-3.5 text-blue-600" />
+          <Check v-if="isPrioritySelected(p.value)" class="text-blue h-3.5 w-3.5" />
         </button>
       </div>
     </div>

@@ -124,6 +124,12 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
   const applyFilters = async () => {}
 
   const clearFilters = () => {
+    selectedPriorityIds.value = []
+    selectedAssigneeId.value = null
+    unassigned.value = false
+  }
+
+  const clearAllFilter = () => {
     search.value = ''
     selectedPriorityIds.value = []
     selectedAssigneeId.value = null
@@ -134,8 +140,8 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     const map = {}
 
     columns.value.forEach((col) => {
-      map[col.statusId] = filteredTickets.value.filter((t) => {
-        if (t.statusId != null && Number(t.statusId) === Number(col.statusId)) {
+      map[col.id] = filteredTickets.value.filter((t) => {
+        if (t.statusId != null && Number(t.statusId) === Number(col.id)) {
           return true
         }
 
@@ -173,6 +179,7 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
 
     applyFilters,
     clearFilters,
+    clearAllFilter,
 
     search,
     selectedPriorityIds,
