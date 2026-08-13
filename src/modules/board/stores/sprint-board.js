@@ -29,12 +29,16 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     const map = {}
 
     columns.value.forEach((col) => {
-      map[col.statusId] = tickets.value.filter((t) => {
-        if (t.statusId != null && Number(t.statusId) === Number(col.statusId)) {
-          return true
+      map[col.id] = tickets.value.filter((t) => {
+        if (t.statusId != null && Number(t.statusId) === Number(col.id)) {
+          return true 
         }
 
-        if (t.status) {
+        if (t.status != null) {
+          if (typeof t.status === 'object' && t.status.id != null) {
+            return Number(t.status.id) === Number(col.id)
+          }
+
           const ticketStatusStr = String(t.status)
             .toLowerCase()
             .replace(/[\s_-]+/g, '')

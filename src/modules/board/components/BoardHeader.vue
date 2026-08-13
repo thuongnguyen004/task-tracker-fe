@@ -29,36 +29,19 @@
         Filters
       </BaseButton>
 
-      <div class="flex items-center -space-x-1.5">
-        <UserAvatar
-          v-for="member in displayedMembers"
-          :key="member.name"
-          :name="member.name"
-          size="sm"
-          class="ring-2 ring-white"
-        />
-
-        <span
-          v-if="remainingCount > 0"
-          class="bg-quinary text-tertiary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ring-2 ring-white select-none"
-          :title="`${remainingCount} more members`"
-        >
-          +{{ remainingCount }}
-        </span>
-      </div>
+      <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { BaseButton, UserAvatar } from '@/shared/ui/components'
+import { BaseButton } from '@/shared/ui/components'
 import { Plus, SlidersHorizontal } from '@lucide/vue'
+import BoardMembersAvatarList from './members/MembersAvatarList.vue'
 
-const props = defineProps({
+defineProps({
   totalTickets: {
     type: Number,
-    default: 12,
   },
 
   totalColumns: {
@@ -68,12 +51,7 @@ const props = defineProps({
 
   teamMembers: {
     type: Array,
-    default: () => [
-      { name: 'Bun Tran' },
-      { name: 'Tinh Tran' },
-      { name: 'Thuong Nguyen' },
-      { name: 'Bao Mai' },
-    ],
+    default: () => [],
   },
 
   maxAvatars: {
@@ -83,12 +61,4 @@ const props = defineProps({
 })
 
 defineEmits(['toggle-filters', 'create-ticket', 'open-modal'])
-
-const displayedMembers = computed(() => {
-  return props.teamMembers.slice(0, props.maxAvatars)
-})
-
-const remainingCount = computed(() => {
-  return Math.max(0, props.teamMembers.length - props.maxAvatars)
-})
 </script>

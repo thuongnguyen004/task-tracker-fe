@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getTicketPriorities, getTicketStatuses } from '../services'
 import { getAssignees } from '@/modules/users/services'
+import { toast } from 'vue3-toastify'
 
 export const useTicketMetadataStore = defineStore('ticketMetadata', () => {
   const statuses = ref([])
@@ -27,11 +28,14 @@ export const useTicketMetadataStore = defineStore('ticketMetadata', () => {
       }))
 
       assignees.value = assigneesResponse.data.map((item) => ({
+        id: item.id,
         value: item.id,
-        label: item.username,
+        username: item.username,
+        fullName: item.fullName,
+        label: item.fullName,
       }))
     } catch (error) {
-      console.error(error)
+      toast.error(error.response?.data?.message || 'Failed to load ticket metadata')
     }
   }
 
