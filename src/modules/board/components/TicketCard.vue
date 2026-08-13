@@ -3,7 +3,7 @@
     class="flex cursor-pointer flex-col justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-xs transition-shadow hover:shadow-md"
     @click="$emit('select', ticket)"
   >
-    <h3 class="text-sm leading-snug font-semibold text-gray-800">
+    <h3 class="text-sm leading-snug font-semibold wrap-anywhere whitespace-pre-line text-gray-800">
       {{ ticket.title }}
     </h3>
 
