@@ -140,8 +140,8 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     const map = {}
 
     columns.value.forEach((col) => {
-      map[col.id] = filteredTickets.value.filter((t) => {
-        if (t.statusId != null && Number(t.statusId) === Number(col.id)) {
+      map[col.statusId] = filteredTickets.value.filter((t) => {
+        if (t.statusId != null && Number(t.statusId) === Number(col.statusId)) {
           return true
         }
 
