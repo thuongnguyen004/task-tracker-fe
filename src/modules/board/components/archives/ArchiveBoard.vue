@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="isArchiveListOpen"
-      class="bg-secondary w-72 rounded-xl shadow-xl ring-1 ring-black/5"
+      class="bg-secondary max-h-list flex min-h-0 w-72 flex-col overflow-auto rounded-xl shadow-xl ring-1 ring-black/5"
     >
       <ArchiveHeader @header-action="handleArchiveHeaderAction" />
 

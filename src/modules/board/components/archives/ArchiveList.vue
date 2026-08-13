@@ -1,5 +1,7 @@
 <template>
-  <div class="p-3">
+  <div v-if="loading">Loading...</div>
+
+  <div class="min-h-0 flex-1 space-y-3 overflow-y-auto p-3" v-else-if="archiveTickets.length">
     <ArchiveItem
       v-for="ticket in archiveTickets"
       :key="ticket.id"
@@ -7,6 +9,10 @@
       @open-archive-details="$emit('select', $event)"
       @restore-ticket="handleRestore"
     />
+  </div>
+
+  <div class="text-tertiary p-3 text-center" v-else>
+    <p>No archived tickets found.</p>
   </div>
 </template>
 

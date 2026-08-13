@@ -2,7 +2,7 @@
   <div
     class="bg-secondary w-72 shrink-0 space-y-3 rounded-xl px-4 py-4 shadow-xl ring-1 ring-black/5"
   >
-    <div class="relative flex items-center justify-center px-4 py-3">
+    <div class="relative flex items-center justify-center px-4">
       <h2 class="text-lg font-semibold text-gray-600">Board Menu</h2>
 
       <BaseButton
@@ -20,7 +20,7 @@
         class="hover:bg-quinary mt-1 flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition"
         @click="$emit('open-archive')"
       >
-        <span>Archive items</span>
+        <span>Archived items</span>
 
         <Archive :size="16" class="text-tertiary" />
       </button>
