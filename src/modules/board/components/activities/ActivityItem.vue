@@ -1,20 +1,61 @@
 <template>
-  <div class="border-border flex gap-4 border-b py-5">
-    <span class="bg-priority-tertiary mt-2 h-2 w-2 rounded-full"></span>
+  <div class="border-border flex min-w-0 gap-4 border-b py-5">
+    <UserAvatar :name="props.activity.performedByName" />
 
-    <div class="flex flex-col">
-      <div class="text-sm">
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div class="text-sm break-words whitespace-normal">
         <template v-if="activity.eventCode === 'ASSIGNEE_CHANGED'">
           <span>
             <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
-            {{ activity.newValue ? ' changed assignee to ' : ' removed assignee' }}
+
+            {{ assigneeChangeText }}
+
             <span class="text-primary font-semibold">{{ activity.newValue ?? '' }}</span>
           </span>
+        </template>
+
+        <template v-else-if="activity.eventCode === 'COMMENT_ADDED'">
+          <span class="text-primary font-semibold">{{ activity.performedByName }}</span>
+
+          <span class="text-primary"> added a comment:</span>
+
+          <ShowMoreText
+            :content="activity.newValue || activity.content || '-'"
+            content-class="text-primary mt-1 text-sm"
+          />
+        </template>
+
+        <template v-else-if="contentChange">
+          <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
+
+          <span class="text-primary">
+            changed the {{ contentChangeLabel }}
+          </span>
+
+          <div class="text-primary mt-2 space-y-1 text-sm">
+            <div>
+              <span class="font-medium">From:</span>
+
+              <ShowMoreText
+                :content="contentChange.oldValue || '-'"
+                content-class="text-primary"
+              />
+            </div>
+
+            <div>
+              <span class="font-medium">To:</span>
+              <ShowMoreText
+                :content="contentChange.newValue || '-'"
+                content-class="text-primary"
+              />
+            </div>
+          </div>
         </template>
 
         <template v-else-if="valueComponent">
           <span>
             <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
+
             <span class="text-primary">{{ activityLabel }}</span>
           </span>
 
@@ -27,6 +68,7 @@
 
         <template v-else>
           <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
+
           <span class="text-primary">{{ activityText }}</span>
         </template>
       </div>
@@ -40,8 +82,9 @@
 
 <script setup>
 import { computed } from 'vue'
-import { PriorityBadge, StatusBadge } from '..'
+import { PriorityBadge, ShowMoreText, StatusBadge } from '..'
 import { formatRelativeTime } from '@/shared/utils'
+import { UserAvatar } from '@/shared/ui/components'
 
 const props = defineProps({
   activity: {
@@ -57,31 +100,33 @@ const valueComponent = computed(() => {
     case 'STATUS_CHANGED':
       return {
         component: StatusBadge,
-        oldProps: {
-          status: activity.oldValue,
-          dot: false,
-        },
-        newProps: {
-          status: activity.newValue,
-          dot: false,
-        },
+        oldProps: { status: activity.oldValue, dot: false },
+        newProps: { status: activity.newValue, dot: false },
       }
 
     case 'PRIORITY_CHANGED':
       return {
         component: PriorityBadge,
-        oldProps: {
-          priority: activity.oldValue,
-          dot: false,
-        },
-        newProps: {
-          priority: activity.newValue,
-          dot: false,
-        },
+        oldProps: { priority: activity.oldValue, dot: false },
+        newProps: { priority: activity.newValue, dot: false },
       }
 
     default:
       return null
+  }
+})
+
+const contentChange = computed(() => {
+  const activity = props.activity
+
+  if (!['DESCRIPTION_CHANGED', 'COMMENT_CHANGED'].includes(activity.eventCode)) {
+    return null
+  }
+
+  return {
+    eventCode: activity.eventCode,
+    oldValue: activity.oldValue,
+    newValue: activity.newValue,
   }
 })
 
@@ -98,24 +143,29 @@ const activityLabel = computed(() => {
   }
 })
 
+const assigneeChangeText = computed(() => {
+  return props.activity.newValue ? ' changed assignee to ' : ' removed assignee'
+})
+
+const contentChangeLabel = computed(() => {
+  return contentChange.value?.eventCode === 'DESCRIPTION_CHANGED' ? 'description' : 'comment'
+})
+
 const activityText = computed(() => {
   const activity = props.activity
 
   switch (activity.eventCode) {
     case 'TICKET_CREATED':
-      return ` created this ticket`
+      return ' created this ticket'
 
     case 'TICKET_ARCHIVED':
-      return ` archived this ticket`
+      return ' archived this ticket'
 
     case 'TITLE_CHANGED':
-      return ` changed the title`
-
-    case 'DESCRIPTION_CHANGED':
-      return ` changed the description`
+      return ' changed the title'
 
     case 'COMMENT_ADDED':
-      return ` added a comment`
+      return ' added a comment'
 
     default:
       return activity.eventName

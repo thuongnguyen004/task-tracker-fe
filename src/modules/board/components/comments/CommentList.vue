@@ -52,7 +52,7 @@
         :time="formatRelativeTime(comment.updatedAt)"
         :edited="comment.edited"
         :ticketArchived="ticketById.archived"
-        @update="handleUpdateComment"
+        @update="handleCommentUpdate"
         @delete="openDeleteConfirmModal"
       />
     </div>
@@ -93,7 +93,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:count'])
+const emit = defineEmits(['update:count', 'comment-changed'])
 
 const ticketId = toRef(props, 'ticketId')
 
@@ -126,9 +126,16 @@ const canSubmit = computed(() => {
 const handleSubmit = async () => {
   const success = await handleAddComment()
 
+  emit('comment-changed')
+
   if (success) {
     isExpanded.value = false
   }
+}
+
+const handleCommentUpdate = async (commentId, newContent) => {
+  await handleUpdateComment(commentId, newContent)
+  emit('comment-changed')
 }
 
 const handleDiscard = () => {
