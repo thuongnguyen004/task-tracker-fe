@@ -2,7 +2,7 @@
   <div class="border-border flex gap-3 border-b py-2.5">
     <UserAvatar :name="author" />
 
-    <div class="flex-1 space-y-1">
+    <div class="min-w-0 flex-1 space-y-1">
       <div class="flex items-center justify-between text-sm">
         <div class="flex items-center gap-2">
           <span class="text-primary font-bold">
@@ -47,7 +47,7 @@
 
         <div class="flex justify-end gap-2">
           <BaseButton variant="secondary" class="w-auto! px-3! py-1! text-xs!" @click="cancelEdit">
-            Discard
+            Discard Changes
           </BaseButton>
 
           <BaseButton
@@ -61,9 +61,12 @@
         </div>
       </div>
 
-      <p v-else class="text-primary text-sm leading-relaxed whitespace-pre-line">
-        {{ content }}
-      </p>
+      <ShowMoreText
+        v-else
+        :content="content"
+        :max-length="300"
+        content-class="text-primary text-sm leading-relaxed"
+      />
     </div>
   </div>
 </template>
@@ -72,6 +75,7 @@
 import { ref, computed } from 'vue'
 import { BaseButton, BaseTextarea, UserAvatar } from '@/shared/ui/components'
 import { useAuthStore } from '@/stores'
+import ShowMoreText from '../ShowMoreText.vue'
 
 const props = defineProps({
   id: {
@@ -83,7 +87,7 @@ const props = defineProps({
     required: true,
   },
   createdById: {
-    type: [String],
+    type: String,
     required: true,
   },
   content: {
