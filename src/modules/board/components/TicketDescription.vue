@@ -41,12 +41,8 @@
 <script setup>
 import PriorityBadge from './PriorityBadge.vue'
 import { formatRelativeTime } from '@/shared/utils'
-import { useRouter } from 'vue-router'
-import { path } from '@/shared/constants/paths.js'
 import ShowMoreText from './ShowMoreText.vue'
 import BreadCumb from './Breadcumb.vue'
-
-const router = useRouter()
 
 const props = defineProps({
   ticket: {
@@ -54,8 +50,4 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-
-const handleBackToBoard = () => {
-  router.push({ name: path.task.board.name })
-}
 </script>

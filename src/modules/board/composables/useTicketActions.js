@@ -14,6 +14,8 @@ export const useTicketActions = (modal, fetch) => {
 
   const route = useRoute()
 
+  const boardStore = useSprintBoardStore()
+
   const handleNewTicket = async () => {
     try {
       loading.value = true
@@ -97,12 +99,10 @@ export const useTicketActions = (modal, fetch) => {
 
   const handleChangeStatus = async (ticketId, statusId) => {
     try {
-      await changeStatusTicket(ticketId, statusId)
-      const boardStore = useSprintBoardStore()
-      await boardStore.fetchBoardData()
+      const response = await changeStatusTicket(ticketId, statusId)
+      boardStore.moveTicketUpdateStatus(response.data)
     } catch (error) {
-      const boardStore = useSprintBoardStore()
-      await boardStore.fetchBoardData()
+      await boardStore.fetchTicket()
       toast.error(error.response?.data?.message)
     }
   }
