@@ -8,9 +8,17 @@
           <span>
             <span class="text-primary font-semibold">{{ props.activity.performedByName }}</span>
 
-            {{ assigneeChangeText }}
+            <template v-if="assigneeChange.isRemoved">
+              <span class="text-primary"> removed assignee </span>
+              <span class="text-primary font-semibold">{{ assigneeChange.oldValue }}</span>
+            </template>
 
-            <span class="text-primary font-semibold">{{ activity.newValue ?? '' }}</span>
+            <template v-else>
+              <span class="text-primary"> changed assignee from </span>
+              <span class="text-primary font-semibold">{{ assigneeChange.oldValue }}</span>
+              <span class="text-primary"> to </span>
+              <span class="text-primary font-semibold">{{ assigneeChange.newValue }}</span>
+            </template>
           </span>
         </template>
 
@@ -143,8 +151,15 @@ const activityLabel = computed(() => {
   }
 })
 
-const assigneeChangeText = computed(() => {
-  return props.activity.newValue ? ' changed assignee to ' : ' removed assignee'
+const assigneeChange = computed(() => {
+  const oldValue = props.activity.oldValue || 'Unassigned'
+  const newValue = props.activity.newValue || 'Unassigned'
+
+  return {
+    oldValue,
+    newValue,
+    isRemoved: !props.activity.newValue,
+  }
 })
 
 const contentChangeLabel = computed(() => {
