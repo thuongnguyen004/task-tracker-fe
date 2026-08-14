@@ -1,22 +1,17 @@
 <template>
   <div>
     <div class="space-y-6">
-      <div class="space-y-1">
-        <BaseButton
-          variant="secondary"
-          class="h-10! w-10! rounded-full! p-0!"
-          @click="handleBackToBoard"
-        >
-          <ArrowLeft class="h-4 w-4" />
-        </BaseButton>
-
+      <BreadCumb />
+      <div class="space-y-2">
         <div class="flex gap-4">
-          <p class="text-tertiary-light text-sm">TICKET-{{ ticket.id }}</p>
+          <p class="text-tertiary-light text-sm">{{ ticket.code }}</p>
 
           <PriorityBadge :priority="ticket.priority" class="text-sm!" />
         </div>
 
-        <h2 class="text-primary text-3xl font-bold">{{ ticket.title || '-' }}</h2>
+        <h2 class="text-primary text-3xl font-bold wrap-break-word whitespace-pre-line">
+          {{ ticket.title || '-' }}
+        </h2>
 
         <div class="text-tertiary-light flex items-center text-sm">
           <span>Created by {{ ticket.createdBy }}</span>
@@ -32,26 +27,28 @@
       </div>
 
       <div class="text-tertiary space-y-2">
-        <p class="text-tertiary font-semibold">DESCRIPTION</p>
+        <p class="font-semibold">DESCRIPTION</p>
 
-        <p class="text-sm whitespace-pre-line">
-          {{ ticket.description || '-' }}
-        </p>
+        <ShowMoreText
+          :content="ticket.description || '-'"
+          :max-length="1000"
+          content-class="text-sm"
+        />
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { BaseButton } from '@/shared/ui/components'
 import PriorityBadge from './PriorityBadge.vue'
 import { formatRelativeTime } from '@/shared/utils'
-import { ArrowLeft } from '@lucide/vue'
 import { useRouter } from 'vue-router'
 import { path } from '@/shared/constants/paths.js'
+import ShowMoreText from './ShowMoreText.vue'
+import BreadCumb from './Breadcumb.vue'
 
 const router = useRouter()
 
-defineProps({
+const props = defineProps({
   ticket: {
     type: Object,
     default: () => ({}),

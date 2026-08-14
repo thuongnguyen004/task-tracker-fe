@@ -82,7 +82,7 @@ const triggerClasses = computed(() => {
 
 const selectedLabelClasses = computed(() => {
   return {
-    'text-muted': isEmpty(model.value),
+    'text-tertiary': isEmpty(model.value),
   }
 })
 
