@@ -20,6 +20,7 @@
       class="ticket-scrollbar flex flex-1 flex-col gap-3 overflow-y-auto"
       group="tickets"
       item-key="id"
+      :sort="false"
       @change="handleChange"
     >
       <template #item="{ element: ticket }">
@@ -59,11 +60,6 @@ watch(
 )
 
 const handleChange = (event) => {
-  if (event.moved) {
-    emit('refresh-tickets')
-    return
-  }
-
   if (event.added) {
     const ticket = event.added.element
 
