@@ -3,7 +3,7 @@
     <div class="border-border mb-3 flex items-center justify-between border-b pb-2">
       <span class="text-primary text-xs font-bold tracking-wider uppercase">Filter Criteria</span>
       <button
-        v-if="boardStore.hasActiveFilters"
+        v-if="boardStore.activeFiltersCount > 0"
         type="button"
         class="text-blue hover:text-blue-hover flex items-center gap-1 text-xs font-medium"
         @click="boardStore.clearFilters()"

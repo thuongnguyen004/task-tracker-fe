@@ -4,7 +4,7 @@
       variant="secondary"
       class="text-primary h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap transition-colors"
       :class="
-        boardStore.hasActiveFilters
+        boardStore.activeFiltersCount > 0
           ? 'border-blue bg-blue-subtle text-blue-foreground font-bold'
           : ''
       "
@@ -12,7 +12,7 @@
     >
       <SlidersHorizontal
         class="h-4 w-4"
-        :class="boardStore.hasActiveFilters ? 'text-blue' : 'text-tertiary'"
+        :class="boardStore.activeFiltersCount > 0 ? 'text-blue' : 'text-tertiary'"
       />
       Filters
       <span

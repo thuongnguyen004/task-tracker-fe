@@ -29,8 +29,7 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
       if (search.value && search.value.trim() !== '') {
         const query = search.value.trim().toLowerCase()
         const titleMatch = t.title ? t.title.toLowerCase().includes(query) : false
-        const descMatch = t.description ? t.description.toLowerCase().includes(query) : false
-        if (!titleMatch && !descMatch) {
+        if (!titleMatch) {
           return false
         }
       }
@@ -96,7 +95,6 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
 
   const activeFiltersCount = computed(() => {
     let count = 0
-    if (search.value && search.value.trim() !== '') count++
     if (selectedPriorityIds.value && selectedPriorityIds.value.length > 0)
       count += selectedPriorityIds.value.length
     if (selectedAssigneeId.value !== null && selectedAssigneeId.value !== '') count++
