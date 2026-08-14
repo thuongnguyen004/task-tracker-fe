@@ -1,5 +1,7 @@
 <template>
-  <div class="grid grid-cols-[2fr_1fr] gap-6 px-6">
+  <div v-if="loading">Loading...</div>
+
+  <div class="grid grid-cols-[2fr_1fr] gap-6 px-6" v-else-if="ticketById">
     <div>
       <TicketDescription :ticket="ticketById" />
       <TicketTabs />
@@ -21,6 +23,10 @@
       @clear-error="clearFieldError"
     />
   </div>
+
+  <div v-else class="text-tertiary">
+    <p>Ticket not found.</p>
+  </div>
 </template>
 
 <script setup>
@@ -29,6 +35,7 @@ import { useRoute } from 'vue-router'
 import { TicketDescription, TicketSidebar, TicketTabs } from '../components/index.js'
 import TicketFormModal from '../components/TicketFormModal.vue'
 import { useModal, useTicketActions, useTicketMetadata } from '../composables/index.js'
+import { getTicketByCode } from '../services/index.js'
 
 const route = useRoute()
 
@@ -36,11 +43,11 @@ const modal = useModal()
 
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
 
-const { handleUpdateTicket, getTicket, ticketById, loading } = useTicketActions(modal)
+const { handleUpdateTicket, ticketById, loading, getTicketByTicketCode } = useTicketActions(modal)
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
 onMounted(() => {
-  getTicket(route.params.id)
+  getTicketByTicketCode(route.params.code)
 })
 </script>
