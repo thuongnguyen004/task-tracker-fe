@@ -65,7 +65,7 @@ onMounted(() => {
   boardStore.fetchBoardData()
 })
 
-const openTicketDetails = (id) => {
-  router.push({ name: path.task.details.name, params: { id } })
+const openTicketDetails = (code) => {
+  router.push({ name: path.task.details.name, params: { code: code } })
 }
 </script>

@@ -35,6 +35,7 @@ import { useRoute } from 'vue-router'
 import { TicketDescription, TicketSidebar, TicketTabs } from '../components/index.js'
 import TicketFormModal from '../components/TicketFormModal.vue'
 import { useModal, useTicketActions, useTicketMetadata } from '../composables/index.js'
+import { getTicketByCode } from '../services/index.js'
 
 const route = useRoute()
 
@@ -42,18 +43,11 @@ const modal = useModal()
 
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
 
-const {
-  handleUpdateTicket,
-  getTicket,
-  ticketById,
-  loading,
-  handleArchiveTicket,
-  handleRestoreTicket,
-} = useTicketActions(modal)
+const { handleUpdateTicket, ticketById, loading, getTicketByTicketCode } = useTicketActions(modal)
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
 onMounted(() => {
-  getTicket(route.params.id)
+  getTicketByTicketCode(route.params.code)
 })
 </script>

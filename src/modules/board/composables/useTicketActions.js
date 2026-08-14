@@ -1,5 +1,11 @@
 import { ref } from 'vue'
-import { changeStatusTicket, createTicket, getTicketById, updateTicket } from '../services'
+import {
+  changeStatusTicket,
+  createTicket,
+  getTicketByCode,
+  getTicketById,
+  updateTicket,
+} from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
@@ -117,6 +123,16 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
+  const getTicketByTicketCode = async () => {
+    try {
+      const response = await getTicketByCode(route.params.code)
+
+      ticketById.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const getTicketArchives = async () => {
     try {
       const response = await getAllTicketArchives()
@@ -154,6 +170,7 @@ export const useTicketActions = (modal, fetch) => {
     handleChangeStatus,
     getTicket,
     ticketById,
+    getTicketByTicketCode,
     loading,
     getTicketArchives,
     archiveTickets,
