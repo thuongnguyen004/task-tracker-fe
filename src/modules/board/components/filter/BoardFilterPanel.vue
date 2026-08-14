@@ -20,12 +20,15 @@
         @change="handleAssigneeChange($event.target.value)"
         class="border-border bg-secondary text-primary focus:border-blue focus:ring-blue h-9 w-full rounded-lg border px-3 text-xs focus:ring-1 focus:outline-none"
       >
-        <option value="">Select an assignee</option>
-        <option value="UNASSIGNED">Unassigned (No Assignee)</option>
+        <option value="" class="bg-secondary text-primary">Select an assignee</option>
+        <option value="UNASSIGNED" class="bg-secondary text-primary">
+          Unassigned (No Assignee)
+        </option>
         <option
           v-for="assignee in props.assignees"
           :key="assignee.value || assignee.name"
           :value="assignee.value || assignee.name"
+          class="bg-secondary text-primary"
         >
           {{ assignee.label || assignee.name }}
         </option>

@@ -136,16 +136,36 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     unassigned.value = false
   }
 
+  const updateTicketStatusLocally = (ticketId, statusId) => {
+    const numericStatusId = Number(statusId)
+    const ticket = tickets.value.find((t) => String(t.id) === String(ticketId))
+    if (ticket) {
+      ticket.statusId = numericStatusId
+      const col = columns.value.find((c) => Number(c.id) === numericStatusId)
+      const statusName = col ? col.rawName || col.name : ''
+      if (ticket.status && typeof ticket.status === 'object') {
+        ticket.status = { ...ticket.status, id: numericStatusId, name: statusName }
+      } else {
+        ticket.status = statusName
+      }
+      tickets.value = [...tickets.value]
+    }
+  }
+
   const ticketsByColumn = computed(() => {
     const map = {}
 
     columns.value.forEach((col) => {
-      map[col.statusId] = filteredTickets.value.filter((t) => {
-        if (t.statusId != null && Number(t.statusId) === Number(col.statusId)) {
+      map[col.id] = filteredTickets.value.filter((t) => {
+        if (t.statusId != null && Number(t.statusId) === Number(col.id)) {
           return true
         }
 
-        if (t.status) {
+        if (t.status != null) {
+          if (typeof t.status === 'object' && t.status.id != null) {
+            return Number(t.status.id) === Number(col.id)
+          }
+
           const ticketStatusStr = String(t.status)
             .toLowerCase()
             .replace(/[\s_-]+/g, '')
@@ -176,6 +196,7 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     hasActiveFilters,
     activeFiltersCount,
     fetchBoardData,
+    updateTicketStatusLocally,
 
     applyFilters,
     clearFilters,

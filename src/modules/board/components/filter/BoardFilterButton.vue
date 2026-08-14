@@ -2,8 +2,12 @@
   <div class="relative" ref="popoverRef">
     <BaseButton
       variant="secondary"
-      class="h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap text-primary transition-colors"
-      :class="boardStore.hasActiveFilters ? 'border-blue bg-blue-subtle text-blue-foreground font-bold' : ''"
+      class="text-primary h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap transition-colors"
+      :class="
+        boardStore.hasActiveFilters
+          ? 'border-blue bg-blue-subtle text-blue-foreground font-bold'
+          : ''
+      "
       @click="togglePopover"
     >
       <SlidersHorizontal
@@ -13,7 +17,7 @@
       Filters
       <span
         v-if="boardStore.activeFiltersCount > 0"
-        class="ml-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-blue px-1 text-[10px] font-bold text-secondary"
+        class="bg-blue text-secondary ml-1 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold"
       >
         {{ boardStore.activeFiltersCount }}
       </span>
@@ -29,7 +33,7 @@
     >
       <div
         v-if="isOpen"
-        class="absolute right-0 top-11 z-30 w-80 origin-top-right rounded-xl border border-border bg-secondary p-4 shadow-xl"
+        class="border-border bg-secondary absolute top-11 right-0 z-30 w-80 origin-top-right rounded-xl border p-4 shadow-xl"
       >
         <BoardFilterPanel :assignees="props.assignees" />
       </div>

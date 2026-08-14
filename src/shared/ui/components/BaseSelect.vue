@@ -34,7 +34,7 @@
         @click="selectValue(option.value)"
       >
         <slot name="option" :option="option">
-          {{ option.label }}
+          {{ option.label || option.name || option.username || option.value }}
         </slot>
       </div>
     </div>
@@ -80,7 +80,7 @@ const isEmpty = (value) => value === null || value === undefined || value === ''
 
 const triggerClasses = computed(() => {
   return {
-    'border-border text-md bg-input flex w-full items-center justify-between rounded-xl border-2 px-3 py-2 outline-none': true,
+    'border-border text-primary text-md bg-input flex w-full items-center justify-between rounded-xl border-2 px-3 py-2 outline-none': true,
     'cursor-not-allowed opacity-50': props.disabled,
     'cursor-pointer': !props.disabled,
   }
@@ -88,18 +88,20 @@ const triggerClasses = computed(() => {
 
 const selectedLabelClasses = computed(() => {
   return {
-    'text-muted': isEmpty(model.value),
+    'text-tertiary-light': isEmpty(model.value),
+    'text-primary font-medium': !isEmpty(model.value),
   }
 })
 
 const arrowClasses = computed(() => {
   return {
-    'text-sm transition-transform duration-200': true,
+    'text-tertiary text-sm transition-transform duration-200': true,
     'rotate-180': isOpen.value,
   }
 })
 
 const baseOptionClasses = [
+  'text-primary',
   'hover:bg-quinary',
   'border-border',
   'cursor-pointer',
@@ -127,7 +129,12 @@ const selectedLabel = computed(() => {
     return props.placeholder || 'Select...'
   }
 
-  return selectedOption.value?.label || model.value
+  return (
+    selectedOption.value?.label ||
+    selectedOption.value?.name ||
+    selectedOption.value?.username ||
+    model.value
+  )
 })
 
 const toggleOpen = () => {

@@ -18,7 +18,7 @@
       <p class="text-tertiary-light mb-2 text-sm font-semibold">ASSIGNEE</p>
 
       <div v-if="ticket.assignee" class="flex items-center gap-2 text-sm">
-        <UserAvatar :name="ticket.assignee" class="bg-primary!" />
+        <UserAvatar :name="ticket.assignee" />
 
         <span>{{ ticket.assignee }}</span>
       </div>
@@ -30,7 +30,7 @@
       <p class="text-tertiary-light mb-2 text-sm font-semibold">CREATED BY</p>
 
       <div class="flex items-center gap-2 text-sm">
-        <UserAvatar :name="ticket.createdBy || '-'" class="bg-primary!" />
+        <UserAvatar :name="ticket.createdBy || '-'" />
 
         <span>{{ ticket.createdBy || '-' }}</span>
       </div>

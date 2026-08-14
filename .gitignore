@@ -38,5 +38,6 @@ __screenshots__/
 # Vite
 *.timestamp-*-*.mjs
 
+# Command Code
 .commandcode/
-
+.commandcode/taste/taste.md

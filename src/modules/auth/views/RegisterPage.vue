@@ -39,7 +39,7 @@
               class="text-md bg-input w-full rounded-xl border-2 px-3 py-2"
               :class="errors.fullName ? 'border-red-500' : 'border-border'"
               @input="onFullNameInput"
-              />
+            />
 
             <span v-if="errors.fullName" class="text-xs text-red-500">{{ errors.fullName }}</span>
           </div>
@@ -117,13 +117,6 @@
 <script setup>
 import { useRegister } from '../composables/useRegister'
 
-const {
-  errors,
-  form,
-  handleRegister,
-  loading,
-  onFullNameInput,
-  path,
-  validateField,
-} = useRegister()
+const { errors, form, handleRegister, loading, onFullNameInput, path, validateField } =
+  useRegister()
 </script>

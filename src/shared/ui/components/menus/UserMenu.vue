@@ -9,7 +9,7 @@
         <UserAvatar :name="user.fullName" />
 
         <div class="min-w-0">
-          <p class="truncate text-sm font-semibold">{{ user.username }}</p>
+          <p class="truncate text-sm font-semibold">{{ user.fullName }}</p>
 
           <p class="text-tertiary truncate text-xs">{{ user.email }}</p>
         </div>

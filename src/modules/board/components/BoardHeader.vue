@@ -19,23 +19,22 @@
         New Ticket
       </BaseButton>
 
-      <BoardFilterButton :assignees="availableAssignees" />
+      <BoardFilterButton :assignees="assignees.length ? assignees : teamMembers" />
 
-      <BoardMemberAvatars :team-members="teamMembers" :max-avatars="maxAvatars" />
+      <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { Plus } from '@lucide/vue'
 import { BaseButton } from '@/shared/ui/components'
-import { BoardSearchInput, BoardFilterButton, BoardMemberAvatars } from './filter'
+import { Plus } from '@lucide/vue'
+import BoardMembersAvatarList from './members/MembersAvatarList.vue'
+import { BoardSearchInput, BoardFilterButton } from './filter'
 
-const props = defineProps({
+defineProps({
   totalTickets: {
     type: Number,
-    default: 0,
   },
   totalColumns: {
     type: Number,
@@ -43,12 +42,7 @@ const props = defineProps({
   },
   teamMembers: {
     type: Array,
-    default: () => [
-      { name: 'Bun Tran' },
-      { name: 'Tinh Tran' },
-      { name: 'Thuong Nguyen' },
-      { name: 'Bao Mai' },
-    ],
+    default: () => [],
   },
   assignees: {
     type: Array,
@@ -60,10 +54,5 @@ const props = defineProps({
   },
 })
 
-defineEmits(['open-modal'])
-
-const availableAssignees = computed(() => {
-  if (props.assignees.length > 0) return props.assignees
-  return props.teamMembers.map((m) => ({ value: m.name, label: m.name }))
-})
+defineEmits(['toggle-filters', 'create-ticket', 'open-modal'])
 </script>

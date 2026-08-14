@@ -50,18 +50,23 @@ const STATUS_CONFIG = {
 const STATUS_ALIAS_MAP = {
   1: 'To Do',
   'To Do': 'To Do',
+  'TO DO': 'To Do',
 
   2: 'In Progress',
   'In Progress': 'In Progress',
+  'IN PROGRESS': 'In Progress',
 
   3: 'Code Review',
   'Code Review': 'Code Review',
+  'CODE REVIEW': 'Code Review',
 
   4: 'Ready for QA',
   'Ready for QA': 'Ready for QA',
+  'READY FOR QA': 'Ready for QA',
 
   5: 'Done',
   Done: 'Done',
+  DONE: 'Done',
 }
 
 const badgeInfo = computed(() => {

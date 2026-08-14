@@ -1,7 +1,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/modules/auth/stores'
-import { path } from '@/shared/constants/paths.js'
+import { path } from '@/shared/constants/paths'
 
 export function useLogin() {
   const router = useRouter()

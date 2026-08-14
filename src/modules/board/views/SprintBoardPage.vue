@@ -4,20 +4,19 @@
       class="shrink-0"
       :total-tickets="totalActiveTickets"
       :total-columns="columns.length"
-      :team-members="teamMembers"
-      :assignees="assignees"
+      :team-members="assignees"
       @open-modal="openCreateTicketModal(statuses, priorities)"
     />
 
     <div
       v-if="hasActiveFilters"
-      class="flex shrink-0 flex-wrap items-center gap-2 rounded-lg border border-blue-muted bg-blue-subtle/70 px-3.5 py-2 text-xs text-blue-deep"
+      class="border-blue-muted bg-blue-subtle/70 text-blue-deep flex shrink-0 flex-wrap items-center gap-2 rounded-lg border px-3.5 py-2 text-xs"
     >
-      <span class="font-bold text-blue-deep">Active Filters:</span>
+      <span class="text-blue-deep font-bold">Active Filters:</span>
 
       <span
         v-if="boardStore.search"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
+        class="border-blue-muted-border bg-secondary text-blue-hover inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium shadow-xs"
       >
         Keyword: "{{ boardStore.search }}"
         <button type="button" @click="boardStore.search = ''" class="hover:text-blue-deepest">
@@ -27,21 +26,17 @@
 
       <span
         v-if="boardStore.unassigned || boardStore.selectedAssigneeId === 'UNASSIGNED'"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
+        class="border-blue-muted-border bg-secondary text-blue-hover inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium shadow-xs"
       >
         Assignee: Unassigned
-        <button
-          type="button"
-          @click="boardStore.selectedAssigneeId = null; boardStore.unassigned = false"
-          class="hover:text-blue-deepest"
-        >
+        <button type="button" @click="clearAssigneeFilter" class="hover:text-blue-deepest">
           <X class="h-3 w-3" />
         </button>
       </span>
 
       <span
         v-else-if="boardStore.selectedAssigneeId"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
+        class="border-blue-muted-border bg-secondary text-blue-hover inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium shadow-xs"
       >
         Assignee: {{ selectedAssigneeName }}
         <button
@@ -55,7 +50,7 @@
 
       <span
         v-if="boardStore.selectedPriorityIds && boardStore.selectedPriorityIds.length > 0"
-        class="inline-flex items-center gap-1.5 rounded-md border border-blue-muted-border bg-secondary px-2 py-1 text-xs font-medium text-blue-hover shadow-xs"
+        class="border-blue-muted-border bg-secondary text-blue-hover inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium shadow-xs"
       >
         Priority: {{ boardStore.selectedPriorityIds.join(', ') }}
         <button
@@ -69,7 +64,7 @@
 
       <button
         type="button"
-        class="ml-auto text-xs font-semibold text-blue-foreground hover:text-blue-deep hover:underline"
+        class="text-blue-foreground hover:text-blue-deep ml-auto text-xs font-semibold hover:underline"
         @click="boardStore.clearAllFilter()"
       >
         Clear all
@@ -81,7 +76,7 @@
       class="border-border bg-quinary/40 my-auto flex flex-1 flex-col items-center justify-center rounded-2xl border-2 border-dashed p-12 text-center"
     >
       <div
-        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-subtle text-blue"
+        class="bg-blue-subtle text-blue mb-4 flex h-16 w-16 items-center justify-center rounded-full"
       >
         <SearchX class="h-8 w-8" />
       </div>
@@ -98,7 +93,7 @@
         v-for="col in columns"
         :key="col.id"
         :status="col"
-        :tickets="ticketsByColumn[col.statusId] || []"
+        :tickets="ticketsByColumn[col.id] || []"
         @select-ticket="openTicketDetails"
         @change-status="handleChangeStatus"
         @refresh-tickets="boardStore.fetchBoardData"
@@ -147,29 +142,23 @@ const boardStore = useSprintBoardStore()
 const router = useRouter()
 const { columns, ticketsByColumn, totalActiveTickets, hasActiveFilters } = storeToRefs(boardStore)
 
-const teamMembers = [
-  { name: 'Bun Tran' },
-  { name: 'Tinh Tran' },
-  { name: 'Thuong Nguyen' },
-  { name: 'Bao Mai' },
-]
-
 const selectedAssigneeName = computed(() => {
-  const id = boardStore.selectedAssigneeId
-  if (!id) return ''
-
-  const assignee = assignees.value.find((a) => String(a.value) === String(id))
-  if (assignee) return assignee.label
-
-  const member = teamMembers.find((m) => m.name === id)
-  if (member) return member.name
-
-  return id
+  const sel = boardStore.selectedAssigneeId
+  if (!sel) return ''
+  const member = assignees.value?.find(
+    (a) => String(a.id) === String(sel) || a.name === sel || a.username === sel,
+  )
+  return member ? member.name || member.username : sel
 })
 
 onMounted(() => {
   boardStore.fetchBoardData()
 })
+
+const clearAssigneeFilter = () => {
+  boardStore.selectedAssigneeId = null
+  boardStore.unassigned = false
+}
 
 const openTicketDetails = (id) => {
   router.push({ name: path.task.details.name, params: { id } })

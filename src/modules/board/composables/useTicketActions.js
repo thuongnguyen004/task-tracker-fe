@@ -93,14 +93,15 @@ export const useTicketActions = (modal, fetch) => {
   }
 
   const handleChangeStatus = async (ticketId, statusId) => {
+    const boardStore = useSprintBoardStore()
+    boardStore.updateTicketStatusLocally(ticketId, statusId)
+
     try {
       await changeStatusTicket(ticketId, statusId)
-      const boardStore = useSprintBoardStore()
       await boardStore.fetchBoardData()
     } catch (error) {
-      const boardStore = useSprintBoardStore()
       await boardStore.fetchBoardData()
-      toast.error(error.response?.data?.message)
+      toast.error(error.response?.data?.message || 'Failed to update ticket status')
     }
   }
 

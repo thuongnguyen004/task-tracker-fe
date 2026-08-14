@@ -5,11 +5,11 @@
       :key="member.name"
       :name="member.name"
       size="sm"
-      class="ring-2 ring-secondary"
+      class="ring-secondary ring-2"
     />
     <span
       v-if="remainingCount > 0"
-      class="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-quinary text-xs font-bold text-tertiary ring-2 ring-secondary"
+      class="bg-quinary text-tertiary ring-secondary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ring-2 select-none"
       :title="`${remainingCount} more members`"
     >
       +{{ remainingCount }}

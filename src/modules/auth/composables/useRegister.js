@@ -125,7 +125,11 @@ export function useRegister() {
       toast.success('Account created successfully! Please sign in.')
       router.push({ name: path.auth.login.name })
     } catch (error) {
-      const message = error?.response?.data?.message || 'Registration failed'
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        (typeof error?.response?.data === 'string' ? error.response.data : null) ||
+        'Registration failed'
 
       toast.error(message)
 
