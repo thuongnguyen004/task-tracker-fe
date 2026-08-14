@@ -13,7 +13,7 @@ import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
 import { useRoute } from 'vue-router'
 
-export const useTicketActions = (modal, fetch) => {
+export const useTicketActions = (modal, fetch, activity) => {
   const loading = ref(false)
 
   const ticketById = ref({})
@@ -54,6 +54,7 @@ export const useTicketActions = (modal, fetch) => {
 
       const boardStore = useSprintBoardStore()
       await boardStore.fetchBoardData()
+      await activity.getAllTicketActivities()
     } catch (error) {
       console.error(error)
 
@@ -80,25 +81,25 @@ export const useTicketActions = (modal, fetch) => {
         priorityId: modal.forms.priorityId,
         assigneeId: modal.forms.assigneeId,
       }
-      const isEmpty = (value) => value === null || value === undefined || value === ''
-      const isSameValue = (a, b) => (isEmpty(a) && isEmpty(b)) || String(a) === String(b)
-      const hasChanges = Object.keys(payload).some(
-        (key) => !isSameValue(payload[key], modal.originalForms.value[key]),
-      )
+      const normalize = (value) => value ?? ''
+
+      const hasChanges = Object.keys(payload).some((key) => {
+        return String(normalize(payload[key])) !== String(normalize(modal.originalForms.value[key]))
+      })
       if (!hasChanges) {
         toast.info('No changes detected')
         modal.open.value = false
         return
       }
-      await new Promise((resolve) => setTimeout(resolve, 3000))
+
       const response = await updateTicket(modal.id.value, payload)
       await getTicket()
       toast.success(response.message)
+      modal.open.value = false
     } catch (error) {
       toast.error(error.response?.data?.message)
     } finally {
       loading.value = false
-      modal.open.value = false
     }
   }
 

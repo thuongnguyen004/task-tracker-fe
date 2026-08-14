@@ -51,11 +51,14 @@ const modal = useModal()
 
 const fetch = useTicketMetadata()
 
+const activity = useTicketActivity()
+
 const { open, toggleModalTicket, openCreateTicketModal, clearFieldError, forms, errors } = modal
 
-const { handleNewTicket, handleChangeStatus, loading } = useTicketActions(modal, fetch)
+const { getAllTicketActivities, ticketActivities, showLoadMoreButton, handleLoadMoreActivity } = activity
 
-const { getAllTicketActivities, ticketActivities, showLoadMoreButton, handleLoadMoreActivity } = useTicketActivity()
+const { handleNewTicket, handleChangeStatus, loading } = useTicketActions(modal, fetch, activity)
+
 
 const { statuses, priorities, assignees } = fetch
 
@@ -65,6 +68,7 @@ const { columns, ticketsByColumn, totalActiveTickets } = storeToRefs(boardStore)
 
 onMounted(() => {
   boardStore.fetchBoardData()
+   getAllTicketActivities()
 })
 
 const openTicketDetails = (id) => {
@@ -75,8 +79,4 @@ provide('ticketActivities', ticketActivities)
 provide('showLoadMoreButton', showLoadMoreButton)
 provide('handleLoadMoreActivity', handleLoadMoreActivity)
 
-onMounted(() => {
-  boardStore.fetchBoardData()
-  getAllTicketActivities()
-})
 </script>
