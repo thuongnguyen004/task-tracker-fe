@@ -25,13 +25,28 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     }
   }
 
+  const fetchTicket = async () => {
+    try {
+      const response = await getTickets()
+      tickets.value = response
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    }
+  }
+
+  const moveTicketUpdateStatus = (ticketStatus) => {
+    tickets.value = tickets.value
+      .map((ticket) => (ticket.id === ticketStatus.id ? { ...ticketStatus } : ticket))
+      .sort((a, b) => b.updatedAt - a.updatedAt)
+  }
+
   const ticketsByColumn = computed(() => {
     const map = {}
 
     columns.value.forEach((col) => {
       map[col.id] = tickets.value.filter((t) => {
-        if (t.statusId != null && Number(t.statusId) === Number(col.id)) {
-          return true 
+        if (t.statusId != null) {
+          return Number(t.statusId) === Number(col.id)
         }
 
         if (t.status != null) {
@@ -66,5 +81,7 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     ticketsByColumn,
     totalActiveTickets,
     fetchBoardData,
+    fetchTicket,
+    moveTicketUpdateStatus,
   }
 })
