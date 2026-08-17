@@ -43,10 +43,6 @@ const router = createRouter({
 router.beforeEach((to) => {
   const isAuthenticated = !!tokenStorage.get()
 
-  if (to.meta.guestOnly && isAuthenticated) {
-    return { name: path.task.board.name }
-  }
-
   if (to.meta.requiresAuth && !isAuthenticated) {
     return {
       name: path.auth.login.name,
@@ -54,7 +50,7 @@ router.beforeEach((to) => {
     }
   }
 
-  if (to.matched.some((record) => record.meta.requiresGuest) && isAuthenticated) {
+  if (to.meta.requiresGuest && isAuthenticated) {
     return { name: path.task.board.name }
   }
 })
