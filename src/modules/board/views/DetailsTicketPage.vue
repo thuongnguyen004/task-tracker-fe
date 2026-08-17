@@ -1,10 +1,10 @@
 <template>
   <div class="h-full">
     <div v-if="loading">Loading...</div>
-    <div class="grid h-full min-h-0 grid-cols-3 gap-6 px-6" v-else-if="ticketById">
+    <div class="grid h-full min-h-0 grid-cols-3 gap-6 px-6" v-else-if="ticketByCode">
       <div class="col-span-2 flex min-h-0 flex-col">
         <div class="shrink-0">
-          <TicketDescription :ticket="ticketById" />
+          <TicketDescription :ticket="ticketByCode" />
         </div>
         <div class="border-border flex shrink-0 border-b">
           <TabItem
@@ -27,8 +27,8 @@
           <TransitionFadeScale>
             <div v-if="activeTab === 'comments'" key="comments" class="min-h-0 flex-1">
               <CommentList
-                :ticket-id="ticketById?.id"
-                :ticketById="ticketById"
+                :ticket-id="ticketByCode?.id"
+                :ticketByCode="ticketByCode"
                 @update:count="handleCommentCountUpdate"
                 @comment-changed="handleCommentChanged"
               />
@@ -51,7 +51,7 @@
         @open-modal="openModalEditTicket"
         @archive-ticket="handleArchiveTicket"
         @restore-ticket="handleRestoreTicket"
-        :ticket="ticketById"
+        :ticket="ticketByCode"
       />
     </div>
     <div v-else class="text-tertiary">
@@ -104,7 +104,7 @@ const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, er
 const {
   handleUpdateTicket,
   getTicketByTicketCode,
-  ticketById,
+  ticketByCode,
   loading,
   handleArchiveTicket,
   handleRestoreTicket,
@@ -115,7 +115,7 @@ const {
   getTicketActivitiesByTicket,
   handleLoadMoreActivityByTicket,
   showLoadMoreButtonByTicket,
-} = useTicketActivity(ticketById)
+} = useTicketActivity(ticketByCode)
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
@@ -125,6 +125,10 @@ const commentChanged = ref(0)
 
 const changeTab = (tab) => {
   activeTab.value = tab
+
+  if (tab === 'activities') {
+    getTicketActivitiesByTicket()
+  }
 }
 
 const handleCommentCountUpdate = (count) => {
@@ -140,9 +144,9 @@ onMounted(() => {
 })
 
 watch(
-  [() => commentChanged.value, () => ticketById.value?.archived, () => ticketById.value],
+  [() => commentChanged.value, () => ticketByCode.value?.archived, () => ticketByCode.value],
   () => {
-    if (ticketById.value?.id) {
+    if (ticketByCode.value?.code) {
       getTicketActivitiesByTicket()
     }
   },

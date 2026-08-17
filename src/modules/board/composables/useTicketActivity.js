@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
-import { getTicketActivities, getTicketActivitiesByTicketId } from '../services'
+import { getTicketActivities, getTicketActivitiesByTicketCode } from '../services'
 
-export const useTicketActivity = (ticketById = null) => {
+export const useTicketActivity = (ticketByCode = null) => {
 
   const ticketActivitiesByTicket = ref([])
   const pageByTicket = ref(0)
@@ -14,14 +14,18 @@ export const useTicketActivity = (ticketById = null) => {
   const size = ref(20)
   const totalElements = ref(0)
   const getTicketActivitiesByTicket = async () => {
-    if (!ticketById?.value?.id) {
+    if (!ticketByCode?.value?.code) {
       ticketActivitiesByTicket.value = []
       totalElementsByTicket.value = 0
       return
     }
 
     try {
-      const response = await getTicketActivitiesByTicketId(ticketById.value.id, pageByTicket.value, sizeByTicket.value)
+      const response = await getTicketActivitiesByTicketCode(
+        ticketByCode.value.code,
+        pageByTicket.value,
+        sizeByTicket.value,
+      )
 
       ticketActivitiesByTicket.value = response.data.data
       totalElementsByTicket.value = response.data.totalElements

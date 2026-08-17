@@ -16,7 +16,7 @@ import { useRoute } from 'vue-router'
 export const useTicketActions = (modal, fetch, activity) => {
   const loading = ref(false)
 
-  const ticketById = ref(null)
+  const ticketByCode = ref(null)
 
   const archiveTickets = ref([])
 
@@ -94,9 +94,8 @@ export const useTicketActions = (modal, fetch, activity) => {
         return
       }
 
-      const response = await updateTicket(modal.id.value, payload)
-      ticketById.value = response.data
-      // await getTicket()
+      const response = await updateTicket(modal.code.value, payload)
+      ticketByCode.value = response.data
       modal.open.value = false
       toast.success(response.message)
       modal.open.value = false
@@ -114,7 +113,6 @@ export const useTicketActions = (modal, fetch, activity) => {
     try {
       const response = await changeStatusTicket(ticketId, statusId)
       boardStore.moveTicketUpdateStatus(response.data)
-      await activity.getAllTicketActivities();
     } catch (error) {
       await boardStore.fetchTicket()
       toast.error(error.response?.data?.message)
@@ -135,7 +133,7 @@ export const useTicketActions = (modal, fetch, activity) => {
     try {
       const response = await getTicketByCode(route.params.code)
 
-      ticketById.value = response.data
+      ticketByCode.value = response.data
     } catch (error) {
       console.error(error)
     }
@@ -145,7 +143,7 @@ export const useTicketActions = (modal, fetch, activity) => {
     try {
       await archiveTicketById(id)
 
-      ticketById.value.archived = true
+      ticketByCode.value.archived = true
     } catch (error) {
       console.error(error)
     }
@@ -155,8 +153,8 @@ export const useTicketActions = (modal, fetch, activity) => {
     try {
       await restoreTicketById(id)
 
-      if (ticketById.value?.id === id) {
-        ticketById.value.archived = false
+      if (ticketByCode.value?.id === id) {
+        ticketByCode.value.archived = false
       }
     } catch (error) {
       console.error(error)
@@ -166,8 +164,7 @@ export const useTicketActions = (modal, fetch, activity) => {
     handleNewTicket,
     handleUpdateTicket,
     handleChangeStatus,
-    ticketById,
-    getTicketByTicketCode,
+    ticketByCode,
     getTicketByTicketCode,
     loading,
     getTicketArchives,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="isArchiveListOpen"
+      v-if="isActivitiesListOpen"
       class="bg-secondary w-lg rounded-xl shadow-xl ring-1 ring-black/5"
     >
       <BoardMenuHeader @header-action="handleArchiveHeaderAction" title="Activity items"/>
@@ -13,13 +13,12 @@
 
 <script setup>
 import { ref } from 'vue'
-
 import BoardMenuHeader from '../BoardMenuHeader.vue'
 import { ActivityGlobalItems } from '../index.js'
 
-const isArchiveListOpen = ref(true)
+const isActivitiesListOpen = ref(true)
 
-const emit = defineEmits(['back-menu'])
+const emit = defineEmits(['back-menu', 'close-menu'])
 
 const handleArchiveHeaderAction = (action) => {
   if (action === 'back') {
@@ -27,7 +26,8 @@ const handleArchiveHeaderAction = (action) => {
   }
 
   if (action === 'close') {
-    isArchiveListOpen.value = false
+    isActivitiesListOpen.value = false
+    emit('close-menu')
   }
 }
 </script>

@@ -22,6 +22,8 @@
 
         <BoardFilterButton :assignees="assignees.length ? assignees : teamMembers" />
 
+        <BoardSearchInput />
+
         <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
 
         <div ref="userMenuRef" class="relative">
@@ -39,7 +41,7 @@
         v-if="isBoardMenuOpen"
         class="absolute top-0 right-0 z-50"
         @open-archive="handleArchiveOpen"
-        @open-global="handleActivityOpen"
+        @open-global="handleGlobalActivityOpen"
         @close-menu-board="handleBoardMenuToggle"
       />
 
@@ -48,6 +50,7 @@
           v-if="isArchiveListOpen"
           class="absolute top-0 right-0 z-50"
           @back-menu="handleBackMenu"
+          @close-menu="handleArchiveClose"
       /></TransitionFadeScale>
 
       <TransitionFadeScale
@@ -55,6 +58,7 @@
           v-if="isActivityListOpen"
           class="absolute top-0 right-0 z-50"
           @back-menu="handleBackMenu"
+          @close-menu="handleActivityClose"
       /></TransitionFadeScale>
     </div>
   </div>
@@ -68,6 +72,7 @@ import ArchiveBoard from './archives/ArchiveBoard.vue'
 import { useArchiveBoard, useGlobalActivityBoard } from '../composables/index.js'
 import { ActivityGlobal, BoardMembersAvatarList, BoardMenu } from './index.js'
 import BoardFilterButton from './filter/BoardFilterButton.vue'
+import BoardSearchInput from './filter/BoardSearchInput.vue'
 
 const isBoardMenuOpen = ref(false)
 
@@ -98,7 +103,12 @@ defineProps({
   },
 })
 
-defineEmits(['toggle-filters', 'create-ticket', 'open-modal'])
+const emit = defineEmits(['toggle-filters', 'create-ticket', 'open-modal', 'load-global-activity'])
+
+const handleGlobalActivityOpen = () => {
+  emit('load-global-activity')
+  handleActivityOpen()
+}
 
 const handleBoardMenuToggle = () => {
   isBoardMenuOpen.value = !isBoardMenuOpen.value
@@ -119,5 +129,15 @@ const handleBackMenu = () => {
   if (isActivityListOpen.value) {
     isActivityListOpen.value = false
   }
+}
+
+const handleArchiveClose = () => {
+  isArchiveListOpen.value = false
+  isBoardMenuOpen.value = true
+}
+
+const handleActivityClose = () => {
+  isActivityListOpen.value = false
+  isBoardMenuOpen.value = true
 }
 </script>

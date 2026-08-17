@@ -15,8 +15,8 @@ export const createTicket = async (payload) => {
   return response.data
 }
 
-export const updateTicket = async (id, payload) => {
-  const response = await api.put(path.task.api.update(id), payload)
+export const updateTicket = async (code, payload) => {
+  const response = await api.put(path.task.api.updateByCode(code), payload)
 
   return response.data
 }
@@ -24,12 +24,6 @@ export const updateTicket = async (id, payload) => {
 export const changeStatusTicket = async (ticketId, statusId) => {
   const response = await api.patch(path.task.api.changeStatus(ticketId, statusId))
   return response.data
-  return response.data
-}
-
-export const getTicketById = async (id) => {
-  const response = await api.get(path.task.api.listById(id))
-
   return response.data
 }
 
@@ -51,8 +45,8 @@ export const getTicketStatuses = async (page, size) => {
   return response.data
 }
 
-export const getTicketActivitiesByTicketId = async (id, page, size) => {
-  const response = await api.get(path.task.api.activitiesByTicketId(id), {
+export const getTicketActivitiesByTicketCode = async (code, page, size) => {
+  const response = await api.get(path.task.api.activitiesByTicketCode(code), {
     params: {
       page,
       size,

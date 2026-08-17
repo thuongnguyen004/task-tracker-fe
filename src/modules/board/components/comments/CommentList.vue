@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-6">
-    <div class="flex gap-3" v-if="!ticketById.archived">
+    <div class="flex gap-3" v-if="!ticketByCode.archived">
       <UserAvatar :name="currentUser?.fullName" />
 
       <div class="flex-1 space-y-3">
@@ -51,7 +51,7 @@
         :content="comment.content"
         :time="formatRelativeTime(comment.updatedAt)"
         :edited="comment.edited"
-        :ticketArchived="ticketById.archived"
+        :ticketArchived="ticketByCode.archived"
         @update="handleCommentUpdate"
         @delete="openDeleteConfirmModal"
       />
@@ -87,7 +87,7 @@ const props = defineProps({
     type: [String, Number],
     default: '',
   },
-  ticketById: {
+  ticketByCode: {
     type: Object,
     default: () => {}
   }

@@ -6,6 +6,7 @@
       :total-columns="columns.length"
       :team-members="assignees"
       @open-modal="openCreateTicketModal(statuses, priorities)"
+      @load-global-activity="getAllTicketActivities"
     />
 
     <div
@@ -158,8 +159,12 @@ const selectedAssigneeName = computed(() => {
 
 onMounted(() => {
   boardStore.fetchBoardData()
-  getAllTicketActivities()
 })
+
+provide('ticketActivities', ticketActivities)
+provide('showLoadMoreButton', showLoadMoreButton)
+provide('handleLoadMoreActivity', handleLoadMoreActivity)
+
 
 const clearAssigneeFilter = () => {
   boardStore.selectedAssigneeId = null
@@ -169,9 +174,5 @@ const clearAssigneeFilter = () => {
 const openTicketDetails = (code) => {
   router.push({ name: path.task.details.name, params: { code } })
 }
-
-provide('ticketActivities', ticketActivities)
-provide('showLoadMoreButton', showLoadMoreButton)
-provide('handleLoadMoreActivity', handleLoadMoreActivity)
 
 </script>

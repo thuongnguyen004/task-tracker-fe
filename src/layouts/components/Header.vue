@@ -2,7 +2,10 @@
   <header
     class="bg-secondary border-border flex shrink-0 items-center justify-between border-b px-6 py-3"
   >
-    <div class="flex items-center gap-4">
+    <div
+      class="flex cursor-pointer items-center gap-4"
+      @click="router.push({ name: path.task.board.name })"
+    >
       <span
         class="bg-primary text-secondary flex h-10 w-10 items-center justify-center rounded-xl text-lg font-bold"
       >
@@ -30,14 +33,17 @@
 import { UserAvatar, UserMenu } from '@/shared/ui/components'
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores'
 import { storeToRefs } from 'pinia'
+import { path } from '@/shared/constants/paths'
 
 const isUserMenuOpen = ref(false)
 
 const userMenuRef = ref(null)
 
 const route = useRoute()
+const router = useRouter()
 
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)

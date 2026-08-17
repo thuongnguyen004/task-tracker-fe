@@ -50,9 +50,8 @@ export const path = {
 
     api: {
       create: `tickets`,
-      update: (id) => `tickets/${id}`,
+      updateByCode: (code) => `tickets/${code}`,
       changeStatus: (ticketId, statusId) => `tickets/${ticketId}/status/${statusId}`,
-      getById: (id) => `tickets/${id}`,
       comments: (ticketId) => `tickets/${ticketId}/comments`,
       commentUpdate: (ticketId, commentId) => `tickets/${ticketId}/comments/${commentId}`,
       commentDelete: (ticketId, commentId) => `tickets/${ticketId}/comments/${commentId}`,
@@ -60,9 +59,8 @@ export const path = {
       ticketStatuses: `ticket-statuses`,
       ticketPriorities: `ticket-priorities`,
       list: '/tickets',
-      listById: (id) => `/tickets/${id}`,
       columns: '/columns',
-      activitiesByTicketId: (ticketId) => `ticket-activities/${ticketId}`,
+      activitiesByTicketCode: (code) => `ticket-activities/${code}`,
       activities: `ticket-activities`,
       archiveList: `/tickets/archives`,
       archiveById: (id) => `/tickets/archives/${id}`,

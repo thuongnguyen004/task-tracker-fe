@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 export const useModal = () => {
   const open = ref(false)
   const id = ref(null)
+  const code = ref(null)
   const errors = ref({})
   const originalForms = ref(null)
   const forms = reactive({
@@ -20,6 +21,7 @@ export const useModal = () => {
     forms.statusId = ''
     forms.assigneeId = ''
     id.value = null
+    code.value = null
 
     errors.value = {}
   }
@@ -39,6 +41,7 @@ export const useModal = () => {
 
   const openModalEditTicket = (ticket) => {
     id.value = ticket.id
+    code.value = ticket.code
     forms.title = ticket.title
     forms.description = ticket.description
     forms.priorityId = ticket.priorityId
@@ -60,6 +63,7 @@ export const useModal = () => {
     originalForms,
     errors,
     id,
+    code,
     resetForm,
     openCreateTicketModal,
   }

@@ -8,7 +8,6 @@ export const useTicketMetadataStore = defineStore('ticketMetadata', () => {
   const statuses = ref([])
   const priorities = ref([])
   const assignees = ref([])
-
   const fetchMetadata = async () => {
     try {
       const [statusesResponse, prioritiesResponse, assigneesResponse] = await Promise.all([

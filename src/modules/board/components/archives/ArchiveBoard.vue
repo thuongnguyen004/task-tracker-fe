@@ -20,7 +20,7 @@ const { handleSelect } = useArchiveBoard()
 
 const isArchiveListOpen = ref(true)
 
-const emit = defineEmits(['back-menu'])
+const emit = defineEmits(['back-menu', 'close-menu'])
 
 const handleArchiveHeaderAction = (action) => {
   if (action === 'back') {
@@ -29,6 +29,7 @@ const handleArchiveHeaderAction = (action) => {
 
   if (action === 'close') {
     isArchiveListOpen.value = false
+    emit('close-menu')
   }
 }
 </script>
