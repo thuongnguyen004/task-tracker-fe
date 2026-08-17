@@ -68,7 +68,7 @@ const { columns, ticketsByColumn, totalActiveTickets } = storeToRefs(boardStore)
 
 onMounted(() => {
   boardStore.fetchBoardData()
-   getAllTicketActivities()
+  getAllTicketActivities()
 })
 
 const openTicketDetails = (code) => {

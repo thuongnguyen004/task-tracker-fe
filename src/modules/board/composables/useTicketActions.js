@@ -112,6 +112,7 @@ export const useTicketActions = (modal, fetch, activity) => {
     try {
       const response = await changeStatusTicket(ticketId, statusId)
       boardStore.moveTicketUpdateStatus(response.data)
+      await activity.getAllTicketActivities();
     } catch (error) {
       await boardStore.fetchTicket()
       toast.error(error.response?.data?.message)
