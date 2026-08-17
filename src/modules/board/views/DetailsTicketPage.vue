@@ -4,10 +4,12 @@
   <div class="grid grid-cols-[2fr_1fr] gap-6 px-6" v-else-if="ticketById">
     <div>
       <TicketDescription :ticket="ticketById" />
-      <TicketTabs />
+
+      <TicketTabs :ticket-id="ticketById?.id" />
     </div>
 
     <TicketSidebar @open-modal="openModalEditTicket" :ticket="ticketById" />
+
     <TicketFormModal
       title="Edit Ticket"
       buttonTitle="Update Ticket"
