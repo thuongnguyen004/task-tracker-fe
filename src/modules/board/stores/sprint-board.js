@@ -150,6 +150,21 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     }
   }
 
+  const fetchTicket = async () => {
+    try {
+      const response = await getTickets()
+      tickets.value = response
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    }
+  }
+
+  const moveTicketUpdateStatus = (ticketStatus) => {
+    tickets.value = tickets.value
+      .map((ticket) => (ticket.id === ticketStatus.id ? { ...ticketStatus } : ticket))
+      .sort((a, b) => b.updatedAt - a.updatedAt)
+  }
+
   const ticketsByColumn = computed(() => {
     const map = {}
 
@@ -204,5 +219,7 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     selectedPriorityIds,
     selectedAssigneeId,
     unassigned,
+    fetchTicket,
+    moveTicketUpdateStatus,
   }
 })

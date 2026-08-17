@@ -44,7 +44,7 @@ export const path = {
     },
 
     details: {
-      href: 'details-ticket/:id',
+      href: 'details-ticket/:code',
       name: 'details-ticket',
     },
 
@@ -53,6 +53,7 @@ export const path = {
       update: (id) => `tickets/${id}`,
       changeStatus: (ticketId, statusId) => `tickets/${ticketId}/status/${statusId}`,
       getById: (id) => `tickets/${id}`,
+      getByCode: (code) => `tickets/code/${code}`,
       ticketStatuses: `ticket-statuses`,
       ticketPriorities: `ticket-priorities`,
       list: '/tickets',

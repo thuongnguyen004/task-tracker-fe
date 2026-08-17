@@ -1,5 +1,11 @@
 import { ref } from 'vue'
-import { changeStatusTicket, createTicket, getTicketById, updateTicket } from '../services'
+import {
+  changeStatusTicket,
+  createTicket,
+  getTicketByCode,
+  getTicketById,
+  updateTicket,
+} from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
@@ -8,9 +14,13 @@ import { useRoute } from 'vue-router'
 export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
 
-  const ticketById = ref({})
+  const ticketById = ref(null)
+
+  const archiveTickets = ref([])
 
   const route = useRoute()
+
+  const boardStore = useSprintBoardStore()
 
   const handleNewTicket = async () => {
     try {
@@ -82,7 +92,8 @@ export const useTicketActions = (modal, fetch) => {
         return
       }
       const response = await updateTicket(modal.id.value, payload)
-      await getTicket()
+      ticketById.value = response.data
+      // await getTicket()
       modal.open.value = false
       toast.success(response.message)
     } catch (error) {
@@ -97,11 +108,11 @@ export const useTicketActions = (modal, fetch) => {
     boardStore.updateTicketStatusLocally(ticketId, statusId)
 
     try {
-      await changeStatusTicket(ticketId, statusId)
-      await boardStore.fetchBoardData()
+      const response = await changeStatusTicket(ticketId, statusId)
+      boardStore.moveTicketUpdateStatus(response.data)
     } catch (error) {
-      await boardStore.fetchBoardData()
-      toast.error(error.response?.data?.message || 'Failed to update ticket status')
+      await boardStore.fetchTicket()
+      toast.error(error.response?.data?.message)
     }
   }
 
@@ -115,12 +126,58 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
+  const getTicketByTicketCode = async () => {
+    try {
+      const response = await getTicketByCode(route.params.code)
+
+      ticketById.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getTicketArchives = async () => {
+    try {
+      const response = await getAllTicketArchives()
+
+      archiveTickets.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleArchiveTicket = async (id) => {
+    try {
+      await archiveTicketById(id)
+
+      ticketById.value.archived = true
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleRestoreTicket = async (id) => {
+    try {
+      await restoreTicketById(id)
+
+      if (ticketById.value?.id === id) {
+        ticketById.value.archived = false
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return {
     handleNewTicket,
     handleUpdateTicket,
     handleChangeStatus,
     getTicket,
     ticketById,
+    getTicketByTicketCode,
     loading,
+    getTicketArchives,
+    archiveTickets,
+    handleArchiveTicket,
+    handleRestoreTicket,
   }
 }
