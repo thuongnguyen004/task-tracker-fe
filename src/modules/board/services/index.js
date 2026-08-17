@@ -33,6 +33,12 @@ export const getTicketById = async (id) => {
   return response.data
 }
 
+export const getTicketByCode = async (code) => {
+  const response = await api.get(path.task.api.getByCode(code))
+
+  return response.data
+}
+
 export const getTicketPriorities = async () => {
   const response = await api.get(path.task.api.ticketPriorities)
 
