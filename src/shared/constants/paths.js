@@ -24,6 +24,10 @@ export const path = {
   user: {
     href: '/user',
 
+    notfound: {
+      href: ''
+    },
+
     profile: {
       href: 'profile',
       name: 'profile',
@@ -37,6 +41,10 @@ export const path = {
 
   task: {
     href: '/ticket',
+
+    notfound: {
+      href: ''
+    },
 
     board: {
       href: 'sprint-board',
@@ -68,4 +76,9 @@ export const path = {
       restoreTicket: (id) => `/tickets/${id}/restore`,
     },
   },
+
+  notFound: {
+    href: '/:pathMatch(.*)*',
+    name: 'under-development'
+  }
 }

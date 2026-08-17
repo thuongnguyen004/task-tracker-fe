@@ -2,6 +2,7 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import authRoute from '@/modules/auth/routes'
 import taskRoute from '@/modules/board/routes'
+import NotFoundPage from '@/modules/notfound/views/NotFoundPage.vue'
 import userRoute from '@/modules/users/routes'
 import { path } from '@/shared/constants/paths'
 import { tokenStorage } from '@/shared/utils'
@@ -30,6 +31,11 @@ const router = createRouter({
       component: DefaultLayout,
       children: userRoute,
       meta: { requiresAuth: true },
+    },
+    {
+      path: path.notFound.href,
+      name: path.notFound.name,
+      component: NotFoundPage,
     },
   ],
 })
