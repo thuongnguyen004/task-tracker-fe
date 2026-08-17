@@ -13,12 +13,6 @@ const router = createRouter({
   routes: [
     {
       path: path.auth.href,
-      redirect: path.auth.login.href,
-      meta: { guestOnly: true },
-    },
-
-    {
-      path: path.auth.href,
       component: AuthLayout,
       children: authRoute,
       meta: { requiresGuest: true },
@@ -49,7 +43,7 @@ router.beforeEach((to) => {
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     return {
-      path: path.auth.login.href,
+      name: path.auth.login.name,
       query: { redirect: to.fullPath },
     }
   }

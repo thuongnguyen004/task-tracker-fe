@@ -10,8 +10,6 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <BoardSearchInput />
-
         <BaseButton
           variant="primary"
           class="h-9! w-auto! px-3.5 py-0! text-xs font-semibold whitespace-nowrap"
@@ -36,37 +34,47 @@
           </BaseButton>
         </div>
       </div>
+
       <BoardMenu
         v-if="isBoardMenuOpen"
         class="absolute top-0 right-0 z-50"
         @open-archive="handleArchiveOpen"
-        @close-archive-board="handleBoardMenuToggle"
+        @open-global="handleActivityOpen"
+        @close-menu-board="handleBoardMenuToggle"
       />
 
-      <ArchiveBoard
-        v-if="isArchiveListOpen"
-        class="absolute top-0 right-0 z-50"
-        @back-menu="handleBackMenu"
-      />
+      <TransitionFadeScale
+        ><ArchiveBoard
+          v-if="isArchiveListOpen"
+          class="absolute top-0 right-0 z-50"
+          @back-menu="handleBackMenu"
+      /></TransitionFadeScale>
+
+      <TransitionFadeScale
+        ><ActivityGlobal
+          v-if="isActivityListOpen"
+          class="absolute top-0 right-0 z-50"
+          @back-menu="handleBackMenu"
+      /></TransitionFadeScale>
     </div>
   </div>
 </template>
 
 <script setup>
-import { BaseButton } from '@/shared/ui/components'
+import { ref } from 'vue'
+import { BaseButton, TransitionFadeScale } from '@/shared/ui/components'
 import { Ellipsis, Plus } from '@lucide/vue'
-import BoardMembersAvatarList from './members/MembersAvatarList.vue'
 import ArchiveBoard from './archives/ArchiveBoard.vue'
-import { BoardSearchInput, BoardFilterButton } from './filter'
-import { useArchiveBoard } from '../composables/useArchiveBoard.js'
-import { BoardMenu } from './index.js'
-const {
-  isBoardMenuOpen,
-  isArchiveListOpen,
-  handleBoardMenuToggle,
-  handleArchiveOpen,
-  handleBackMenu,
-} = useArchiveBoard()
+import { useArchiveBoard, useGlobalActivityBoard } from '../composables/index.js'
+import { ActivityGlobal, BoardMembersAvatarList, BoardMenu } from './index.js'
+import BoardFilterButton from './filter/BoardFilterButton.vue'
+
+const isBoardMenuOpen = ref(false)
+
+const archiveBoard = useArchiveBoard(isBoardMenuOpen)
+const globalActivity = useGlobalActivityBoard(isBoardMenuOpen)
+const { isArchiveListOpen, handleArchiveOpen } = archiveBoard
+const { isActivityListOpen, handleActivityOpen } = globalActivity
 
 defineProps({
   totalTickets: {
@@ -91,4 +99,25 @@ defineProps({
 })
 
 defineEmits(['toggle-filters', 'create-ticket', 'open-modal'])
+
+const handleBoardMenuToggle = () => {
+  isBoardMenuOpen.value = !isBoardMenuOpen.value
+
+  if (isBoardMenuOpen.value) {
+    isArchiveListOpen.value = false
+  }
+  if (isActivityListOpen.value) {
+    isActivityListOpen.value = false
+  }
+}
+
+const handleBackMenu = () => {
+  isBoardMenuOpen.value = true
+  if (isArchiveListOpen.value) {
+    isArchiveListOpen.value = false
+  }
+  if (isActivityListOpen.value) {
+    isActivityListOpen.value = false
+  }
+}
 </script>

@@ -72,5 +72,5 @@
 <script setup>
 import { useLogin } from '../composables/useLogin'
 
-const { form, errors, loading, path, handleLogin } = useLogin()
+const { form, errors, loading, path, handleLogin, validateField } = useLogin()
 </script>

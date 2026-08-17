@@ -1,6 +1,6 @@
 export const path = {
   auth: {
-    href: '/auth',
+    href: '/',
 
     login: {
       href: 'login',
@@ -62,7 +62,8 @@ export const path = {
       list: '/tickets',
       listById: (id) => `/tickets/${id}`,
       columns: '/columns',
-      activities: (id) => `ticket-activities/${id}`,
+      activitiesByTicketId: (ticketId) => `ticket-activities/${ticketId}`,
+      activities: `ticket-activities`,
       archiveList: `/tickets/archives`,
       archiveById: (id) => `/tickets/archives/${id}`,
       archivedTicket: (id) => `/tickets/${id}/archive`,

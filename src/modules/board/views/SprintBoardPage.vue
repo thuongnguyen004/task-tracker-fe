@@ -119,10 +119,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, provide } from 'vue'
 import { BoardHeader, BoardColumn, TicketFormModal } from '../components'
 import { useSprintBoardStore } from '../stores'
-import { useModal, useTicketActions, useTicketMetadata } from '../composables'
+import { useModal, useTicketActions, useTicketActivity, useTicketMetadata } from '../composables'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { path } from '@/shared/constants/paths'
@@ -132,9 +132,14 @@ const modal = useModal()
 
 const fetch = useTicketMetadata()
 
+const activity = useTicketActivity()
+
 const { open, toggleModalTicket, openCreateTicketModal, clearFieldError, forms, errors } = modal
 
-const { handleNewTicket, handleChangeStatus, loading } = useTicketActions(modal, fetch)
+const { getAllTicketActivities, ticketActivities, showLoadMoreButton, handleLoadMoreActivity } = activity
+
+const { handleNewTicket, handleChangeStatus, loading } = useTicketActions(modal, fetch, activity)
+
 
 const { statuses, priorities, assignees } = fetch
 
@@ -153,6 +158,7 @@ const selectedAssigneeName = computed(() => {
 
 onMounted(() => {
   boardStore.fetchBoardData()
+  getAllTicketActivities()
 })
 
 const clearAssigneeFilter = () => {
@@ -163,4 +169,9 @@ const clearAssigneeFilter = () => {
 const openTicketDetails = (code) => {
   router.push({ name: path.task.details.name, params: { code } })
 }
+
+provide('ticketActivities', ticketActivities)
+provide('showLoadMoreButton', showLoadMoreButton)
+provide('handleLoadMoreActivity', handleLoadMoreActivity)
+
 </script>
