@@ -5,6 +5,7 @@ import {
   createTicket,
   getAllTicketArchives,
   getTicketArchiveById,
+  getTicketByCode,
   getTicketById,
   restoreTicketById,
   updateTicket,
@@ -18,12 +19,14 @@ import { path } from '@/shared/constants/paths'
 export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
 
-  const ticketById = ref({})
+  const ticketById = ref(null)
 
   const archiveTickets = ref([])
 
   const route = useRoute()
   const router = useRouter()
+
+  const boardStore = useSprintBoardStore()
 
   const handleNewTicket = async () => {
     try {
@@ -95,7 +98,8 @@ export const useTicketActions = (modal, fetch) => {
         return
       }
       const response = await updateTicket(modal.id.value, payload)
-      await getTicket()
+      ticketById.value = response.data
+      // await getTicket()
       modal.open.value = false
       toast.success(response.message)
     } catch (error) {
@@ -107,12 +111,10 @@ export const useTicketActions = (modal, fetch) => {
 
   const handleChangeStatus = async (ticketId, statusId) => {
     try {
-      await changeStatusTicket(ticketId, statusId)
-      const boardStore = useSprintBoardStore()
-      await boardStore.fetchBoardData()
+      const response = await changeStatusTicket(ticketId, statusId)
+      boardStore.moveTicketUpdateStatus(response.data)
     } catch (error) {
-      const boardStore = useSprintBoardStore()
-      await boardStore.fetchBoardData()
+      await boardStore.fetchTicket()
       toast.error(error.response?.data?.message)
     }
   }
@@ -127,6 +129,15 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
+  const getTicketByTicketCode = async () => {
+    try {
+      const response = await getTicketByCode(route.params.code)
+
+      ticketById.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const getTicketArchives = async () => {
     try {
       const response = await getAllTicketArchives()
@@ -174,6 +185,7 @@ export const useTicketActions = (modal, fetch) => {
     handleChangeStatus,
     getTicket,
     ticketById,
+    getTicketByTicketCode,
     loading,
     getTicketArchives,
     archiveTickets,

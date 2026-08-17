@@ -27,11 +27,11 @@ export const useArchiveBoard = () => {
     isArchiveListOpen.value = false
   }
 
-  const handleSelect = (id) => {
+  const handleSelect = (code) => {
     router.push({
       name: path.task.details.name,
       params: {
-        id,
+        code,
       },
     })
   }

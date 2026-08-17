@@ -17,6 +17,26 @@ const NOT_AUTH_PATHS = [
   path.auth.api.logout,
 ]
 
+let refreshPromise = null
+
+const refreshAccessToken = () => {
+  if (!refreshPromise) {
+    refreshPromise = api
+      .post(path.auth.api.refresh)
+      .then(({ data }) => {
+        const accessToken = data.data.accessToken
+
+        tokenStorage.set(accessToken)
+
+        return accessToken
+      })
+      .finally(() => {
+        refreshPromise = null
+      })
+  }
+  return refreshPromise
+}
+
 api.interceptors.request.use((config) => {
   const token = tokenStorage.get()
 
@@ -56,25 +76,5 @@ api.interceptors.response.use(
     }
   },
 )
-
-let refreshPromise = null
-
-const refreshAccessToken = async () => {
-  if (refreshPromise) {
-    return refreshPromise
-  }
-
-  refreshPromise = api.post(path.auth.api.refresh)
-
-  try {
-    const { data } = await refreshPromise
-
-    tokenStorage.set(data.data.accessToken)
-
-    return data.data.accessToken
-  } finally {
-    refreshPromise = null
-  }
-}
 
 export default api

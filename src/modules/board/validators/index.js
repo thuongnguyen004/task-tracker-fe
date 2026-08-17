@@ -13,14 +13,12 @@ export const validateEditTicket = (form) => {
     required(form.title, TICKET_MESSAGE.TITLE_REQUIRED) ||
     notBlank(form.title, TICKET_MESSAGE.TITLE_BLANK) ||
     size(form.title, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH, TICKET_MESSAGE.TITLE_SIZE)
-  errors.description =
-    notBlank(form.description, TICKET_MESSAGE.DESCRIPTION_BLANK) ||
-    size(
-      form.description,
-      DESCRIPTION_MIN_LENGTH,
-      DESCRIPTION_MAX_LENGTH,
-      TICKET_MESSAGE.DESCRIPTION_SIZE,
-    )
+  errors.description = size(
+    form.description,
+    DESCRIPTION_MIN_LENGTH,
+    DESCRIPTION_MAX_LENGTH,
+    TICKET_MESSAGE.DESCRIPTION_SIZE,
+  )
   errors.priorityId = required(form.priorityId, TICKET_MESSAGE.PRIORITY_REQUIRED)
   errors.statusId = required(form.statusId, TICKET_MESSAGE.STATUS_REQUIRED)
 
@@ -36,14 +34,12 @@ export const validateCreateTicket = (form) => {
     required(form.title, TICKET_MESSAGE.TITLE_REQUIRED) ||
     notBlank(form.title, TICKET_MESSAGE.TITLE_BLANK) ||
     size(form.title, TITLE_MIN_LENGTH, TITLE_MAX_LENGTH, TICKET_MESSAGE.TITLE_SIZE)
-  errors.description =
-    notBlank(form.description, TICKET_MESSAGE.DESCRIPTION_BLANK) ||
-    size(
-      form.description,
-      DESCRIPTION_MIN_LENGTH,
-      DESCRIPTION_MAX_LENGTH,
-      TICKET_MESSAGE.DESCRIPTION_SIZE,
-    )
+  errors.description = size(
+    form.description,
+    DESCRIPTION_MIN_LENGTH,
+    DESCRIPTION_MAX_LENGTH,
+    TICKET_MESSAGE.DESCRIPTION_SIZE,
+  )
   if (!errors.title && !errors.description) {
     return
   }

@@ -25,16 +25,35 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     }
   }
 
+  const fetchTicket = async () => {
+    try {
+      const response = await getTickets()
+      tickets.value = response
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    }
+  }
+
+  const moveTicketUpdateStatus = (ticketStatus) => {
+    tickets.value = tickets.value
+      .map((ticket) => (ticket.id === ticketStatus.id ? { ...ticketStatus } : ticket))
+      .sort((a, b) => b.updatedAt - a.updatedAt)
+  }
+
   const ticketsByColumn = computed(() => {
     const map = {}
 
     columns.value.forEach((col) => {
-      map[col.statusId] = tickets.value.filter((t) => {
-        if (t.statusId != null && Number(t.statusId) === Number(col.statusId)) {
-          return true
+      map[col.id] = tickets.value.filter((t) => {
+        if (t.statusId != null) {
+          return Number(t.statusId) === Number(col.id)
         }
 
-        if (t.status) {
+        if (t.status != null) {
+          if (typeof t.status === 'object' && t.status.id != null) {
+            return Number(t.status.id) === Number(col.id)
+          }
+
           const ticketStatusStr = String(t.status)
             .toLowerCase()
             .replace(/[\s_-]+/g, '')
@@ -62,5 +81,7 @@ export const useSprintBoardStore = defineStore('sprintBoard', () => {
     ticketsByColumn,
     totalActiveTickets,
     fetchBoardData,
+    fetchTicket,
+    moveTicketUpdateStatus,
   }
 })
