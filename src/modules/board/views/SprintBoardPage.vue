@@ -71,8 +71,8 @@ onMounted(() => {
    getAllTicketActivities()
 })
 
-const openTicketDetails = (id) => {
-  router.push({ name: path.task.details.name, params: { id } })
+const openTicketDetails = (code) => {
+  router.push({ name: path.task.details.name, params: { code: code } })
 }
 
 provide('ticketActivities', ticketActivities)

@@ -58,7 +58,7 @@
         <span class="text-primary">{{ activityText }}</span>
       </template>
 
-    <button v-if="showTicket" class="text-primary" @click="handleDetails(activity.ticketId)">
+      <button v-if="showTicket" class="text-primary" @click="handleDetails(activity.ticketCode)">
         <span class="ml-1 inline-block">
           this ticket
           <span class="font-semibold italic underline">{{ activity.title }}</span>
@@ -167,11 +167,15 @@ const activityText = computed(() => {
   }
 })
 
-const handleDetails = (id) => {
+const handleDetails = (code) => {
+  if (!code) {
+    return
+  }
+
   router.push({
     name: path.task.details.name,
     params: {
-      id,
+      code,
     },
   })
 }

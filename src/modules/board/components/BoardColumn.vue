@@ -24,7 +24,7 @@
       @change="handleChange"
     >
       <template #item="{ element: ticket }">
-        <TicketCard :ticket="ticket" @select="emit('select-ticket', ticket.id)" />
+        <TicketCard :ticket="ticket" @select="emit('select-ticket', ticket.code)" />
       </template>
     </draggableComponent>
   </div>

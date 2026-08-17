@@ -42,14 +42,14 @@
           </BaseButton>
         </div>
       </div>
-      <TransitionFadeScale
-        ><BoardMenu
-          v-if="isBoardMenuOpen"
-          class="absolute top-0 right-0 z-50"
-          @open-archive="handleArchiveOpen"
-          @open-global="handleActivityOpen"
-          @close-menu-board="handleBoardMenuToggle"
-      /></TransitionFadeScale>
+
+      <BoardMenu
+        v-if="isBoardMenuOpen"
+        class="absolute top-0 right-0 z-50"
+        @open-archive="handleArchiveOpen"
+        @open-global="handleActivityOpen"
+        @close-menu-board="handleBoardMenuToggle"
+      />
 
       <TransitionFadeScale
         ><ArchiveBoard
@@ -69,7 +69,6 @@
         class="absolute top-0 right-0 z-50"
         @back-menu="handleBackMenu"
       />
-
     </div>
   </div>
 </template>

@@ -5,6 +5,7 @@ import {
   createTicket,
   getAllTicketArchives,
   getTicketById,
+  getTicketByCode,
   restoreTicketById,
   updateTicket,
 } from '../services'
@@ -16,7 +17,7 @@ import { useRoute } from 'vue-router'
 export const useTicketActions = (modal, fetch, activity) => {
   const loading = ref(false)
 
-  const ticketById = ref({})
+  const ticketById = ref(null)
 
   const archiveTickets = ref([])
 
@@ -95,7 +96,9 @@ export const useTicketActions = (modal, fetch, activity) => {
       }
 
       const response = await updateTicket(modal.id.value, payload)
-      await getTicket()
+      ticketById.value = response.data
+      // await getTicket()
+      modal.open.value = false
       toast.success(response.message)
       modal.open.value = false
     } catch (error) {
@@ -115,21 +118,21 @@ export const useTicketActions = (modal, fetch, activity) => {
     }
   }
 
-  const getTicket = async () => {
-    try {
-      const response = await getTicketById(route.params.id)
-
-      ticketById.value = response.data
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   const getTicketArchives = async () => {
     try {
       const response = await getAllTicketArchives()
 
       archiveTickets.value = response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getTicketByTicketCode = async () => {
+    try {
+      const response = await getTicketByCode(route.params.code)
+
+      ticketById.value = response.data
     } catch (error) {
       console.error(error)
     }
@@ -160,8 +163,8 @@ export const useTicketActions = (modal, fetch, activity) => {
     handleNewTicket,
     handleUpdateTicket,
     handleChangeStatus,
-    getTicket,
     ticketById,
+    getTicketByTicketCode,
     loading,
     getTicketArchives,
     archiveTickets,
