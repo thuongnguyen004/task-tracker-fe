@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
     <div class="flex gap-3">
-      <UserAvatar :name="currentUser?.username" />
+      <UserAvatar :name="currentUser?.fullName" />
 
       <div class="flex-1 space-y-3">
         <BaseTextarea
