@@ -1,15 +1,20 @@
 import { ref } from 'vue'
 import {
+  archiveTicketById,
   changeStatusTicket,
   createTicket,
+  getAllTicketArchives,
+  getTicketArchiveById,
   getTicketByCode,
   getTicketById,
+  restoreTicketById,
   updateTicket,
 } from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { path } from '@/shared/constants/paths'
 
 export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
@@ -173,6 +178,7 @@ export const useTicketActions = (modal, fetch) => {
     handleChangeStatus,
     getTicket,
     ticketById,
+    getTicketByTicketCode,
     getTicketByTicketCode,
     loading,
     getTicketArchives,

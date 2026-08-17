@@ -124,6 +124,10 @@ const selectedLabel = computed(() => {
       return props.noneOptionLabel
     }
 
+    if (hasSelectedNone.value) {
+      return props.noneOptionLabel
+    }
+
     return props.placeholder || 'Select...'
   }
 
@@ -145,10 +149,17 @@ const toggleOpen = () => {
 
 const selectValue = (value) => {
   hasSelectedNone.value = value === null
+  hasSelectedNone.value = value === null
   model.value = value
   isOpen.value = false
   emit('change', value)
 }
+
+watch(model, (value) => {
+  if (value === '' || value === undefined) {
+    hasSelectedNone.value = false
+  }
+})
 
 watch(model, (value) => {
   if (value === '' || value === undefined) {

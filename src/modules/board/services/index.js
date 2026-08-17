@@ -23,7 +23,7 @@ export const updateTicket = async (id, payload) => {
 
 export const changeStatusTicket = async (ticketId, statusId) => {
   const response = await api.patch(path.task.api.changeStatus(ticketId, statusId))
-
+  return response.data
   return response.data
 }
 
@@ -51,6 +51,30 @@ export const getTicketStatuses = async () => {
   return response.data
 }
 
+export const getAllTicketArchives = async () => {
+  const response = await api.get(path.task.api.archiveList)
+
+  return response.data
+}
+
+export const archiveTicketById = async (id) => {
+  const response = await api.patch(path.task.api.archivedTicket(id))
+
+  return response.data
+}
+
+export const restoreTicketById = async (id) => {
+  const response = await api.patch(path.task.api.restoreTicket(id))
+
+  return response.data
+}
+
+export const getTicketArchiveById = async (id) => {
+  const response = await api.get(path.task.api.archiveById(id))
+
+  return response.data
+}
+
 export const getColumns = async () => {
   const response = await getTicketStatuses()
   const statusesList = Array.isArray(response) ? response : response?.data || []
@@ -59,7 +83,6 @@ export const getColumns = async () => {
     const style = STATUS_ACCENT_STYLES[index % STATUS_ACCENT_STYLES.length]
     return {
       id: status.id,
-      rawName: status.name || '',
       name: (status.name || '').toUpperCase(),
       accentBg: style.accentBg,
       columnBg: style.columnBg,

@@ -55,9 +55,22 @@
     <div class="border-border w-full border-t"></div>
 
     <div class="space-y-3">
-      <BaseButton @click="emit('open-modal', ticket)"> Edit Ticket</BaseButton>
+      <template v-if="!ticket.archived">
+        <BaseButton @click="emit('open-modal', ticket)"> Edit Ticket</BaseButton>
 
-      <BaseButton variant="tertiary"> Archive Ticket </BaseButton>
+        <BaseButton variant="tertiary" @click="openArchiveConfirm"> Archive Ticket </BaseButton>
+
+        <ConfirmModal
+          v-model="showArchiveConfirm"
+          title="Confirm archive ticket."
+          message="Archive this ticket? It will be removed from the board."
+          @confirm="handleConfirmArchive"
+          @cancel="handleCancelArchive"
+        />
+      </template>
+      <template v-else>
+        <BaseButton @click="emit('restore-ticket', ticket.id)"> Restore Ticket </BaseButton>
+      </template>
     </div>
   </div>
 </template>
@@ -67,13 +80,34 @@ import { formatDateTime } from '@/shared/utils'
 import PriorityBadge from './PriorityBadge.vue'
 import StatusBadge from './StatusBadge.vue'
 import { UserAvatar, BaseButton } from '@/shared/ui/components'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { path } from '@/shared/constants/paths.js'
+import ConfirmModal from '@/shared/ui/components/modals/ConfirmModal.vue'
 
-defineProps({
+const router = useRouter()
+
+const props = defineProps({
   ticket: {
     type: Object,
     default: () => ({}),
   },
 })
 
-const emit = defineEmits(['open-modal'])
+const showArchiveConfirm = ref(false)
+
+const openArchiveConfirm = () => {
+  showArchiveConfirm.value = true
+}
+
+const handleConfirmArchive = () => {
+  emit('archive-ticket', props.ticket.id)
+  showArchiveConfirm.value = false
+  router.push({ name: path.task.board.name })
+}
+
+const handleCancelArchive = () => {
+  showArchiveConfirm.value = false
+}
+const emit = defineEmits(['open-modal', 'archive-ticket', 'restore-ticket'])
 </script>

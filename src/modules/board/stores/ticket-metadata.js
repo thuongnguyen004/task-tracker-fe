@@ -51,6 +51,7 @@ export const useTicketMetadataStore = defineStore('ticketMetadata', () => {
       })
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to load ticket metadata')
+      toast.error(error.response?.data?.message || 'Failed to load ticket metadata')
     }
   }
 

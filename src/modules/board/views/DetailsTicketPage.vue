@@ -8,8 +8,12 @@
       <TicketTabs :ticket-id="ticketById?.id" />
     </div>
 
-    <TicketSidebar @open-modal="openModalEditTicket" :ticket="ticketById" />
-
+    <TicketSidebar
+      @open-modal="openModalEditTicket"
+      @archive-ticket="handleArchiveTicket"
+      @restore-ticket="handleRestoreTicket"
+      :ticket="ticketById"
+    />
     <TicketFormModal
       title="Edit Ticket"
       buttonTitle="Update Ticket"
@@ -45,7 +49,16 @@ const modal = useModal()
 
 const { open, toggleModalTicket, openModalEditTicket, clearFieldError, forms, errors } = modal
 
-const { handleUpdateTicket, ticketById, loading, getTicketByTicketCode } = useTicketActions(modal)
+const {
+  handleUpdateTicket,
+
+  ticketById,
+  loading,
+  getTicketByTicketCode,
+  getArchiveById,
+  handleArchiveTicket,
+  handleRestoreTicket,
+} = useTicketActions(modal)
 
 const { statuses, priorities, assignees } = useTicketMetadata()
 
