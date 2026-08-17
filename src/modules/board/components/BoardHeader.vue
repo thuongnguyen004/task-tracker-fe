@@ -54,12 +54,12 @@
 
 <script setup>
 import { BaseButton } from '@/shared/ui/components'
-import { Ellipsis, Plus, SlidersHorizontal } from '@lucide/vue'
+import { Ellipsis, Plus } from '@lucide/vue'
 import BoardMembersAvatarList from './members/MembersAvatarList.vue'
 import ArchiveBoard from './archives/ArchiveBoard.vue'
-import { useArchiveBoard } from '../composables/userArchiveBoard.js'
 import { BoardSearchInput, BoardFilterButton } from './filter'
-import BoardMenu from '@/shared/ui/components/menus/BoardMenu.vue'
+import { useArchiveBoard } from '../composables/useArchiveBoard.js'
+import { BoardMenu } from './index.js'
 const {
   isBoardMenuOpen,
   isArchiveListOpen,

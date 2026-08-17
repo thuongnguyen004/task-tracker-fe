@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-secondary h-fit space-y-6 px-6 py-6">
+  <div v-if="ticket" class="bg-secondary h-full space-y-6 px-6 py-6">
     <h3 class="text-md text-tertiary font-semibold">DETAILS</h3>
 
     <div>

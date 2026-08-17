@@ -15,7 +15,7 @@
 import { ref } from 'vue'
 import ArchiveHeader from './ArchiveHeader.vue'
 import ArchiveList from './ArchiveList.vue'
-import { useArchiveBoard } from '../../composables/userArchiveBoard.js'
+import { useArchiveBoard } from '../../composables/useArchiveBoard.js'
 const { handleSelect } = useArchiveBoard()
 
 const isArchiveListOpen = ref(true)

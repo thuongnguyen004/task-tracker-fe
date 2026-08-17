@@ -1,6 +1,6 @@
 <template>
-  <span class="inline-flex items-center gap-1.5 text-xs font-semibold">
-    <span class="h-2 w-2 rounded-full" :class="badgeInfo.dotClass" />
+  <span class="inline-flex items-center gap-1.5 text-sm font-semibold">
+    <span class="h-2 w-2 rounded-full" :class="badgeInfo.dotClass" v-if="props.dot" />
 
     <span :class="badgeInfo.textClass">{{ badgeInfo.label }}</span>
   </span>
@@ -47,6 +47,10 @@ const props = defineProps({
   priority: {
     type: [String, Number],
     default: 'Medium',
+  },
+  dot: {
+    type: Boolean,
+    default: true,
   },
 })
 

@@ -45,12 +45,21 @@ export const getTicketPriorities = async () => {
   return response.data
 }
 
-export const getTicketStatuses = async () => {
+export const getTicketStatuses = async (page, size) => {
   const response = await api.get(path.task.api.ticketStatuses)
 
   return response.data
 }
 
+export const getTicketActivitiesById = async (id, page, size) => {
+  const response = await api.get(path.task.api.activities(id), {
+    params: {
+      page,
+      size,
+    },
+  })
+  return response.data
+}
 export const getAllTicketArchives = async () => {
   const response = await api.get(path.task.api.archiveList)
 

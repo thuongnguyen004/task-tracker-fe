@@ -3,7 +3,7 @@
     class="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-medium"
     :class="badgeInfo.badgeClass"
   >
-    <span class="h-2 w-2 rounded-full" :class="badgeInfo.dotClass"></span>
+    <span class="h-2 w-2 rounded-full" :class="badgeInfo.dotClass" v-if="props.dot"></span>
 
     {{ badgeInfo.label }}
   </span>
@@ -16,6 +16,10 @@ const props = defineProps({
   status: {
     type: String,
     default: '',
+  },
+  dot: {
+    type: Boolean,
+    default: true,
   },
 })
 

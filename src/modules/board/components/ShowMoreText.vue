@@ -3,7 +3,6 @@
     <p :class="['wrap-anywhere whitespace-pre-line', contentClass]">
       {{ displayedContent }}
     </p>
-
     <button
       v-if="shouldShowToggle"
       type="button"

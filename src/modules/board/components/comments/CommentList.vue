@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-6">
-    <div class="flex gap-3">
+    <div class="flex gap-3" v-if="!ticketById.archived">
       <UserAvatar :name="currentUser?.fullName" />
 
       <div class="flex-1 space-y-3">
@@ -51,7 +51,8 @@
         :content="comment.content"
         :time="formatRelativeTime(comment.updatedAt)"
         :edited="comment.edited"
-        @update="handleUpdateComment"
+        :ticketArchived="ticketById.archived"
+        @update="handleCommentUpdate"
         @delete="openDeleteConfirmModal"
       />
     </div>
@@ -83,12 +84,16 @@ import { useComments } from '../../composables'
 
 const props = defineProps({
   ticketId: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
+  ticketById: {
+    type: Object,
+    default: () => {}
+  }
 })
 
-const emit = defineEmits(['update:count'])
+const emit = defineEmits(['update:count', 'comment-changed'])
 
 const ticketId = toRef(props, 'ticketId')
 
@@ -121,9 +126,16 @@ const canSubmit = computed(() => {
 const handleSubmit = async () => {
   const success = await handleAddComment()
 
+  emit('comment-changed')
+
   if (success) {
     isExpanded.value = false
   }
+}
+
+const handleCommentUpdate = async (commentId, newContent) => {
+  await handleUpdateComment(commentId, newContent)
+  emit('comment-changed')
 }
 
 const handleDiscard = () => {

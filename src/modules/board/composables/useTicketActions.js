@@ -4,17 +4,14 @@ import {
   changeStatusTicket,
   createTicket,
   getAllTicketArchives,
-  getTicketArchiveById,
   getTicketByCode,
-  getTicketById,
   restoreTicketById,
   updateTicket,
 } from '../services'
 import { validateCreateTicket, validateEditTicket } from '../validators'
 import { useSprintBoardStore } from '../stores'
 import { toast } from 'vue3-toastify'
-import { useRoute, useRouter } from 'vue-router'
-import { path } from '@/shared/constants/paths'
+import { useRoute } from 'vue-router'
 
 export const useTicketActions = (modal, fetch) => {
   const loading = ref(false)
@@ -121,11 +118,11 @@ export const useTicketActions = (modal, fetch) => {
     }
   }
 
-  const getTicket = async () => {
+  const getTicketArchives = async () => {
     try {
-      const response = await getTicketById(route.params.id)
+      const response = await getAllTicketArchives()
 
-      ticketById.value = response.data
+      archiveTickets.value = response.data
     } catch (error) {
       console.error(error)
     }
@@ -136,16 +133,6 @@ export const useTicketActions = (modal, fetch) => {
       const response = await getTicketByCode(route.params.code)
 
       ticketById.value = response.data
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const getTicketArchives = async () => {
-    try {
-      const response = await getAllTicketArchives()
-
-      archiveTickets.value = response.data
     } catch (error) {
       console.error(error)
     }
@@ -176,7 +163,6 @@ export const useTicketActions = (modal, fetch) => {
     handleNewTicket,
     handleUpdateTicket,
     handleChangeStatus,
-    getTicket,
     ticketById,
     getTicketByTicketCode,
     getTicketByTicketCode,
