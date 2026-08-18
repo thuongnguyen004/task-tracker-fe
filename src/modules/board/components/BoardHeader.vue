@@ -20,9 +20,10 @@
           New Ticket
         </BaseButton>
 
+        <BoardSearchInput />
+        
         <BoardFilterButton :assignees="assignees.length ? assignees : teamMembers" />
 
-        <BoardSearchInput />
 
         <BoardMembersAvatarList :members="teamMembers" :max-avatars="maxAvatars" />
 

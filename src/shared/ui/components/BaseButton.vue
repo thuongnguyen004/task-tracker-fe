@@ -1,6 +1,6 @@
 <template>
   <button :disabled="disabled" :class="buttonClasses">
-    <LoaderCircle :class="checkLoading" v-if="disabled" />
+    <!-- <LoaderCircle :class="checkLoading" v-if="disabled" /> -->
 
     <slot />
   </button>
